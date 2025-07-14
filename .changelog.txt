@@ -14,3 +14,4 @@
 2025-07-10 15:02:54 - refactor: clean up console logs
 2025-07-10 14:48:03 - update: improve component structure
 2025-07-11 20:39:56 - refactor: restructure file organization
+2025-07-14 18:08:34 - update: refine component props
