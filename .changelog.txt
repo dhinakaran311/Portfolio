@@ -21,3 +21,4 @@
 2025-07-18 20:28:10 - feat: add small enhancement
 2025-07-23 16:31:38 - fix: correct color scheme
 2025-07-24 22:04:23 - refactor: optimize bundle size
+2025-07-25 14:19:45 - chore: update README
