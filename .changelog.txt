@@ -124,3 +124,4 @@
 2025-07-24 18:29:54 - refactor: improve error handling
 2025-07-25 18:59:45 - refactor: optimize bundle size
 2025-07-26 22:42:03 - fix: resolve build warnings
+2025-07-28 19:23:54 - refactor: optimize image loading
