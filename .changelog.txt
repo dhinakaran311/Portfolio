@@ -125,3 +125,4 @@
 2025-07-25 18:59:45 - refactor: optimize bundle size
 2025-07-26 22:42:03 - fix: resolve build warnings
 2025-07-28 19:23:54 - refactor: optimize image loading
+2025-07-29 21:56:47 - chore: update comments and docs
