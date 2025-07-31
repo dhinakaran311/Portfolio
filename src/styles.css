@@ -96,7 +96,8 @@ a {
   width: 100%;
   z-index: 1000;
   padding: 20px 0;
-  transition: var(--transition);
+  transition: all 0.3s ease;
+  transform: translateY(0);
 }
 
 .navbar.scrolled {
@@ -104,6 +105,10 @@ a {
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   padding: 15px 0;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
 }
 
 .nav-container {
@@ -140,6 +145,7 @@ a {
   display: flex;
   align-items: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .nav-link {
@@ -1483,6 +1489,34 @@ textarea.form-control {
   
   .contact-container {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .nav-links {
+    gap: 15px;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+  }
+  
+  .download-btn, .sync-btn, .login-btn, .logout-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 968px) {
+  .nav-links {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 3px 0;
   }
 }
 

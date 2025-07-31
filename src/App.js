@@ -238,6 +238,22 @@ const App = () => {
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollButton(window.pageYOffset > 300);
+      
+      // Check if footer is visible
+      const footer = document.querySelector('.footer');
+      const navbar = document.querySelector('.navbar');
+      
+      if (footer && navbar) {
+        const footerRect = footer.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Hide navbar when footer is 50% visible
+        if (footerRect.top < windowHeight * 0.5) {
+          navbar.classList.add('hidden');
+        } else {
+          navbar.classList.remove('hidden');
+        }
+      }
 
       const scrollPosition = window.scrollY + 100;
       for (const section in sectionRefs.current) {

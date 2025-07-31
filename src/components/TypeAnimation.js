@@ -8,15 +8,17 @@ const TypeAnimation = ({ sequence, speed = 100, repeat = Infinity }) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
 
   React.useEffect(() => {
-    if (index >= sequence.length) {
+    // Filter sequence to only include strings (remove delay numbers)
+    const textSequence = sequence.filter(item => typeof item === "string");
+    
+    if (index >= textSequence.length) {
       if (repeat === Infinity) {
         setIndex(0);
       }
       return;
     }
 
-    const currentItem = sequence[index];
-    const currentText = typeof currentItem === "string" ? currentItem : String(currentItem);
+    const currentText = textSequence[index];
     
     // Fixed timing calculation
     const baseSpeed = isDeleting ? speed / 2 : speed;
