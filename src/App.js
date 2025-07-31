@@ -121,26 +121,35 @@ const ADMIN_CREDENTIALS = {
   password: "Dhina@311",
 };
 
-// Safe data loading function with Firebase fallback
+// Safe data loading function with Firebase priority
 const loadData = async () => {
   try {
-    // Try to load from localStorage first
+    // Always try Firebase first for deployed version
+    const firebaseData = await loadPortfolioData();
+    if (firebaseData) {
+      // Save to localStorage for offline access
+      localStorage.setItem("portfolioData", JSON.stringify(firebaseData));
+      return firebaseData;
+    }
+    
+    // If Firebase fails, try localStorage as fallback
     const savedData = localStorage.getItem("portfolioData");
     if (savedData) {
       return JSON.parse(savedData);
     }
     
-    // If no local data, try Firebase
-    const firebaseData = await loadPortfolioData();
-    if (firebaseData) {
-      // Save to localStorage for future use
-      localStorage.setItem("portfolioData", JSON.stringify(firebaseData));
-      return firebaseData;
-    }
-    
     return initialData;
   } catch (error) {
     console.error("Error loading data:", error);
+    // Try localStorage as last resort
+    try {
+      const savedData = localStorage.getItem("portfolioData");
+      if (savedData) {
+        return JSON.parse(savedData);
+      }
+    } catch (localError) {
+      console.error("Error loading from localStorage:", localError);
+    }
     return initialData;
   }
 };
@@ -1248,6 +1257,35 @@ const App = () => {
     }
   };
 
+  const handleForceRefresh = async () => {
+    setIsSyncing(true);
+    try {
+      // Clear localStorage cache
+      localStorage.removeItem("portfolioData");
+      
+      // Load fresh data from Firebase
+      const firebaseData = await loadPortfolioData();
+      if (firebaseData) {
+        setData({
+          projects: firebaseData.projects || [],
+          experiences: firebaseData.experiences || [],
+          certifications: firebaseData.certifications || [],
+          skills: firebaseData.skills || [],
+          ...firebaseData,
+        });
+        localStorage.setItem("portfolioData", JSON.stringify(firebaseData));
+        toast.success("Data refreshed from Firebase!");
+      } else {
+        toast.error("No data found in Firebase");
+      }
+    } catch (error) {
+      console.error('Refresh error:', error);
+      toast.error("Error refreshing data");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   // Auth functions
   const handleLogin = (e) => {
     e.preventDefault();
@@ -1436,6 +1474,16 @@ const App = () => {
             >
               <FaFileDownload /> Resume
             </motion.a>
+            <motion.button
+              className="sync-btn"
+              onClick={handleForceRefresh}
+              disabled={isSyncing}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Refresh data from Firebase"
+            >
+              <FaCloud /> {isSyncing ? 'Refreshing...' : 'Refresh'}
+            </motion.button>
             {isAdmin ? (
               <>
                 <motion.button
