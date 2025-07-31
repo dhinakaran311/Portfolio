@@ -125,10 +125,10 @@ const initialData = {
   ],
 };
 
-// Admin credentials
+// Admin credentials from environment variables
 const ADMIN_CREDENTIALS = {
-  email: "dhinakaranms123@gmail.com",
-  password: "Dhina@311",
+  email: process.env.REACT_APP_ADMIN_EMAIL,
+  password: process.env.REACT_APP_ADMIN_PASSWORD,
 };
 
 // Safe data loading function with Firebase priority
