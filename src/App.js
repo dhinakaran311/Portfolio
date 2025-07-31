@@ -824,61 +824,45 @@ const App = () => {
             </motion.h2>
             <div className="section-subtitle">Get to know me better</div>
           </div>
-          <div className="about-container">
-            <motion.div
-              className="about-image-container"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <img
-                src="/images/profile.jpeg"
-                alt="Dhinakaran"
-                className="about-image"
-              />
-              <div className="about-image-deco"></div>
-            </motion.div>
-            <motion.div
-              className="about-content"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h3>AI & ML Enthusiast | Software Developer</h3>
-              <p>
-                I am a pre-final year Computer Science and Engineering student
-                at KIT, specializing in AI and Machine Learning. I'm a
-                passionate software developer skilled in HTML, CSS, JavaScript,
-                and Python with interests in ML and competitive programming.
-              </p>
-              <p>
-                I enjoy building practical solutions and constantly explore new
-                technologies to expand my skill set. I aim to contribute to
-                impactful projects and grow as a developer through continuous
-                learning and collaboration.
-              </p>
-              <div className="about-grid">
-                <div className="about-info-card">
-                  <h4>Name:</h4>
-                  <p>Dhinakaran M.S</p>
-                </div>
-                <div className="about-info-card">
-                  <h4>Email:</h4>
-                  <p>dhinakaranms123@gmail.com</p>
-                </div>
-                <div className="about-info-card">
-                  <h4>Location:</h4>
-                  <p>Coimbatore, India</p>
-                </div>
-                <div className="about-info-card">
-                  <h4>Education:</h4>
-                  <p>B.E. Computer Science</p>
-                </div>
+          <motion.div
+            className="about-content-single"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h3>AI & ML Enthusiast | Software Developer</h3>
+            <p>
+              I am a pre-final year Computer Science and Engineering student
+              at KIT, specializing in AI and Machine Learning. I'm a
+              passionate software developer skilled in HTML, CSS, JavaScript,
+              and Python with interests in ML and competitive programming.
+            </p>
+            <p>
+              I enjoy building practical solutions and constantly explore new
+              technologies to expand my skill set. I aim to contribute to
+              impactful projects and grow as a developer through continuous
+              learning and collaboration.
+            </p>
+            <div className="about-grid">
+              <div className="about-info-card">
+                <h4>Name:</h4>
+                <p>Dhinakaran M.S</p>
               </div>
-            </motion.div>
-          </div>
+              <div className="about-info-card">
+                <h4>Email:</h4>
+                <p>dhinakaranms123@gmail.com</p>
+              </div>
+              <div className="about-info-card">
+                <h4>Location:</h4>
+                <p>Coimbatore, India</p>
+              </div>
+              <div className="about-info-card">
+                <h4>Education:</h4>
+                <p>B.E. Computer Science</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

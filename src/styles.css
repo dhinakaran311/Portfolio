@@ -430,6 +430,12 @@ a {
   flex: 1;
 }
 
+.about-content-single {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .about-content h3 {
   font-size: 1.8rem;
   margin-bottom: 20px;
@@ -1485,6 +1491,10 @@ textarea.form-control {
   
   .about-container {
     flex-direction: column;
+  }
+  
+  .about-content-single {
+    text-align: left;
   }
   
   .contact-container {
