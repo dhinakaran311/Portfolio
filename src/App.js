@@ -18,6 +18,9 @@ import {
   FaSignOutAlt,
   FaLock,
   FaTimes,
+  FaCloud,
+  FaDownload,
+  FaUpload,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -25,6 +28,7 @@ import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
+import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
 
 // Initial data with all required fields
 const initialData = {
@@ -117,11 +121,24 @@ const ADMIN_CREDENTIALS = {
   password: "Dhina@311",
 };
 
-// Safe data loading function
-const loadData = () => {
+// Safe data loading function with Firebase fallback
+const loadData = async () => {
   try {
+    // Try to load from localStorage first
     const savedData = localStorage.getItem("portfolioData");
-    return savedData ? JSON.parse(savedData) : initialData;
+    if (savedData) {
+      return JSON.parse(savedData);
+    }
+    
+    // If no local data, try Firebase
+    const firebaseData = await loadPortfolioData();
+    if (firebaseData) {
+      // Save to localStorage for future use
+      localStorage.setItem("portfolioData", JSON.stringify(firebaseData));
+      return firebaseData;
+    }
+    
+    return initialData;
   } catch (error) {
     console.error("Error loading data:", error);
     return initialData;
@@ -1040,12 +1057,14 @@ const ProjectCard = ({ project }) => {
 
 // Main App component
 const App = () => {
-  const [data, setData] = useState(() => loadData());
+  const [data, setData] = useState(initialData);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
   const sectionRefs = useRef({});
 
   const {
@@ -1055,25 +1074,56 @@ const App = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // Ensure all data properties exist
+  // Load data on component mount
   useEffect(() => {
-    setData((prev) => ({
-      projects: prev.projects || [],
-      experiences: prev.experiences || [],
-      certifications: prev.certifications || [],
-      skills: prev.skills || [],
-      ...prev,
-    }));
+    const initializeData = async () => {
+      setIsLoading(true);
+      try {
+        const loadedData = await loadData();
+        setData({
+          projects: loadedData.projects || [],
+          experiences: loadedData.experiences || [],
+          certifications: loadedData.certifications || [],
+          skills: loadedData.skills || [],
+          ...loadedData,
+        });
+      } catch (error) {
+        console.error('Error initializing data:', error);
+        toast.error('Error loading portfolio data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeData();
   }, []);
 
-  // Save data to localStorage
+  // Save data to localStorage and Firebase
   useEffect(() => {
-    try {
-      localStorage.setItem("portfolioData", JSON.stringify(data));
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  }, [data]);
+    if (isLoading) return; // Don't save during initial load
+    
+    const saveData = async () => {
+      try {
+        // Save to localStorage
+        localStorage.setItem("portfolioData", JSON.stringify(data));
+        
+        // Auto-sync to Firebase if admin is logged in
+        if (isAdmin) {
+          setIsSyncing(true);
+          const success = await savePortfolioData(data);
+          if (success) {
+            console.log('Data synced to Firebase');
+          }
+          setIsSyncing(false);
+        }
+      } catch (error) {
+        console.error("Error saving data:", error);
+        setIsSyncing(false);
+      }
+    };
+
+    saveData();
+  }, [data, isAdmin, isLoading]);
 
   // Scroll event listener
   useEffect(() => {
@@ -1155,6 +1205,48 @@ const App = () => {
       [type]: prev[type].filter((item) => item.id !== id),
     }));
   }, []);
+
+  // Firebase sync functions
+  const handleBackupToFirebase = async () => {
+    setIsSyncing(true);
+    try {
+      const success = await backupToFirebase(data);
+      if (success) {
+        toast.success("Data backed up to Firebase successfully!");
+      } else {
+        toast.error("Failed to backup data to Firebase");
+      }
+    } catch (error) {
+      console.error('Backup error:', error);
+      toast.error("Error backing up to Firebase");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleRestoreFromFirebase = async () => {
+    setIsSyncing(true);
+    try {
+      const firebaseData = await restoreFromFirebase();
+      if (firebaseData) {
+        setData({
+          projects: firebaseData.projects || [],
+          experiences: firebaseData.experiences || [],
+          certifications: firebaseData.certifications || [],
+          skills: firebaseData.skills || [],
+          ...firebaseData,
+        });
+        toast.success("Data restored from Firebase successfully!");
+      } else {
+        toast.error("No data found in Firebase to restore");
+      }
+    } catch (error) {
+      console.error('Restore error:', error);
+      toast.error("Error restoring from Firebase");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   // Auth functions
   const handleLogin = (e) => {
@@ -1285,6 +1377,14 @@ const App = () => {
     ));
   };
 
+  if (isLoading) {
+    return (
+      <div className="loading-overlay">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       {/* Navigation */}
@@ -1337,14 +1437,36 @@ const App = () => {
               <FaFileDownload /> Resume
             </motion.a>
             {isAdmin ? (
-              <motion.button
-                className="logout-btn"
-                onClick={handleLogout}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaSignOutAlt /> Logout
-              </motion.button>
+              <>
+                <motion.button
+                  className="sync-btn"
+                  onClick={handleBackupToFirebase}
+                  disabled={isSyncing}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Backup to Firebase"
+                >
+                  <FaUpload /> {isSyncing ? 'Syncing...' : 'Backup'}
+                </motion.button>
+                <motion.button
+                  className="sync-btn"
+                  onClick={handleRestoreFromFirebase}
+                  disabled={isSyncing}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Restore from Firebase"
+                >
+                  <FaDownload /> Restore
+                </motion.button>
+                <motion.button
+                  className="logout-btn"
+                  onClick={handleLogout}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaSignOutAlt /> Logout
+                </motion.button>
+              </>
             ) : (
               <motion.button
                 className="login-btn"
