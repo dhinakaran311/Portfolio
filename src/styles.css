@@ -245,6 +245,18 @@ a {
   min-height: 60px;
 }
 
+.typing-cursor {
+  display: inline-block;
+  animation: blink 1s infinite;
+  color: var(--primary);
+  font-weight: normal;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 .hero-description {
   font-size: 1.1rem;
   color: var(--light-gray);
