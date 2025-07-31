@@ -884,11 +884,6 @@ const App = () => {
               My <span>Skills</span>
             </motion.h2>
             <div className="section-subtitle">Technologies I master</div>
-            {isAdmin && (
-              <AdminEditButton
-                onClick={() => scrollToSection("skills-editor")}
-              />
-            )}
           </div>
           <div className="skills-grid">{renderSkills()}</div>
 
@@ -925,11 +920,6 @@ const App = () => {
               </motion.h2>
               <div className="section-subtitle">Explore my recent work</div>
             </div>
-            {isAdmin && (
-              <AdminEditButton
-                onClick={() => scrollToSection("projects-editor")}
-              />
-            )}
           </div>
 
           {isAdmin && (
@@ -965,11 +955,6 @@ const App = () => {
               Experience & <span>Internships</span>
             </motion.h2>
             <div className="section-subtitle">My professional journey</div>
-            {isAdmin && (
-              <AdminEditButton
-                onClick={() => scrollToSection("experience-editor")}
-              />
-            )}
           </div>
 
           {isAdmin && (
@@ -1005,11 +990,6 @@ const App = () => {
               My <span>Certifications</span>
             </motion.h2>
             <div className="section-subtitle">My professional achievements</div>
-            {isAdmin && (
-              <AdminEditButton
-                onClick={() => scrollToSection("certifications-editor")}
-              />
-            )}
           </div>
 
           {isAdmin && (

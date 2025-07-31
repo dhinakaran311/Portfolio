@@ -14,11 +14,11 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
-  
+
   --glass-bg: rgba(30, 41, 59, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  
+
   --transition: all 0.3s ease;
 }
 
@@ -1480,23 +1480,23 @@ textarea.form-control {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .hero-text {
     max-width: 100%;
   }
-  
+
   .hero-buttons {
     justify-content: center;
   }
-  
+
   .about-container {
     flex-direction: column;
   }
-  
+
   .about-content-single {
     text-align: left;
   }
-  
+
   .contact-container {
     grid-template-columns: 1fr;
   }
@@ -1506,11 +1506,11 @@ textarea.form-control {
   .nav-links {
     gap: 15px;
   }
-  
+
   .nav-link {
     font-size: 0.9rem;
   }
-  
+
   .download-btn, .sync-btn, .login-btn, .logout-btn {
     padding: 8px 12px;
     font-size: 0.85rem;
@@ -1523,7 +1523,7 @@ textarea.form-control {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .nav-link {
     font-size: 0.85rem;
     padding: 3px 0;
@@ -1534,23 +1534,23 @@ textarea.form-control {
   .nav-links {
     display: none;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
-  
+
   .hero-title {
     font-size: 2.8rem;
   }
-  
+
   .about-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .editor-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -1560,11 +1560,11 @@ textarea.form-control {
   .hero-title {
     font-size: 2.2rem;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
   }
-  
+
   .profile-image-container {
     width: 280px;
     height: 280px;
