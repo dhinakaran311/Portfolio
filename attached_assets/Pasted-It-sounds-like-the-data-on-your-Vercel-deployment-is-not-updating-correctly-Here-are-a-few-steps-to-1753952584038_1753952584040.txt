@@ -1,0 +1,34 @@
+It sounds like the data on your Vercel deployment is not updating correctly. Here are a few steps to troubleshoot and ensure that your Firebase data updates are reflected in the deployment:
+
+Confirm Local Changes: Make sure that your local app is correctly saving to Firebase and that the data updates are present. You can check this by using the local development environment.
+
+Check Deployment Script: Ensure that your deployment commands are properly configured to build the latest changes. You should be able to run the build command manually to see if there are any errors.
+
+Data Caching: If you're using any caching mechanism in your deployment (such as a CDN), ensure that the cached data is being invalidated or updated correctly to reflect changes from Firebase.
+
+Firebase Rules: Ensure that the Firebase Firestore security rules allow read and write access for your deployed environment.
+
+Manual Syncing in Admin Mode: If you're using admin features to sync data to Firebase, ensure that these actions are being executed when you intend. In the src/App.js, look at the functions handleBackupToFirebase and handleRestoreFromFirebase to confirm they are being called as expected.
+
+Here is a snippet to ensure proper data saving in your handleBackupToFirebase method:
+
+const handleBackupToFirebase = async () => {
+  setIsSyncing(true);
+  try {
+    const success = await backupToFirebase(data); // Ensure `data` is the latest state
+    if (success) {
+      toast.success("Data backed up to Firebase successfully!");
+    } else {
+      toast.error("Failed to backup data to Firebase");
+    }
+  } catch (error) {
+    console.error('Backup error:', error);
+    toast.error("Error backing up to Firebase");
+  } finally {
+    setIsSyncing(false);
+  }
+};
+Make sure that any changes to your portfolio data locally are being captured correctly in the data variable you are trying to save.
+
+Deployment Settings: If you're still encountering issues, make sure that the deployment on Vercel is set to always refresh any stale data with every deployment or at least at regular intervals.
+After checking these steps, try redeploying your application to see if the data reflects the latest updates. If problems persist, you can provide the deployment logs to identify specific issues during the build or sync process.
