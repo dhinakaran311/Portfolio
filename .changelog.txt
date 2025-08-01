@@ -130,3 +130,4 @@
 2025-07-29 19:35:52 - update: improve button styles
 2025-07-30 20:16:13 - chore: update README
 2025-07-31 15:30:42 - chore: code cleanup and formatting
+2025-08-01 09:13:59 - refactor: improve component structure
