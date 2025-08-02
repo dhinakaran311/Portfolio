@@ -131,6 +131,10 @@ const ADMIN_CREDENTIALS = {
   password: process.env.REACT_APP_ADMIN_PASSWORD,
 };
 
+// Debug logging (remove this after testing)
+console.log('Admin Email from env:', process.env.REACT_APP_ADMIN_EMAIL);
+console.log('Admin Password from env:', process.env.REACT_APP_ADMIN_PASSWORD ? 'Set' : 'Not set');</old_str>
+
 // Safe data loading function with Firebase priority
 const loadData = async () => {
   try {
@@ -405,6 +409,14 @@ const App = () => {
   // Auth functions
   const handleLogin = (e) => {
     e.preventDefault();
+    
+    // Debug logging
+    console.log('Login attempt:');
+    console.log('Entered email:', loginForm.email);
+    console.log('Expected email:', ADMIN_CREDENTIALS.email);
+    console.log('Entered password:', loginForm.password);
+    console.log('Expected password:', ADMIN_CREDENTIALS.password);
+    
     if (
       loginForm.email === ADMIN_CREDENTIALS.email &&
       loginForm.password === ADMIN_CREDENTIALS.password
@@ -413,9 +425,10 @@ const App = () => {
       setShowLoginModal(false);
       toast.success("Logged in as admin");
     } else {
-      toast.error("Invalid credentials");
+      console.log('Login failed - credentials do not match');
+      toast.error("Invalid credentials. Check console for details.");
     }
-  };
+  };</old_str>
 
   const handleLogout = () => {
     setIsAdmin(false);
