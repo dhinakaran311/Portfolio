@@ -95,16 +95,19 @@ a {
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 20px 0;
+  padding: 15px 0;
   transition: all 0.3s ease;
   transform: translateY(0);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar.scrolled {
-  background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  padding: 15px 0;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 12px 0;
 }
 
 .navbar.hidden {
@@ -115,6 +118,10 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .nav-logo {
@@ -123,6 +130,7 @@ a {
   font-weight: 700;
   font-size: 1.5rem;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .logo-icon {
@@ -144,8 +152,9 @@ a {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 25px;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .nav-link {
@@ -1125,21 +1134,25 @@ textarea.form-control {
 /* Project Editor */
 .editor-container {
   background: var(--dark-light);
-  padding: 30px;
-  border-radius: 20px;
-  margin-bottom: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .editor-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-bottom: 20px;
   color: var(--light);
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
 }
 
 .editor-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -1252,10 +1265,17 @@ textarea.form-control {
 
 .table-container {
   overflow-x: auto;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.projects-table {
+.projects-table,
+.skills-table,
+.experience-table,
+.certifications-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
@@ -1263,25 +1283,42 @@ textarea.form-control {
 }
 
 .projects-table th,
-.projects-table td {
-  padding: 15px;
+.projects-table td,
+.skills-table th,
+.skills-table td,
+.experience-table th,
+.experience-table td,
+.certifications-table th,
+.certifications-table td {
+  padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  word-wrap: break-word;
 }
 
-.projects-table th {
+.projects-table th,
+.skills-table th,
+.experience-table th,
+.certifications-table th {
   background: rgba(99, 102, 241, 0.2);
   color: var(--primary);
   font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.projects-table tr:last-child td {
+.projects-table tr:last-child td,
+.skills-table tr:last-child td,
+.experience-table tr:last-child td,
+.certifications-table tr:last-child td {
   border-bottom: none;
 }
 
 .table-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .edit-table-btn {
@@ -1459,17 +1496,19 @@ textarea.form-control {
 
 /* Dashboard Admin Indicator */
 .admin-dashboard-banner {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.15);
   border: 1px solid var(--success);
   color: var(--success);
-  padding: 15px 25px;
-  margin: 100px auto 30px; /* ✅ 100px for top spacing */
+  padding: 12px 25px;
+  margin: 90px auto 20px;
   border-radius: 8px;
   width: fit-content;
-  font-weight: bold;
-  font-size: 1rem;
+  max-width: 90%;
+  font-weight: 600;
+  font-size: 0.95rem;
   text-align: center;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 
@@ -1504,7 +1543,7 @@ textarea.form-control {
 
 @media (max-width: 1200px) {
   .nav-links {
-    gap: 15px;
+    gap: 20px;
   }
 
   .nav-link {
@@ -1515,24 +1554,59 @@ textarea.form-control {
     padding: 8px 12px;
     font-size: 0.85rem;
   }
+
+  .editor-container {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 968px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 15px;
+  }
+
   .nav-links {
-    gap: 10px;
+    gap: 15px;
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .nav-link {
     font-size: 0.85rem;
-    padding: 3px 0;
+    padding: 5px 10px;
+  }
+
+  .admin-dashboard-banner {
+    margin: 120px auto 20px;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-container {
+    padding: 20px 15px;
   }
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 10px 0;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .nav-links {
-    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
   }
 
   .section-title {
@@ -1553,6 +1627,27 @@ textarea.form-control {
 
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .admin-dashboard-banner {
+    margin: 140px auto 20px;
+    font-size: 0.85rem;
+  }
+
+  .editor-container {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .table-actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .edit-table-btn,
+  .delete-table-btn {
+    width: 100%;
+    text-align: center;
   }
 }
 
