@@ -26,3 +26,4 @@
 2025-07-28 12:54:58 - chore: update README
 2025-07-29 09:50:08 - fix: resolve z-index conflicts
 2025-07-30 12:35:23 - chore: update comments and docs
+2025-08-04 14:41:44 - update: refine animations
