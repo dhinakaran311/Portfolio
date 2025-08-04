@@ -20,6 +20,7 @@ import {
   FaCloud,
   FaDownload,
   FaUpload,
+  FaBars,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -174,6 +175,7 @@ const App = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sectionRefs = useRef({});
 
   const {
@@ -290,6 +292,16 @@ const App = () => {
         behavior: "smooth",
       });
     }
+    // Close mobile menu when navigating
+    setIsMobileMenuOpen(false);
+  }, []);
+
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
   }, []);
 
   const onSubmit = async (formData) => {
@@ -558,6 +570,18 @@ const App = () => {
             <span className="logo-icon">D</span>
             <span className="logo-text">Dhinakaran</span>
           </motion.a>
+          
+          {/* Mobile Menu Toggle */}
+          <motion.button
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaBars />
+          </motion.button>
+
+          {/* Desktop Navigation */}
           <div className="nav-links">
             {[
               "home",
@@ -644,6 +668,112 @@ const App = () => {
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              className="mobile-menu-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeMobileMenu}
+            />
+            <motion.div
+              className="mobile-menu"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+            >
+              <div className="mobile-menu-header">
+                <div className="nav-logo">
+                  <span className="logo-icon">D</span>
+                  <span className="logo-text">Dhinakaran</span>
+                </div>
+                <button className="mobile-menu-close" onClick={closeMobileMenu}>
+                  <FaTimes />
+                </button>
+              </div>
+              
+              <div className="mobile-menu-links">
+                {[
+                  "home",
+                  "about",
+                  "skills",
+                  "projects",
+                  "experience",
+                  "contact",
+                ].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item}`}
+                    className={`nav-link ${activeSection === item ? "active" : ""}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item);
+                    }}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+              
+              <div className="mobile-menu-buttons">
+                <a
+                  href="/documents/resume.pdf"
+                  download
+                  className="download-btn"
+                >
+                  <FaFileDownload /> Resume
+                </a>
+                <button
+                  className="sync-btn"
+                  onClick={handleForceRefresh}
+                  disabled={isSyncing}
+                >
+                  <FaCloud /> {isSyncing ? 'Refreshing...' : 'Refresh'}
+                </button>
+                {isAdmin ? (
+                  <>
+                    <button
+                      className="sync-btn"
+                      onClick={handleBackupToFirebase}
+                      disabled={isSyncing}
+                    >
+                      <FaUpload /> {isSyncing ? 'Syncing...' : 'Backup'}
+                    </button>
+                    <button
+                      className="sync-btn"
+                      onClick={handleRestoreFromFirebase}
+                      disabled={isSyncing}
+                    >
+                      <FaDownload /> Restore
+                    </button>
+                    <button
+                      className="logout-btn"
+                      onClick={handleLogout}
+                    >
+                      <FaSignOutAlt /> Logout
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="login-btn"
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      closeMobileMenu();
+                    }}
+                  >
+                    <FaLock /> Admin
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       {isAdmin && (
         <div className="admin-dashboard-banner">
           Welcome, Admin! You are in edit mode.
