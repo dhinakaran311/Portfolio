@@ -1571,8 +1571,14 @@ textarea.form-control {
   color: var(--light);
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 5px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: var(--transition);
   z-index: 1001;
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .mobile-menu-overlay {
@@ -1581,33 +1587,25 @@ textarea.form-control {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
   transition: all 0.3s ease;
-}
-
-.mobile-menu-overlay.active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .mobile-menu {
   position: fixed;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 280px;
   height: 100%;
   background: var(--dark);
   z-index: 1001;
-  transition: left 0.3s ease;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
   overflow-y: auto;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-menu.active {
-  left: 0;
+  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .mobile-menu-header {
@@ -1700,6 +1698,11 @@ textarea.form-control {
 
   .editor-container {
     padding: 20px 15px;
+  }
+
+  .mobile-menu {
+    width: 100%;
+    max-width: 320px;
   }
 }
 
