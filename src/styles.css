@@ -1496,19 +1496,22 @@ textarea.form-control {
 
 /* Dashboard Admin Indicator */
 .admin-dashboard-banner {
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid var(--success);
+  background: rgba(16, 185, 129, 0.2);
+  border: 2px solid var(--success);
   color: var(--success);
-  padding: 12px 25px;
-  margin: 90px auto 20px;
-  border-radius: 8px;
+  padding: 15px 30px;
+  margin: 100px auto 30px;
+  border-radius: 12px;
   width: fit-content;
   max-width: 90%;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1.1rem;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+  backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 10;
+  animation: pulse 2s infinite;
 }
 
 
@@ -1579,9 +1582,9 @@ textarea.form-control {
   }
 
   .admin-dashboard-banner {
-    margin: 120px auto 20px;
-    font-size: 0.9rem;
-    padding: 10px 20px;
+    margin: 140px auto 25px;
+    font-size: 1rem;
+    padding: 12px 25px;
   }
 
   .editor-grid {
@@ -1630,8 +1633,9 @@ textarea.form-control {
   }
 
   .admin-dashboard-banner {
-    margin: 140px auto 20px;
-    font-size: 0.85rem;
+    margin: 160px auto 25px;
+    font-size: 0.95rem;
+    padding: 12px 20px;
   }
 
   .editor-container {
@@ -1673,5 +1677,17 @@ textarea.form-control {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 35px rgba(16, 185, 129, 0.5), 0 0 0 8px rgba(16, 185, 129, 0.1);
+  }
+  100% {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
   }
 }
