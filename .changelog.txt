@@ -28,3 +28,4 @@
 2025-07-30 12:35:23 - chore: update comments and docs
 2025-08-04 14:41:44 - update: refine animations
 2025-08-05 15:30:50 - feat: add small enhancement
+2025-08-05 16:40:05 - feat: add minor UI improvements
