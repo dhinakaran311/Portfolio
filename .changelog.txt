@@ -29,3 +29,4 @@
 2025-08-04 14:41:44 - update: refine animations
 2025-08-05 15:30:50 - feat: add small enhancement
 2025-08-05 16:40:05 - feat: add minor UI improvements
+2025-08-05 10:15:53 - fix: resolve z-index conflicts
