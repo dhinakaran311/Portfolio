@@ -133,3 +133,4 @@
 2025-08-01 09:13:59 - refactor: improve component structure
 2025-08-05 15:54:21 - fix: correct alignment issues
 2025-08-05 22:13:05 - chore: update README
+2025-08-06 20:29:37 - refactor: extract reusable function
