@@ -31,3 +31,4 @@
 2025-08-05 16:40:05 - feat: add minor UI improvements
 2025-08-05 10:15:53 - fix: resolve z-index conflicts
 2025-08-07 12:51:31 - update: enhance user experience
+2025-08-07 21:32:04 - feat: add hover effects
