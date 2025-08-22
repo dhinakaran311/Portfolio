@@ -144,3 +144,4 @@
 2025-08-15 15:33:54 - chore: update package versions
 2025-08-20 18:27:10 - update: refine component props
 2025-08-21 12:29:39 - fix: correct alignment issues
+2025-08-22 12:55:27 - feat: add minor UI improvements
