@@ -40,3 +40,4 @@
 2025-08-16 20:08:44 - refactor: restructure file organization
 2025-08-18 22:56:13 - update: refine animations
 2025-08-21 09:26:55 - update: refine component props
+2025-08-25 17:47:51 - chore: update README
