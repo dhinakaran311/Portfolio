@@ -147,3 +147,4 @@
 2025-08-22 12:55:27 - feat: add minor UI improvements
 2025-08-27 20:37:13 - refactor: improve error handling
 2025-08-28 19:52:36 - feat: add minor UI improvements
+2025-08-29 10:56:48 - refactor: simplify conditional logic
