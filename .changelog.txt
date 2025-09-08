@@ -162,3 +162,4 @@
 2025-09-05 16:12:24 - chore: update dependencies
 2025-09-06 21:24:26 - chore: remove unused code
 2025-09-06 16:46:03 - fix: correct import paths
+2025-09-08 19:33:20 - refactor: extract reusable function
