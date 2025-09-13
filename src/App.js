@@ -34,12 +34,14 @@ import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFire
 import TypeAnimation from './components/TypeAnimation';
 import ContactItem from './components/ContactItem';
 import SocialLink from './components/SocialLink';
-import AdminEditButton from './components/AdminEditButton';
 import ProjectCard from './components/ProjectCard';
 import ProjectsEditor from './components/editors/ProjectsEditor';
 import SkillsEditor from './components/editors/SkillsEditor';
 import ExperienceEditor from './components/editors/ExperienceEditor';
 import CertificationsEditor from './components/editors/CertificationsEditor';
+import AchievementsSection from "./components/AchievementsSection";
+import AchievementsEditor from "./components/editors/AchievementsEditor";
+
 
 // Initial data with all required fields
 const initialData = {
@@ -124,6 +126,18 @@ const initialData = {
     { id: 5, name: "Data Analysis", level: 85, icon: "📊", color: "#4ECDC4" },
     { id: 6, name: "Problem Solving", level: 90, icon: "🧩", color: "#FF9E6D" },
   ],
+  achievements: [
+    {
+      id: 1,
+      title: "National Coding Competition",
+      description: "Secured 1st place in a national-level coding competition.",
+      month: "Feb",
+      year: "2025",
+      issuer: "XYZ Institute",
+      link: "",
+      image: ""
+    }
+  ]
 };
 
 // Admin credentials from environment variables
@@ -191,13 +205,16 @@ const App = () => {
       setIsLoading(true);
       try {
         const loadedData = await loadData();
-        setData({
+        console.log('Loaded data:', loadedData);
+        const newData = {
           projects: loadedData.projects || [],
           experiences: loadedData.experiences || [],
           certifications: loadedData.certifications || [],
           skills: loadedData.skills || [],
           ...loadedData,
-        });
+        };
+        console.log('Setting data with achievements:', newData.achievements);
+        setData(newData);
       } catch (error) {
         console.error('Error initializing data:', error);
         toast.error('Error loading portfolio data');
@@ -342,16 +359,23 @@ const App = () => {
 
   // Data management functions
   const addItem = useCallback((type, newItem) => {
-    setData((prev) => ({
-      ...prev,
-      [type]: [...prev[type], { ...newItem, id: Date.now() }],
-    }));
+    console.log(`Adding item to ${type}:`, newItem);
+    setData((prev) => {
+      const currentItems = Array.isArray(prev[type]) ? prev[type] : [];
+      const newItemWithId = { ...newItem, id: Date.now() };
+      const updatedItems = [...currentItems, newItemWithId];
+      console.log(`Updated ${type}:`, updatedItems);
+      return {
+        ...prev,
+        [type]: updatedItems,
+      };
+    });
   }, []);
 
   const updateItem = useCallback((type, id, updatedItem) => {
     setData((prev) => ({
       ...prev,
-      [type]: prev[type].map((item) =>
+      [type]: (prev[type] || []).map((item) =>
         item.id === id ? { ...item, ...updatedItem } : item
       ),
     }));
@@ -360,7 +384,7 @@ const App = () => {
   const deleteItem = useCallback((type, id) => {
     setData((prev) => ({
       ...prev,
-      [type]: prev[type].filter((item) => item.id !== id),
+      [type]: (prev[type] || []).filter((item) => item.id !== id),
     }));
   }, []);
 
@@ -666,6 +690,20 @@ const App = () => {
                   title="Restore from Firebase"
                 >
                   <FaDownload /> Restore
+                </motion.button>
+                <motion.button
+                  className="sync-btn"
+                  onClick={async () => {
+                    console.log('🔍 Checking Firebase data...');
+                    const firebaseData = await loadPortfolioData();
+                    console.log('📊 Current Firebase data:', firebaseData);
+                    toast.info('Check console for Firebase data');
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title="Check Firebase Data"
+                >
+                  <FaCode /> Debug
                 </motion.button>
                 <motion.button
                   className="logout-btn"
@@ -1157,6 +1195,39 @@ const App = () => {
           <div className="experience-list">{renderExperiences()}</div>
         </div>
       </section>
+      {/* Achievements Section */}
+<section
+  id="achievements"
+  className="section section-bg"
+  ref={(el) => setRef("achievements", el)}
+>
+  <div className="container">
+    <div className="section-header">
+      <motion.h2
+        className="section-title"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        My <span>Achievements</span>
+      </motion.h2>
+      <div className="section-subtitle">Competitions & Awards</div>
+    </div>
+
+    {isAdmin && (
+      <AchievementsEditor
+        achievements={data.achievements}
+        onAdd={(newAch) => addItem("achievements", newAch)}
+        onUpdate={(id, updatedAch) => updateItem("achievements", id, updatedAch)}
+        onDelete={(id) => deleteItem("achievements", id)}
+      />
+    )}
+
+    <AchievementsSection achievements={data.achievements} />
+  </div>
+</section>
+
 
       {/* Certifications Section */}
       <section

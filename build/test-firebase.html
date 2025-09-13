@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Connection Test</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvm1mHc6p7rD0M6CHvN1wN23GESP3PU1E",
+      authDomain: "portfolio-7eccd.firebaseapp.com",
+      projectId: "portfolio-7eccd",
+      storageBucket: "portfolio-7eccd.appspot.com",
+      messagingSenderId: "424069962166",
+      appId: "1:424069962166:web:244d4d4b2886f218e1c917",
+      measurementId: "G-YCW0TPE1GJ"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Test connection
+    async function testConnection() {
+      const status = document.getElementById('status');
+      try {
+        status.textContent = 'Connecting to Firebase...';
+        
+        // Try to read a document
+        const testDoc = await db.collection('test').doc('test').get();
+        
+        if (testDoc.exists) {
+          status.textContent = '✅ Successfully connected to Firebase!';
+          status.innerHTML += '<br>Test document data: ' + JSON.stringify(testDoc.data(), null, 2);
+        } else {
+          status.textContent = '✅ Successfully connected to Firebase!';
+          status.innerHTML += '<br>ℹ️ Test document does not exist (this is normal for a new database)';
+        }
+      } catch (error) {
+        status.innerHTML = '❌ Error connecting to Firebase:<br>' + error.message;
+        console.error('Firebase error:', error);
+      }
+    }
+
+    // Run test when page loads
+    window.onload = testConnection;
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    #status {
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+    }
+    .success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+    .error { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+    .info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+  </style>
+</head>
+<body>
+  <h1>Firebase Connection Test</h1>
+  <div id="status" class="info">Initializing test...</div>
+  
+  <h2>Next Steps:</h2>
+  <ol>
+    <li>Open your browser's developer tools (F12)</li>
+    <li>Go to the Console tab</li>
+    <li>Look for any error messages</li>
+    <li>Check the Network tab for failed requests</li>
+  </ol>
+  
+  <p><button onclick="testConnection()">Test Again</button></p>
+</body>
+</html>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const TypeAnimation = ({ sequence, speed = 100, repeat = Infinity }) => {
   const [text, setText] = React.useState("");
@@ -7,10 +7,15 @@ const TypeAnimation = ({ sequence, speed = 100, repeat = Infinity }) => {
   const [subIndex, setSubIndex] = React.useState(0);
   const [isDeleting, setIsDeleting] = React.useState(false);
 
-  React.useEffect(() => {
-    // Filter sequence to only include strings (remove delay numbers)
-    const textSequence = sequence.filter(item => typeof item === "string");
-    
+  // Memoize the text sequence to prevent recalculation
+  const textSequence = React.useMemo(() => 
+    sequence.filter(item => typeof item === "string"),
+    [sequence]
+  );
+  
+
+  // Handle the typing effect
+  const typeEffect = useCallback(() => {
     if (index >= textSequence.length) {
       if (repeat === Infinity) {
         setIndex(0);
@@ -18,36 +23,48 @@ const TypeAnimation = ({ sequence, speed = 100, repeat = Infinity }) => {
       return;
     }
 
-    const currentText = textSequence[index];
-    
-    // Fixed timing calculation
+    const currentText = textSequence[index] || "";
     const baseSpeed = isDeleting ? speed / 2 : speed;
-    const timeout = baseSpeed;
+    const timeout = Math.max(50, Math.min(baseSpeed, 200));
 
-    if (!isDeleting && subIndex === currentText.length) {
-      // Wait before starting to delete
-      setTimeout(() => setIsDeleting(true), 1500);
-      return;
+    if (!isDeleting && subIndex >= currentText.length) {
+      const timer = setTimeout(() => {
+        requestAnimationFrame(() => setIsDeleting(true));
+      }, 1500);
+      return () => clearTimeout(timer);
     }
 
-    if (isDeleting && subIndex === 0) {
+    if (isDeleting && subIndex <= 0) {
       setIsDeleting(false);
-      setIndex((prev) => prev + 1);
+      setIndex(prev => (prev + 1) % textSequence.length);
+      setSubIndex(0);
       return;
     }
 
     const timer = setTimeout(() => {
-      if (isDeleting) {
-        setSubIndex((prev) => prev - 1);
-        setText(currentText.substring(0, subIndex - 1));
-      } else {
-        setSubIndex((prev) => prev + 1);
-        setText(currentText.substring(0, subIndex + 1));
-      }
+      requestAnimationFrame(() => {
+        if (isDeleting) {
+          setSubIndex(prev => {
+            const newIndex = prev - 1;
+            setText(currentText.substring(0, newIndex));
+            return newIndex;
+          });
+        } else {
+          setSubIndex(prev => {
+            const newIndex = prev + 1;
+            setText(currentText.substring(0, newIndex));
+            return newIndex;
+          });
+        }
+      });
     }, timeout);
 
     return () => clearTimeout(timer);
-  }, [sequence, index, subIndex, isDeleting, speed, repeat]);
+  }, [index, subIndex, isDeleting, speed, repeat, textSequence]);
+
+  React.useEffect(() => {
+    typeEffect();
+  }, [typeEffect]);
 
   return <span>{text}<span className="typing-cursor">|</span></span>;
 };
