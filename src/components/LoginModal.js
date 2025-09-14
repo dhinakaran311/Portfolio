@@ -1,26 +1,30 @@
 import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 
-export default function LoginModal({ isOpen, onClose }) {
+export default function LoginModal({ isOpen, onClose, onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+    
     try {
       setError('');
       setLoading(true);
-      await login(email, password);
+      await onLogin(email, password);
       onClose();
     } catch (error) {
       console.error('Login error:', error);
       setError('Failed to log in. Please check your credentials.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (!isOpen) return null;

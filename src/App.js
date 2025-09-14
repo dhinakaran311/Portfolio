@@ -2,8 +2,8 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
-} from "react";
+  useCallback
+} from 'react';
 import {
   FaGithub,
   FaLinkedin,
@@ -181,13 +181,25 @@ const App = () => {
   const [data, setData] = useState(initialData);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [showLoginModal, setShowLoginModal] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
+  const { currentUser, login, logout } = useAuth();
   const sectionRefs = useRef({});
-  const { currentUser, logout } = useAuth();
+
+  // Handle login
+  const handleLogin = async (email, password) => {
+    try {
+      await login(email, password);
+      setShowLoginModal(false);
+    } catch (error) {
+      console.error('Login failed:', error);
+      toast.error('Login failed. Please check your credentials.');
+    }
+  };
 
   // Check if user is admin when auth state changes
   useEffect(() => {
@@ -200,63 +212,66 @@ const App = () => {
 
   // Handle keyboard shortcut Alt+D then A to toggle login form
   useEffect(() => {
-    let dPressed = false;
-    let aPressedTimeout = null;
+    if (!currentUser) {  // Only allow login shortcut if not already logged in
+      let dPressed = false;
+      let aPressedTimeout = null;
 
-    const handleKeyDown = (e) => {
-      try {
-        // Skip if key is not defined or not a string
-        if (!e.key || typeof e.key !== 'string') return;
-        
-        const key = e.key.toLowerCase();
-        
-        // Handle Alt+D
-        if (e.altKey && key === 'd') {
-          e.preventDefault();
-          dPressed = true;
+      const handleKeyDown = (e) => {
+        try {
+          // Skip if key is not defined or not a string
+          if (!e.key || typeof e.key !== 'string') return;
           
-          // Set a timeout to reset dPressed after 2 seconds
-          clearTimeout(aPressedTimeout);
-          aPressedTimeout = setTimeout(() => {
+          const key = e.key.toLowerCase();
+          
+          // Handle Alt+D
+          if (e.altKey && key === 'd') {
+            e.preventDefault();
+            dPressed = true;
+            
+            // Set a timeout to reset dPressed after 2 seconds
+            clearTimeout(aPressedTimeout);
+            aPressedTimeout = setTimeout(() => {
+              dPressed = false;
+            }, 2000);
+          }
+          
+          // Handle Alt+A after D
+          if (e.altKey && key === 'a' && dPressed) {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowLoginModal(true);
             dPressed = false;
-          }, 2000);
+            clearTimeout(aPressedTimeout);
+          }
+        } catch (error) {
+          console.error('Error in keyboard handler:', error);
         }
-        
-        // Handle Alt+A after D
-        if (e.altKey && key === 'a' && dPressed) {
-          e.preventDefault();
-          e.stopPropagation();
-          setShowLoginModal(prev => !prev);
-          dPressed = false;
-          clearTimeout(aPressedTimeout);
+      };
+
+      const handleKeyUp = (e) => {
+        try {
+          // Check if Alt key is released
+          if (e && e.key && typeof e.key === 'string' && e.key.toLowerCase() === 'alt') {
+            dPressed = false;
+            clearTimeout(aPressedTimeout);
+          }
+        } catch (error) {
+          console.error('Error in keyup handler:', error);
         }
-      } catch (error) {
-        console.error('Error in keyboard handler:', error);
-      }
-    };
+      };
 
-    const handleKeyUp = (e) => {
-      try {
-        // Check if Alt key is released
-        if (e && e.key && typeof e.key === 'string' && e.key.toLowerCase() === 'alt') {
-          dPressed = false;
-          clearTimeout(aPressedTimeout);
-        }
-      } catch (error) {
-        console.error('Error in keyup handler:', error);
-      }
-    };
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
 
-    // Removed welcome notification
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keyup', handleKeyUp);
+        clearTimeout(aPressedTimeout);
+      };
+    }
+  }, [currentUser]);  // Only re-run if currentUser changes
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
+  // Removed welcome notification
 
   const {
     register,
@@ -1184,37 +1199,37 @@ const App = () => {
         </div>
       </section>
       {/* Achievements Section */}
-<section
-  id="achievements"
-  className="section section-bg"
-  ref={(el) => setRef("achievements", el)}
->
-  <div className="container">
-    <div className="section-header">
-      <motion.h2
-        className="section-title"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+      <section
+        id="achievements"
+        className="section section-bg"
+        ref={(el) => setRef("achievements", el)}
       >
-        My <span>Achievements</span>
-      </motion.h2>
-      <div className="section-subtitle">Competitions & Awards</div>
-    </div>
+        <div className="container">
+          <div className="section-header">
+            <motion.h2
+              className="section-title"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              My <span>Achievements</span>
+            </motion.h2>
+            <div className="section-subtitle">Competitions & Awards</div>
+          </div>
 
-    {isAdmin && (
-      <AchievementsEditor
-        achievements={data.achievements}
-        onAdd={(newAch) => addItem("achievements", newAch)}
-        onUpdate={(id, updatedAch) => updateItem("achievements", id, updatedAch)}
-        onDelete={(id) => deleteItem("achievements", id)}
-      />
-    )}
+          {isAdmin && (
+            <AchievementsEditor
+              achievements={data.achievements}
+              onAdd={(newAch) => addItem("achievements", newAch)}
+              onUpdate={(id, updatedAch) => updateItem("achievements", id, updatedAch)}
+              onDelete={(id) => deleteItem("achievements", id)}
+            />
+          )}
 
-    <AchievementsSection achievements={data.achievements} />
-  </div>
-</section>
+          <AchievementsSection achievements={data.achievements} />
+        </div>
+      </section>
 
 
       {/* Certifications Section */}
@@ -1470,7 +1485,8 @@ const App = () => {
       {/* Login Modal */}
       <LoginModal 
         isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
       />
       
       {/* Toast notifications */}
