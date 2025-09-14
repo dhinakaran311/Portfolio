@@ -13,14 +13,13 @@ import {
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
-  FaSignInAlt,
   FaSignOutAlt,
-  FaLock,
-  FaTimes,
   FaCloud,
   FaDownload,
   FaUpload,
   FaBars,
+  FaTimes,
+  FaLock,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -29,6 +28,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
+import { useAuth } from './contexts/AuthContext';
+import LoginModal from './components/LoginModal';
 
 // Import components
 import TypeAnimation from './components/TypeAnimation';
@@ -140,12 +141,6 @@ const initialData = {
   ]
 };
 
-// Admin credentials from environment variables
-const ADMIN_CREDENTIALS = {
-  email: process.env.REACT_APP_ADMIN_EMAIL,
-  password: process.env.REACT_APP_ADMIN_PASSWORD,
-};
-
 // Safe data loading function with Firebase priority
 const loadData = async () => {
   try {
@@ -179,18 +174,101 @@ const loadData = async () => {
   }
 };
 
+// Admin credentials (in a real app, these should be handled by Firebase Auth)
+const ADMIN_EMAIL = process.env.REACT_APP_ADMIN_EMAIL || 'admin@example.com';
 // Main App component
 const App = () => {
   const [data, setData] = useState(initialData);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const sectionRefs = useRef({});
+  const { currentUser, logout } = useAuth();
+
+  // Check if user is admin when auth state changes
+  useEffect(() => {
+    if (currentUser && currentUser.email === ADMIN_EMAIL) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [currentUser]); // ADMIN_EMAIL is a constant and doesn't need to be in the dependency array
+
+  // Handle keyboard shortcut Alt+D then A to toggle login form
+  useEffect(() => {
+    let dPressed = false;
+    let aPressedTimeout = null;
+
+    const handleKeyDown = (e) => {
+      try {
+        // Skip if key is not defined or not a string
+        if (!e.key || typeof e.key !== 'string') return;
+        
+        const key = e.key.toLowerCase();
+        
+        // Handle Alt+D
+        if (e.altKey && key === 'd') {
+          e.preventDefault();
+          dPressed = true;
+          
+          // Set a timeout to reset dPressed after 2 seconds
+          clearTimeout(aPressedTimeout);
+          aPressedTimeout = setTimeout(() => {
+            dPressed = false;
+          }, 2000);
+        }
+        
+        // Handle Alt+A after D
+        if (e.altKey && key === 'a' && dPressed) {
+          e.preventDefault();
+          e.stopPropagation();
+          setShowLoginModal(prev => !prev);
+          dPressed = false;
+          clearTimeout(aPressedTimeout);
+        }
+      } catch (error) {
+        console.error('Error in keyboard handler:', error);
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      try {
+        // Check if Alt key is released
+        if (e && e.key && typeof e.key === 'string' && e.key.toLowerCase() === 'alt') {
+          dPressed = false;
+          clearTimeout(aPressedTimeout);
+        }
+      } catch (error) {
+        console.error('Error in keyup handler:', error);
+      }
+    };
+
+    // Show welcome message with keyboard shortcut info
+    const welcomeShown = sessionStorage.getItem('welcomeShown');
+    if (!welcomeShown) {
+      toast.info('Press Alt+D+A to access admin panel', {
+        position: 'bottom-right',
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      sessionStorage.setItem('welcomeShown', 'true');
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   const {
     register,
@@ -460,23 +538,14 @@ const App = () => {
   };
 
   // Auth functions
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (
-      loginForm.email === ADMIN_CREDENTIALS.email &&
-      loginForm.password === ADMIN_CREDENTIALS.password
-    ) {
-      setIsAdmin(true);
-      setShowLoginModal(false);
-      toast.success("Logged in as admin");
-    } else {
-      toast.error("Invalid credentials");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Logged out successfully");
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast.error("Error logging out");
     }
-  };
-
-  const handleLogout = () => {
-    setIsAdmin(false);
-    toast.success("Logged out successfully");
   };
 
   // Set section refs
@@ -669,6 +738,8 @@ const App = () => {
             >
               <FaCloud /> {isSyncing ? 'Refreshing...' : 'Refresh'}
             </motion.button>
+            
+            {/* Admin Controls */}
             {isAdmin ? (
               <>
                 <motion.button
@@ -710,19 +781,13 @@ const App = () => {
                   onClick={handleLogout}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  title="Logout"
                 >
                   <FaSignOutAlt /> Logout
                 </motion.button>
               </>
             ) : (
-              <motion.button
-                className="login-btn"
-                onClick={() => setShowLoginModal(true)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaLock /> Admin
-              </motion.button>
+              <></>
             )}
           </div>
         </div>
@@ -873,71 +938,6 @@ const App = () => {
           Welcome, Admin! You are in edit mode.
         </div>
       )}
-
-      {/* Login Modal */}
-      <AnimatePresence>
-        {showLoginModal && (
-          <motion.div
-            className="modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowLoginModal(false)}
-          >
-            <motion.div
-              className="modal-content"
-              initial={{ y: -50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -50, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                className="close-modal"
-                onClick={() => setShowLoginModal(false)}
-              >
-                <FaTimes />
-              </button>
-              <h3>Admin Login</h3>
-              <form onSubmit={handleLogin}>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    value={loginForm.email}
-                    onChange={(e) =>
-                      setLoginForm({ ...loginForm, email: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    value={loginForm.password}
-                    onChange={(e) =>
-                      setLoginForm({ ...loginForm, password: e.target.value })
-                    }
-                    required
-                  />
-                </div>
-                <div className="modal-actions">
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginModal(false)}
-                    className="cancel-btn"
-                  >
-                    Cancel
-                  </button>
-                  <button type="submit" className="login-submit-btn">
-                    <FaSignInAlt /> Login
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hero Section */}
       <section id="home" className="hero" ref={(el) => setRef("home", el)}>
@@ -1479,6 +1479,12 @@ const App = () => {
         </motion.button>
       )}
 
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
+      
       {/* Toast notifications */}
       <ToastContainer
         position="top-right"
