@@ -17,11 +17,36 @@ export default function LoginModal({ isOpen, onClose, onLogin }) {
     try {
       setError('');
       setLoading(true);
-      await onLogin(email, password);
-      onClose();
+      
+      console.log('Login attempt with:', email);
+      const success = await onLogin(email, password);
+      
+      if (success) {
+        console.log('LoginModal: Login successful, closing modal');
+        onClose();
+      } else {
+        console.warn('LoginModal: Login failed but no error was thrown');
+        setError('Login failed. Please try again.');
+      }
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Failed to log in. Please check your credentials.');
+      console.error('Login error in LoginModal:', {
+        code: error.code,
+        message: error.message,
+        time: new Date().toISOString()
+      });
+      
+      let errorMessage = 'Failed to log in. Please check your credentials.';
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = 'No account found with this email.';
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Incorrect password. Please try again.';
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = 'Too many failed attempts. Please try again later.';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

@@ -6,7 +6,8 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  inMemoryPersistence
 } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -21,15 +22,36 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      // Set persistence to session
-      await setPersistence(auth, browserSessionPersistence);
+      console.log('Setting auth persistence...');
+      // Try session persistence first, fallback to in-memory if needed
+      try {
+        await setPersistence(auth, browserSessionPersistence);
+      } catch (persistenceError) {
+        console.warn('Session persistence not available, using in-memory:', persistenceError);
+        await setPersistence(auth, inMemoryPersistence);
+      }
       
-      // Sign in with email and password
+      console.log('Signing in...');
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('Login successful:', userCredential.user);
+      
+      if (!userCredential.user) {
+        throw new Error('No user returned from sign in');
+      }
+      
+      console.log('Login successful, user:', {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        emailVerified: userCredential.user.emailVerified
+      });
+      
       return userCredential;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error details:', {
+        code: error.code,
+        message: error.message,
+        email: email,
+        time: new Date().toISOString()
+      });
       throw error;
     }
   };
@@ -40,14 +62,36 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     console.log('Setting up auth state listener...');
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('Auth state changed:', user ? 'User logged in' : 'No user');
+    
+    const handleAuthStateChanged = async (user) => {
+      console.log('Auth state changed:', user ? `User logged in (${user.email})` : 'No user');
+      
+      if (user) {
+        // Force token refresh to ensure valid session
+        try {
+          const idToken = await user.getIdToken(true);
+          console.log('Refreshed ID token:', idToken ? 'Token received' : 'No token');
+        } catch (tokenError) {
+          console.error('Error refreshing token:', tokenError);
+        }
+      }
+      
       setCurrentUser(user);
       setLoading(false);
-    }, (error) => {
-      console.error('Auth state error:', error);
-      setLoading(false);
-    });
+    };
+
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      handleAuthStateChanged,
+      (error) => {
+        console.error('Auth state error:', {
+          code: error.code,
+          message: error.message,
+          time: new Date().toISOString()
+        });
+        setLoading(false);
+      }
+    );
 
     return () => {
       console.log('Cleaning up auth state listener');
