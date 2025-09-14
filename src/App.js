@@ -247,19 +247,7 @@ const App = () => {
       }
     };
 
-    // Show welcome message with keyboard shortcut info
-    const welcomeShown = sessionStorage.getItem('welcomeShown');
-    if (!welcomeShown) {
-      toast.info('Press Alt+D+A to access admin panel', {
-        position: 'bottom-right',
-        autoClose: 10000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-      sessionStorage.setItem('welcomeShown', 'true');
-    }
+    // Removed welcome notification
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
