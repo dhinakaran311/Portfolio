@@ -1320,7 +1320,7 @@ const App = () => {
                   label="GitHub"
                 />
                 <SocialLink
-                  href="https://linkedin.com/in/dhinakaran-ms"
+                  href="https://www.linkedin.com/in/dhinakaran-ms-934296378/"
                   icon={<FaLinkedin />}
                   label="LinkedIn"
                 />
