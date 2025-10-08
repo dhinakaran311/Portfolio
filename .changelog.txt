@@ -62,3 +62,4 @@
 2025-09-29 22:01:21 - feat: add minor UI improvements
 2025-10-05 16:01:07 - fix: handle edge case in validation
 2025-10-07 11:30:53 - fix: resolve minor bug
+2025-10-08 21:55:09 - refactor: clean up unused imports
