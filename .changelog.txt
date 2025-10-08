@@ -178,3 +178,4 @@
 2025-10-07 10:12:26 - chore: update gitignore
 2025-10-07 17:11:32 - feat: add progress indicator
 2025-10-07 11:04:22 - fix: resolve z-index conflicts
+2025-10-08 11:29:00 - refactor: simplify component logic
