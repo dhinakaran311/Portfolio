@@ -182,3 +182,4 @@
 2025-10-08 16:55:41 - fix: update package lock
 2025-10-10 14:15:33 - fix: correct import paths
 2025-10-13 20:47:18 - chore: update README
+2025-10-14 20:48:54 - refactor: improve error handling
