@@ -185,3 +185,4 @@
 2025-10-14 20:48:54 - refactor: improve error handling
 2025-10-15 16:13:47 - update: enhance loading states
 2025-10-16 15:54:15 - feat: add minor UI improvements
+2025-10-16 18:32:15 - feat: add progress indicator
