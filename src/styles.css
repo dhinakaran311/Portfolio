@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* App.css */
+
 :root {
+  --font-primary: 'Roboto Condensed', 'Inter', 'Segoe UI', sans-serif;
   --primary: #6366f1;
   --primary-dark: #4f46e5;
   --secondary: #8b5cf6;
@@ -29,7 +33,7 @@
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family: var(--font-primary, 'Inter', 'Segoe UI', sans-serif);
   background-color: var(--darker);
   color: var(--light);
   line-height: 1.6;
