@@ -6,7 +6,6 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  browserLocalPersistence,
   inMemoryPersistence
 } from 'firebase/auth';
 
