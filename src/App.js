@@ -175,7 +175,7 @@ const loadData = async () => {
 };
 
 // Admin credentials (in a real app, these should be handled by Firebase Auth)
-const ADMIN_EMAIL = process.env.REACT_APP_ADMIN_EMAIL || 'admin@example.com';
+const ADMIN_EMAIL = process.env.REACT_APP_ADMIN_EMAIL;
 // Main App component
 const App = () => {
   const [data, setData] = useState(initialData);
@@ -186,7 +186,7 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  
+
   const { currentUser, login, logout } = useAuth();
   const sectionRefs = useRef({});
 
@@ -220,21 +220,21 @@ const App = () => {
         try {
           // Skip if key is not defined or not a string
           if (!e.key || typeof e.key !== 'string') return;
-          
+
           const key = e.key.toLowerCase();
-          
+
           // Handle Alt+D
           if (e.altKey && key === 'd') {
             e.preventDefault();
             dPressed = true;
-            
+
             // Set a timeout to reset dPressed after 2 seconds
             clearTimeout(aPressedTimeout);
             aPressedTimeout = setTimeout(() => {
               dPressed = false;
             }, 2000);
           }
-          
+
           // Handle Alt+A after D
           if (e.altKey && key === 'a' && dPressed) {
             e.preventDefault();
@@ -338,15 +338,15 @@ const App = () => {
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollButton(window.pageYOffset > 300);
-      
+
       // Check if footer is visible
       const footer = document.querySelector('.footer');
       const navbar = document.querySelector('.navbar');
-      
+
       if (footer && navbar) {
         const footerRect = footer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        
+
         // Hide navbar when footer is 50% visible
         if (footerRect.top < windowHeight * 0.5) {
           navbar.classList.add('hidden');
@@ -426,11 +426,12 @@ const App = () => {
   const onSubmit = async (formData) => {
     try {
       await emailjs.send(
-        "service_jyl0yii",
-        "template_s7f5fpz",
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         formData,
-        "eptgLPopdVQXKw_3a"
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
+      
       toast.success("Message sent successfully!");
       reset();
     } catch (error) {
@@ -687,7 +688,7 @@ const App = () => {
             <span className="logo-icon">D</span>
             <span className="logo-text">Dhinakaran</span>
           </motion.a>
-          
+
           {/* Mobile Menu Toggle */}
           <motion.button
             className="mobile-menu-toggle"
@@ -741,7 +742,7 @@ const App = () => {
             >
               <FaCloud /> {isSyncing ? 'Refreshing...' : 'Refresh'}
             </motion.button>
-            
+
             {/* Admin Controls */}
             {isAdmin ? (
               <>
@@ -815,7 +816,7 @@ const App = () => {
               transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
             >
               <div className="mobile-menu-header">
-                <motion.div 
+                <motion.div
                   className="nav-logo"
                   onClick={() => {
                     scrollToSection("home");
@@ -830,7 +831,7 @@ const App = () => {
                   <FaTimes />
                 </button>
               </div>
-              
+
               <div className="mobile-menu-links">
                 {[
                   "home",
@@ -856,7 +857,7 @@ const App = () => {
                   </motion.a>
                 ))}
               </div>
-              
+
               <div className="mobile-menu-buttons">
                 <motion.a
                   href="/documents/resume.pdf"
@@ -1483,12 +1484,12 @@ const App = () => {
       )}
 
       {/* Login Modal */}
-      <LoginModal 
-        isOpen={showLoginModal} 
+      <LoginModal
+        isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
       />
-      
+
       {/* Toast notifications */}
       <ToastContainer
         position="top-right"
