@@ -70,3 +70,4 @@
 2025-10-15 10:33:12 - fix: minor styling adjustments
 2025-10-15 11:14:01 - fix: adjust media queries
 2025-10-16 11:51:37 - update: improve code readability
+2025-10-17 09:50:20 - chore: update README
