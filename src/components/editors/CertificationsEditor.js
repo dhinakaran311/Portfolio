@@ -13,6 +13,7 @@ const CertificationsEditor = ({
     issuer: "",
     date: "",
     credential: "",
+    image: "",
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -24,6 +25,7 @@ const CertificationsEditor = ({
       issuer: "",
       date: "",
       credential: "",
+      image: "",
     });
   };
 
@@ -36,6 +38,7 @@ const CertificationsEditor = ({
       issuer: "",
       date: "",
       credential: "",
+      image: "",
     });
   };
 
@@ -46,6 +49,7 @@ const CertificationsEditor = ({
       issuer: cert.issuer,
       date: cert.date,
       credential: cert.credential,
+      image: cert.image || "",
     });
   };
 
@@ -114,6 +118,41 @@ const CertificationsEditor = ({
           </div>
         </div>
 
+        <div className="editor-group">
+          <label>Certificate Image URL (optional)</label>
+          <input
+            type="url"
+            value={newCert.image}
+            onChange={(e) =>
+              setNewCert({ ...newCert, image: e.target.value })
+            }
+            className="editor-input"
+            placeholder="Paste certificate image URL here"
+          />
+          {newCert.image && (
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={newCert.image}
+                alt="Certificate Preview"
+                style={{
+                  borderRadius: "8px",
+                  width: "100%",
+                  maxHeight: "200px",
+                  objectFit: "cover",
+                  border: "2px solid #6366f1",
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+              <div style={{ display: 'none', color: '#ef4444', fontSize: '14px', marginTop: '5px' }}>
+                ❌ Invalid image URL
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="editor-actions">
           {editingId && (
             <button
@@ -125,6 +164,7 @@ const CertificationsEditor = ({
                   issuer: "",
                   date: "",
                   credential: "",
+                  image: "",
                 });
               }}
               className="cancel-btn"
@@ -145,6 +185,7 @@ const CertificationsEditor = ({
             <tr>
               <th>Title</th>
               <th>Issuer</th>
+              <th>Image</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -153,6 +194,24 @@ const CertificationsEditor = ({
               <tr key={cert.id}>
                 <td>{cert.title}</td>
                 <td>{cert.issuer}</td>
+                <td>
+                  {cert.image ? (
+                    <img 
+                      src={cert.image} 
+                      alt={cert.title}
+                      style={{
+                        width: '40px',
+                        height: '30px',
+                        objectFit: 'cover',
+                        borderRadius: '4px',
+                        border: '1px solid #ddd'
+                      }}
+                      onError={(e) => e.target.style.display = 'none'}
+                    />
+                  ) : (
+                    <span style={{ color: '#666', fontSize: '12px' }}>No image</span>
+                  )}
+                </td>
                 <td>
                   <div className="table-actions">
                     <button

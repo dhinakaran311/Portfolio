@@ -103,6 +103,7 @@ const initialData = {
       issuer: "NPTEL",
       date: "2023",
       credential: "ELITE+Silver",
+      image: "",
     },
     {
       id: 2,
@@ -110,6 +111,7 @@ const initialData = {
       issuer: "Sungkyunkwan University",
       date: "2023",
       credential: "Coursera",
+      image: "",
     },
     {
       id: 3,
@@ -117,6 +119,7 @@ const initialData = {
       issuer: "Meta",
       date: "2023",
       credential: "Coursera",
+      image: "",
     },
   ],
   skills: [
@@ -186,6 +189,7 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   const { currentUser, login, logout } = useAuth();
   const sectionRefs = useRef({});
@@ -641,13 +645,22 @@ const App = () => {
         transition={{ duration: 0.5, delay: index * 0.1 }}
         whileHover={{ scale: 1.05 }}
       >
-        <div className="certification-image-container">
+        <div 
+          className="certification-image-container"
+          onClick={() => setSelectedCertificate(cert)}
+        >
           <div className="certification-image-bg"></div>
           <img
-            src={`/images/cert-${(cert.id % 3) + 1}.jpg`}
+            src={cert.image || `/images/cert-${(cert.id % 3) + 1}.jpg`}
             alt={cert.title}
             className="certification-image"
+            onError={(e) => {
+              e.target.src = `/images/cert-${(cert.id % 3) + 1}.jpg`;
+            }}
           />
+          <div className="certification-overlay">
+            <span>Click to view full size</span>
+          </div>
         </div>
         <div className="certification-content">
           <h3 className="certification-title">{cert.title}</h3>
@@ -1489,6 +1502,51 @@ const App = () => {
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
       />
+
+      {/* Certificate Modal */}
+      <AnimatePresence>
+        {selectedCertificate && (
+          <motion.div
+            className="certificate-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCertificate(null)}
+          >
+            <motion.div
+              className="certificate-modal"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="certificate-modal-header">
+                <h3>{selectedCertificate.title}</h3>
+                <button 
+                  className="certificate-modal-close"
+                  onClick={() => setSelectedCertificate(null)}
+                >
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="certificate-modal-content">
+                <img
+                  src={selectedCertificate.image || `/images/cert-${(selectedCertificate.id % 3) + 1}.jpg`}
+                  alt={selectedCertificate.title}
+                  className="certificate-modal-image"
+                />
+                <div className="certificate-modal-details">
+                  <p><strong>Issuer:</strong> {selectedCertificate.issuer}</p>
+                  <p><strong>Date:</strong> {selectedCertificate.date}</p>
+                  {selectedCertificate.credential && (
+                    <p><strong>Credential:</strong> {selectedCertificate.credential}</p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Toast notifications */}
       <ToastContainer
