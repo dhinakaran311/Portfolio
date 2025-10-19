@@ -88,15 +88,15 @@ const SkillsEditor = ({ skills, onAdd, onUpdate, onDelete }) => {
 
         <div className="editor-grid">
           <div className="editor-group">
-            <label>Icon (emoji)</label>
+            <label>Icon URL</label>
             <input
-              type="text"
+              type="url"
               value={newSkill.icon}
               onChange={(e) =>
                 setNewSkill({ ...newSkill, icon: e.target.value })
               }
               className="editor-input"
-              maxLength="2"
+              placeholder="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/..."
               required
             />
           </div>

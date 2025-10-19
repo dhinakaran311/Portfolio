@@ -123,12 +123,12 @@ const initialData = {
     },
   ],
   skills: [
-    { id: 1, name: "Python", level: 90, icon: "🐍", color: "#4B8BBE" },
-    { id: 2, name: "Machine Learning", level: 85, icon: "🤖", color: "#FF6B6B" },
-    { id: 3, name: "JavaScript", level: 80, icon: "📜", color: "#F0DB4F" },
-    { id: 4, name: "React", level: 75, icon: "⚛", color: "#61DAFB" },
-    { id: 5, name: "Data Analysis", level: 85, icon: "📊", color: "#4ECDC4" },
-    { id: 6, name: "Problem Solving", level: 90, icon: "🧩", color: "#FF9E6D" },
+    { id: 1, name: "Python", level: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", color: "#4B8BBE" },
+    { id: 2, name: "Machine Learning", level: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg", color: "#FF6B6B" },
+    { id: 3, name: "JavaScript", level: 80, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", color: "#F0DB4F" },
+    { id: 4, name: "React", level: 75, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "#61DAFB" },
+    { id: 5, name: "Data Analysis", level: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg", color: "#4ECDC4" },
+    { id: 6, name: "Node.js", level: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", color: "#339933" },
   ],
   achievements: [
     {
@@ -587,7 +587,23 @@ const App = () => {
             className="skill-icon"
             style={{ backgroundColor: skill.color + "20" }}
           >
-            <span>{skill.icon}</span>
+            {skill.icon && skill.icon.startsWith('<svg') ? (
+              // Inline SVG code
+              <div 
+                className="skill-icon-img"
+                dangerouslySetInnerHTML={{ __html: skill.icon }}
+              />
+            ) : (
+              // Image URL
+              <img 
+                src={skill.icon} 
+                alt={skill.name}
+                className="skill-icon-img"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            )}
           </div>
           <h3 className="skill-name">{skill.name}</h3>
         </div>

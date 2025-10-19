@@ -470,96 +470,195 @@ a {
 }
 
 .about-info-card {
-  background: var(--dark-light);
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
   padding: 20px;
-  border-radius: 10px;
-  transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.about-info-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.about-info-card:hover::before {
+  opacity: 1;
 }
 
 .about-info-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
 }
 
 .about-info-card h4 {
   color: var(--primary);
   font-size: 1rem;
   margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
 }
 
 .about-info-card p {
   margin: 0;
   font-size: 1rem;
   color: var(--light);
+  position: relative;
+  z-index: 1;
 }
 
-/* Skills Section */
+/* Skills Section - Attractive Overlapped Design */
 .skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
 }
 
 .skill-card {
-  background: var(--dark-light);
-  padding: 25px;
-  border-radius: 15px;
-  transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
+  padding: 25px 20px;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+  max-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.skill-card:hover::before {
+  opacity: 1;
 }
 
 .skill-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  z-index: 10;
 }
 
 .skill-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .skill-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  flex-shrink: 0;
+  padding: 12px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover .skill-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.skill-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.skill-icon-img svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .skill-name {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--light);
+  line-height: 1.3;
+  text-align: center;
+  letter-spacing: 0.3px;
 }
 
 .progress-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
+  width: 100%;
 }
 
 .progress-bar {
-  flex: 1;
-  height: 8px;
+  width: 100%;
+  height: 6px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .progress-fill {
   height: 100%;
   border-radius: 10px;
+  position: relative;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .progress-value {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--light);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Projects Section */
@@ -570,16 +669,38 @@ a {
 }
 
 .project-card {
-  background: var(--dark-light);
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
   border-radius: 20px;
   overflow: hidden;
-  transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.project-card:hover::before {
+  opacity: 1;
 }
 
 .project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  z-index: 10;
 }
 
 .project-image-container {
@@ -604,6 +725,8 @@ a {
 
 .project-content {
   padding: 25px;
+  position: relative;
+  z-index: 2;
 }
 
 .project-content h3 {
@@ -616,6 +739,40 @@ a {
   color: var(--gray);
   margin-bottom: 20px;
   line-height: 1.6;
+  position: relative;
+}
+
+.show-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-left: 5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 3;
+}
+
+.show-more-btn:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.show-more-btn svg {
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.show-more-btn:hover svg {
+  transform: scale(1.2);
 }
 
 .project-tags {
@@ -686,21 +843,41 @@ a {
 
 .experience-card,
 .achievement-card {
-  background: var(--dark-light);
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
   padding: 25px;
-  border-radius: 15px;
+  border-radius: 20px;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: var(--transition);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   margin-bottom: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+}
+
+.experience-card::before,
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.experience-card:hover::before,
+.achievement-card:hover::before {
+  opacity: 1;
 }
 
 .experience-card:hover,
 .achievement-card:hover {
-  transform: translateX(5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateX(10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
 }
 
 .experience-badge,
@@ -731,6 +908,8 @@ a {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  position: relative;
+  z-index: 1;
 }
 
 .experience-role,
@@ -1078,31 +1257,98 @@ a {
   line-height: 1.7;
 }
 
-/* Certifications Section */
+/* Certifications Section - Stacked/Overlapped Cards */
 .certifications-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 30px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 0;
+  padding: 40px 20px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.certifications-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.certifications-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.certifications-grid::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
 }
 
 .certification-card {
-  background: var(--dark-light);
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
   border-radius: 20px;
   overflow: hidden;
-  transition: var(--transition);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+  width: 280px;
+  margin-right: -180px;
+  flex-shrink: 0;
 }
 
+.certification-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.certification-card:hover::before {
+  opacity: 1;
+}
+
+/* Stacked/Overlapped effect */
 .certification-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-15px) scale(1.1);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(99, 102, 241, 0.4);
+  border-color: rgba(99, 102, 241, 0.8);
+  z-index: 100;
+  min-width: 380px;
+  width: 380px;
+  margin-right: -180px;
+}
+
+/* Push adjacent cards aside on hover */
+.certification-card:hover + .certification-card {
+  transform: translateX(50px);
+}
+
+/* Dim non-hovered cards */
+.certifications-grid:hover .certification-card:not(:hover) {
+  opacity: 0.6;
+  filter: brightness(0.7);
 }
 
 .certification-image-container {
   position: relative;
-  height: 250px;
+  height: 200px;
   overflow: hidden;
   cursor: pointer;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.certification-card:hover .certification-image-container {
+  height: 250px;
 }
 
 .certification-overlay {
@@ -1150,6 +1396,14 @@ a {
 }
 
 .certification-content {
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+  background: inherit;
+  transition: all 0.4s ease;
+}
+
+.certification-card:hover .certification-content {
   padding: 25px;
 }
 
@@ -1157,12 +1411,26 @@ a {
   font-size: 1.3rem;
   margin-bottom: 15px;
   color: var(--light);
+  transition: font-size 0.4s ease;
+}
+
+.certification-card:hover .certification-title {
+  font-size: 1.4rem;
 }
 
 .certification-meta {
   color: var(--gray);
   font-size: 0.95rem;
   margin-bottom: 5px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.certification-card:hover .certification-meta {
+  opacity: 1;
+  max-height: 100px;
 }
 
 .certification-credential {
@@ -1173,6 +1441,15 @@ a {
   padding: 5px 15px;
   background: rgba(99, 102, 241, 0.2);
   border-radius: 20px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.certification-card:hover .certification-credential {
+  opacity: 1;
+  max-height: 50px;
 }
 
 /* Contact Section */
@@ -2401,6 +2678,53 @@ textarea.form-control {
     grid-template-columns: 1fr;
   }
 
+  .skills-grid {
+    gap: 15px;
+  }
+
+  .skill-card {
+    padding: 20px 15px;
+    min-width: 130px;
+    max-width: 145px;
+  }
+
+  .skill-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+  }
+
+  .progress-value {
+    font-size: 1rem;
+  }
+
+  .certifications-grid {
+    padding: 30px 15px;
+  }
+
+  .certification-card {
+    min-width: 240px;
+    width: 240px;
+    margin-right: -140px;
+  }
+
+  .certification-card:hover {
+    min-width: 320px;
+    width: 320px;
+    margin-right: -140px;
+  }
+
+  .certification-image-container {
+    height: 180px;
+  }
+
+  .certification-card:hover .certification-image-container {
+    height: 220px;
+  }
+
   .admin-dashboard-banner {
     margin: 80px auto 25px;
     font-size: 0.95rem;
@@ -2442,6 +2766,43 @@ textarea.form-control {
     width: 280px;
     height: 280px;
   }
+
+  .skills-grid {
+    gap: 12px;
+  }
+
+  .skill-card {
+    padding: 18px 12px;
+    min-width: 120px;
+    max-width: 135px;
+  }
+
+  .skill-header {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .skill-icon {
+    width: 55px;
+    height: 55px;
+    padding: 10px;
+  }
+
+  .skill-name {
+    font-size: 0.85rem;
+  }
+
+  .progress-container {
+    gap: 6px;
+  }
+
+  .progress-bar {
+    height: 5px;
+  }
+
+  .progress-value {
+    font-size: 0.95rem;
+  }
 }
 @keyframes fadeInUp {
   0% {
@@ -2473,17 +2834,39 @@ textarea.form-control {
 }
 
 .achievement-card {
-  background: var(--dark-light);
-  border-radius: 15px;
+  background: linear-gradient(135deg, var(--dark-light) 0%, rgba(99, 102, 241, 0.05) 100%);
+  border-radius: 20px;
   overflow: hidden;
   padding: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: var(--transition);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.achievement-card:hover::before {
+  opacity: 1;
 }
 
 .achievement-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  z-index: 10;
 }
 
 .achievement-image-container {
@@ -2502,6 +2885,8 @@ textarea.form-control {
   font-size: 1.3rem;
   color: var(--light);
   margin-bottom: 5px;
+  position: relative;
+  z-index: 2;
 }
 
 .achievement-date {
