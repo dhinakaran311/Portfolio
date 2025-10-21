@@ -192,3 +192,4 @@
 2025-10-20 18:45:39 - chore: remove unused code
 2025-10-20 21:09:51 - fix: update package lock
 2025-10-20 11:48:42 - chore: update comments and docs
+2025-10-21 18:53:21 - refactor: optimize image loading
