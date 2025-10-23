@@ -195,3 +195,4 @@
 2025-10-21 18:53:21 - refactor: optimize image loading
 2025-10-22 18:14:13 - update: refine animations
 2025-10-22 09:20:52 - fix: update package lock
+2025-10-23 20:57:18 - fix: adjust media queries
