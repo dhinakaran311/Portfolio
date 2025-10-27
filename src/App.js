@@ -27,6 +27,7 @@ import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles.css";
+import "./LoadingAnimation.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
 import { useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
@@ -42,7 +43,6 @@ import ExperienceEditor from './components/editors/ExperienceEditor';
 import CertificationsEditor from './components/editors/CertificationsEditor';
 import AchievementsSection from "./components/AchievementsSection";
 import AchievementsEditor from "./components/editors/AchievementsEditor";
-
 
 // Initial data with all required fields
 const initialData = {
@@ -284,8 +284,11 @@ const App = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // Load data on component mount
+  // Load data on component mount with minimum loading time
   useEffect(() => {
+    const MIN_LOADING_TIME = 2500; // 2.5 seconds minimum loading time for smoother animation
+    const startTime = Date.now();
+    
     const initializeData = async () => {
       setIsLoading(true);
       try {
@@ -304,7 +307,14 @@ const App = () => {
         console.error('Error initializing data:', error);
         toast.error('Error loading portfolio data');
       } finally {
-        setIsLoading(false);
+        // Calculate remaining time to ensure minimum loading time
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);
+        
+        // Set timeout to ensure minimum loading time is met
+        setTimeout(() => {
+          setIsLoading(false);
+        }, remainingTime);
       }
     };
 
@@ -690,10 +700,37 @@ const App = () => {
     ));
   };
 
+  // Handle loading screen fade out effect
+  useEffect(() => {
+    if (!isLoading) {
+      const loadingScreen = document.querySelector('.loading-screen');
+      if (loadingScreen) {
+        setTimeout(() => {
+          loadingScreen.classList.add('hidden');
+        }, 500);
+      }
+    }
+  }, [isLoading]);
+
   if (isLoading) {
     return (
-      <div className="loading-overlay">
-        <div className="loading-spinner"></div>
+      <div className="loading-screen">
+        <div className="dk-container">
+          <span className="letter d" data-letter="D">D</span>
+          <span className="letter k" data-letter="K">K</span>
+          
+          <div className="orbit-container">
+            <div className="orbit-particle" style={{"--primary": "#6366f1"}}></div>
+            <div className="orbit-particle" style={{"--primary": "#8b5cf6"}}></div>
+            <div className="orbit-particle" style={{"--primary": "#ec4899"}}></div>
+            <div className="orbit-particle" style={{"--primary": "#6366f1"}}></div>
+          </div>
+        </div>
+        
+        <div className="loading-text">Loading Portfolio</div>
+        <div className="loading-progress">
+          <div className="loading-progress-bar"></div>
+        </div>
       </div>
     );
   }
