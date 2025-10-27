@@ -286,7 +286,7 @@ const App = () => {
 
   // Load data on component mount with minimum loading time
   useEffect(() => {
-    const MIN_LOADING_TIME = 2500; // 2.5 seconds minimum loading time for smoother animation
+    const MIN_LOADING_TIME = 3500; // 2.5 seconds minimum loading time for smoother animation
     const startTime = Date.now();
     
     const initializeData = async () => {
