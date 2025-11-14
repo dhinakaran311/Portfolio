@@ -1,6 +1,9 @@
 
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
   const [newExp, setNewExp] = useState({
@@ -95,16 +98,67 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
         </div>
 
         <div className="editor-group">
-          <label>Description</label>
-          <textarea
-            value={newExp.description}
-            onChange={(e) =>
-              setNewExp({ ...newExp, description: e.target.value })
-            }
-            className="editor-input"
-            rows="4"
-            required
-          ></textarea>
+          <div className="markdown-editor-container">
+            <div className="markdown-column">
+              <label>Description (Markdown)</label>
+              <textarea
+                value={newExp.description}
+                onChange={(e) =>
+                  setNewExp({ ...newExp, description: e.target.value })
+                }
+                className="editor-input markdown-input"
+                rows="8"
+                placeholder="Enter markdown here..."
+                required
+              />
+            </div>
+            <div className="markdown-column">
+              <label>Preview</label>
+              <div className="markdown-preview-container">
+                <div className="markdown-preview">
+                  {newExp.description ? (
+                    <ReactMarkdown
+                      components={{
+                        h1: ({node, ...props}) => <h1 className="markdown-h1" {...props}>{props.children}</h1>,
+                        h2: ({node, ...props}) => <h2 className="markdown-h2" {...props}>{props.children}</h2>,
+                        h3: ({node, ...props}) => <h3 className="markdown-h3" {...props}>{props.children}</h3>,
+                        p: ({node, ...props}) => <p className="markdown-p" {...props}>{props.children}</p>,
+                        a: ({node, ...props}) => <a className="markdown-a" {...props}>{props.children}</a>,
+                        ul: ({node, ...props}) => <ul className="markdown-ul" {...props} />,
+                        ol: ({node, ...props}) => <ol className="markdown-ol" {...props} />,
+                        li: ({node, ...props}) => <li className="markdown-li" {...props} />,
+                        code: ({node, inline, className, children, ...props}) => {
+                          const match = /language-(\w+)/.exec(className || '');
+                          return !inline ? (
+                            <div className="markdown-code-block">
+                              <SyntaxHighlighter
+                                style={oneDark}
+                                language={match ? match[1] : 'javascript'}
+                                PreTag="div"
+                                customStyle={{ margin: 0, padding: '1em' }}
+                                {...props}
+                              >
+                                {String(children).replace(/\n$/, '')}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <code className="markdown-inline-code" {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                        blockquote: ({node, ...props}) => <blockquote className="markdown-blockquote" {...props} />,
+                      }}
+                    >
+                      {newExp.description}
+                    </ReactMarkdown>
+                  ) : (
+                    <p className="text-muted">Markdown preview will appear here</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="editor-actions">

@@ -26,6 +26,9 @@ import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import "./styles.css";
 import "./LoadingAnimation.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
@@ -653,12 +656,51 @@ const App = () => {
           </div>
           <span className="experience-duration">{exp.duration}</span>
         </div>
-        <p className="experience-description">{exp.description}</p>
+        <div className="experience-description markdown-preview-container">
+          <div className="markdown-preview">
+            <ReactMarkdown
+              components={{
+                h1: ({node, ...props}) => <h1 className="markdown-h1" {...props}>{props.children}</h1>,
+                h2: ({node, ...props}) => <h2 className="markdown-h2" {...props}>{props.children}</h2>,
+                h3: ({node, ...props}) => <h3 className="markdown-h3" {...props}>{props.children}</h3>,
+                p: ({node, ...props}) => <p className="markdown-p" {...props}>{props.children}</p>,
+                a: ({node, ...props}) => <a className="markdown-a" {...props}>{props.children}</a>,
+                ul: ({node, ...props}) => <ul className="markdown-ul" {...props} />,
+                ol: ({node, ...props}) => <ol className="markdown-ol" {...props} />,
+                li: ({node, ...props}) => <li className="markdown-li" {...props} />,
+                code: ({node, inline, className, children, ...props}) => {
+                  const match = /language-(\w+)/.exec(className || '');
+                  return !inline ? (
+                    <div className="markdown-code-block">
+                      <SyntaxHighlighter
+                        style={oneDark}
+                        language={match ? match[1] : 'javascript'}
+                        PreTag="div"
+                        customStyle={{ margin: 0, padding: '1em' }}
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    </div>
+                  ) : (
+                    <code className="markdown-inline-code" {...props}>
+                      {children}
+                    </code>
+                  );
+                },
+                blockquote: ({node, ...props}) => <blockquote className="markdown-blockquote" {...props} />,
+              }}
+            >
+              {exp.description}
+            </ReactMarkdown>
+          </div>
+        </div>
       </motion.div>
     ));
   };
 
   const renderCertifications = () => {
+    // ...
     if (!data.certifications || !Array.isArray(data.certifications))
       return null;
     return data.certifications.map((cert, index) => (
