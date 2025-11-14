@@ -26,9 +26,6 @@ import { useForm } from "react-hook-form";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import "./styles.css";
 import "./LoadingAnimation.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
@@ -656,51 +653,12 @@ const App = () => {
           </div>
           <span className="experience-duration">{exp.duration}</span>
         </div>
-        <div className="experience-description markdown-preview-container">
-          <div className="markdown-preview">
-            <ReactMarkdown
-              components={{
-                h1: ({node, ...props}) => <h1 className="markdown-h1" {...props}>{props.children}</h1>,
-                h2: ({node, ...props}) => <h2 className="markdown-h2" {...props}>{props.children}</h2>,
-                h3: ({node, ...props}) => <h3 className="markdown-h3" {...props}>{props.children}</h3>,
-                p: ({node, ...props}) => <p className="markdown-p" {...props}>{props.children}</p>,
-                a: ({node, ...props}) => <a className="markdown-a" {...props}>{props.children}</a>,
-                ul: ({node, ...props}) => <ul className="markdown-ul" {...props} />,
-                ol: ({node, ...props}) => <ol className="markdown-ol" {...props} />,
-                li: ({node, ...props}) => <li className="markdown-li" {...props} />,
-                code: ({node, inline, className, children, ...props}) => {
-                  const match = /language-(\w+)/.exec(className || '');
-                  return !inline ? (
-                    <div className="markdown-code-block">
-                      <SyntaxHighlighter
-                        style={oneDark}
-                        language={match ? match[1] : 'javascript'}
-                        PreTag="div"
-                        customStyle={{ margin: 0, padding: '1em' }}
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    </div>
-                  ) : (
-                    <code className="markdown-inline-code" {...props}>
-                      {children}
-                    </code>
-                  );
-                },
-                blockquote: ({node, ...props}) => <blockquote className="markdown-blockquote" {...props} />,
-              }}
-            >
-              {exp.description}
-            </ReactMarkdown>
-          </div>
-        </div>
+        <p className="experience-description">{exp.description}</p>
       </motion.div>
     ));
   };
 
   const renderCertifications = () => {
-    // ...
     if (!data.certifications || !Array.isArray(data.certifications))
       return null;
     return data.certifications.map((cert, index) => (
@@ -793,7 +751,7 @@ const App = () => {
               scrollToSection("home");
             }}
           >
-            <span className="logo-icon">D</span>
+            <span className="logo-icon"><FaCode /></span>
             <span className="logo-text">Dhinakaran</span>
           </motion.a>
 
@@ -932,7 +890,7 @@ const App = () => {
                   }}
                   style={{ cursor: 'pointer' }}
                 >
-                  <span className="logo-icon">D</span>
+                  <span className="logo-icon"><FaCode /></span>
                   <span className="logo-text">Dhinakaran</span>
                 </motion.div>
                 <button className="mobile-menu-close" onClick={closeMobileMenu}>
@@ -1053,49 +1011,73 @@ const App = () => {
 
       {/* Hero Section */}
       <section id="home" className="hero" ref={(el) => setRef("home", el)}>
+        <div className="hero-bg">
+          <div className="hero-orb orb-1"></div>
+          <div className="hero-orb orb-2"></div>
+        </div>
+        
         <div className="container">
           <div className="hero-content">
-            <motion.div
-              className="hero-text"
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
+            <motion.div 
+              className="hero-glass"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <motion.div
+              <motion.div 
                 className="hero-badge"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, type: "spring" }}
               >
-                AI/ML Enthusiast & Developer
-              </motion.div>
-              <h1 className="hero-title">
-                Hi, I'm <span>Dhinakaran</span>
-              </h1>
-              <h2 className="hero-subtitle">
                 <TypeAnimation
                   sequence={[
-                    "AI/ML Enthusiast",
-                    2000,
-                    "Software Developer",
-                    2000,
-                    "Competitive Programmer",
-                    2000,
+                    'AI/ML Engineer',
+                    1500,
+                    'Full Stack Developer',
+                    1500,
+                    'Competitive Programmer',
+                    1500
                   ]}
+                  wrapper="span"
                   speed={50}
                   repeat={Infinity}
                 />
-              </h2>
-              <p className="hero-description">
-                Passionate about building intelligent solutions and exploring
-                new technologies.
-              </p>
-              <div className="hero-buttons">
+              </motion.div>
+              
+              <motion.h1 
+                className="hero-title"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                Hi, I'm <span className="gradient-text">Dhinakaran</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="hero-description"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                Passionate about building intelligent solutions and exploring new technologies.
+                I specialize in creating seamless web experiences with modern technologies.
+              </motion.p>
+              
+              <motion.div 
+                className="hero-buttons"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
                 <motion.a
                   href="#contact"
-                  className="primary-btn"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="btn-primary"
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 5px 20px rgba(99, 102, 241, 0.4)'
+                  }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={(e) => {
                     e.preventDefault();
                     scrollToSection("contact");
@@ -1105,9 +1087,12 @@ const App = () => {
                 </motion.a>
                 <motion.a
                   href="#projects"
-                  className="secondary-btn"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="btn-secondary"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)'
+                  }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={(e) => {
                     e.preventDefault();
                     scrollToSection("projects");
@@ -1115,30 +1100,26 @@ const App = () => {
                 >
                   View Projects
                 </motion.a>
-              </div>
+              </motion.div>
             </motion.div>
-            <motion.div
-              className="hero-image"
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8 }}
+            
+            <motion.div 
+              className="profile-image-container"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.5, type: "spring" }}
             >
-              <div className="profile-border"></div>
-              <div className="profile-image-container">
-                <div className="profile-image-bg"></div>
-                <img
-                  src="/images/profile.jpeg"
-                  alt="Dhinakaran"
+              <div className="profile-glow"></div>
+              <div className="profile-image-wrapper">
+                <img 
+                  src="/images/profile.jpeg" 
+                  alt="Dhinakaran" 
                   className="profile-image"
                 />
               </div>
             </motion.div>
           </div>
         </div>
-
-        <div className="hero-deco-circle-1"></div>
-        <div className="hero-deco-circle-2"></div>
-        <div className="hero-deco-circle-3"></div>
       </section>
 
       {/* About Section */}
@@ -1522,7 +1503,7 @@ const App = () => {
           >
             <div className="footer-content">
               <div className="footer-logo">
-                <span className="logo-icon">D</span>
+                <span className="logo-icon"><FaCode /></span>
                 <span className="logo-text">Dhinakaran</span>
               </div>
               <p>AI/ML Enthusiast & Software Developer</p>
