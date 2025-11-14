@@ -31,6 +31,7 @@ import "./LoadingAnimation.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
 import { useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
+import DKLoader from './components/DKLoader';
 
 // Import components
 import TypeAnimation from './components/TypeAnimation';
@@ -713,26 +714,7 @@ const App = () => {
   }, [isLoading]);
 
   if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="dk-container">
-          <span className="letter d" data-letter="D">D</span>
-          <span className="letter k" data-letter="K">K</span>
-          
-          <div className="orbit-container">
-            <div className="orbit-particle" style={{"--primary": "#6366f1"}}></div>
-            <div className="orbit-particle" style={{"--primary": "#8b5cf6"}}></div>
-            <div className="orbit-particle" style={{"--primary": "#ec4899"}}></div>
-            <div className="orbit-particle" style={{"--primary": "#6366f1"}}></div>
-          </div>
-        </div>
-        
-        <div className="loading-text">Loading Portfolio</div>
-        <div className="loading-progress">
-          <div className="loading-progress-bar"></div>
-        </div>
-      </div>
-    );
+    return <DKLoader isLoading={isLoading} />;
   }
 
   return (
@@ -1024,6 +1006,15 @@ const App = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
+              <motion.h1 
+                className="hero-title"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                Hi, I'm <span className="gradient-text">Dhinakaran</span>
+              </motion.h1>
+              
               <motion.div 
                 className="hero-badge"
                 initial={{ scale: 0, opacity: 0 }}
@@ -1044,15 +1035,6 @@ const App = () => {
                   repeat={Infinity}
                 />
               </motion.div>
-              
-              <motion.h1 
-                className="hero-title"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                Hi, I'm <span className="gradient-text">Dhinakaran</span>
-              </motion.h1>
               
               <motion.p 
                 className="hero-description"
