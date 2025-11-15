@@ -31,6 +31,7 @@ import "./LoadingAnimation.css";
 import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFirebase } from './firebaseService';
 import { useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
+import ResumePreviewModal from './components/ResumePreviewModal';
 import DKLoader from './components/DKLoader';
 
 // Import components
@@ -190,6 +191,7 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showResumeModal, setShowResumeModal] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   const { currentUser, login, logout } = useAuth();
@@ -771,15 +773,14 @@ const App = () => {
                 {item}
               </motion.a>
             ))}
-            <motion.a
-              href="/documents/resume.pdf"
-              download
+            <motion.button
               className="download-btn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => setShowResumeModal(true)}
             >
               <FaFileDownload /> Resume
-            </motion.a>
+            </motion.button>
             <motion.button
               className="sync-btn"
               onClick={handleForceRefresh}
@@ -907,16 +908,17 @@ const App = () => {
               </div>
 
               <div className="mobile-menu-buttons">
-                <motion.a
-                  href="/documents/resume.pdf"
-                  download
+                <motion.button
                   className="download-btn"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={closeMobileMenu}
+                  onClick={() => {
+                    setShowResumeModal(true);
+                    closeMobileMenu();
+                  }}
                 >
                   <FaFileDownload /> Resume
-                </motion.a>
+                </motion.button>
                 <motion.button
                   className="sync-btn"
                   onClick={() => {
@@ -1173,6 +1175,48 @@ const App = () => {
                 </motion.div>
               ))}
             </div>
+            
+            {/* Personal Details Info Box */}
+            <motion.div
+              className="about-info-box"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <motion.div
+                className="about-info-row"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <span className="about-info-icon">👤</span>
+                <span>Name: Dhinakaran M S</span>
+              </motion.div>
+              
+              <motion.div
+                className="about-info-row"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <span className="about-info-icon">📧</span>
+                <span>Email: dhinakaranms123@gmail.com</span>
+              </motion.div>
+              
+              <motion.div
+                className="about-info-row"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
+                <span className="about-info-icon">📍</span>
+                <span>Location: Coimbatore, Tamil Nadu, India</span>
+              </motion.div>
+            </motion.div>
             
             {/* Text Content */}
             <div className="about-text-content">
@@ -1604,6 +1648,12 @@ const App = () => {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
+      />
+
+      {/* Resume Preview Modal */}
+      <ResumePreviewModal
+        isOpen={showResumeModal}
+        onClose={() => setShowResumeModal(false)}
       />
 
       {/* Certificate Modal */}
