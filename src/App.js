@@ -733,7 +733,7 @@ const App = () => {
               scrollToSection("home");
             }}
           >
-            <span className="logo-icon"><FaCode /></span>
+            <span className="logo-icon-dk">&lt;/&gt;</span>
             <span className="logo-text">Dhinakaran</span>
           </motion.a>
 
@@ -1123,45 +1123,90 @@ const App = () => {
             </motion.h2>
             <div className="section-subtitle">Get to know me better</div>
           </div>
-          <motion.div
-            className="about-content-single"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <h3>AI & ML Enthusiast | Software Developer</h3>
-            <p>
-              I am a pre-final year Computer Science and Engineering student
-              at KIT, specializing in AI and Machine Learning. I'm a
-              passionate software developer skilled in HTML, CSS, JavaScript,
-              and Python with interests in ML and competitive programming.
-            </p>
-            <p>
-              I enjoy building practical solutions and constantly explore new
-              technologies to expand my skill set. I aim to contribute to
-              impactful projects and grow as a developer through continuous
-              learning and collaboration.
-            </p>
-            <div className="about-grid">
-              <div className="about-info-card">
-                <h4>Name:</h4>
-                <p>Dhinakaran M.S</p>
-              </div>
-              <div className="about-info-card">
-                <h4>Email:</h4>
-                <p>dhinakaranms123@gmail.com</p>
-              </div>
-              <div className="about-info-card">
-                <h4>Location:</h4>
-                <p>Coimbatore, India</p>
-              </div>
-              <div className="about-info-card">
-                <h4>Education:</h4>
-                <p>B.E. Computer Science</p>
-              </div>
+          
+          <div className="about-glass-container">
+            {/* Background Decorations */}
+            <div className="about-bg-orb orb-1"></div>
+            <div className="about-bg-orb orb-2"></div>
+            <div className="about-bg-orb orb-3"></div>
+            
+            {/* Identity Badges */}
+            <div className="identity-badges">
+              {[
+                "AI/ML Engineer",
+                "Frontend Developer", 
+                "Full-Stack Learner",
+                "Competitive Programmer"
+              ].map((badge, index) => (
+                <motion.div
+                  key={badge}
+                  className="identity-badge"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  {badge}
+                </motion.div>
+              ))}
             </div>
-          </motion.div>
+            
+            {/* Highlight Cards */}
+            <div className="highlight-cards">
+              {[
+                { icon: "⭐", text: "Built 20+ Projects" },
+                { icon: "🚀", text: "Internship Experience" },
+                { icon: "🧠", text: "Machine Learning & Deep Learning" },
+                { icon: "💻", text: "Strong Web Development Skills" }
+              ].map((card, index) => (
+                <motion.div
+                  key={index}
+                  className="highlight-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  whileHover={{ y: -4 }}
+                >
+                  <div className="highlight-icon">{card.icon}</div>
+                  <div className="highlight-text">{card.text}</div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Text Content */}
+            <div className="about-text-content">
+              <motion.p
+                className="about-text-block"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                I am a pre-final year Computer Science and Engineering student at KIT, specializing in AI and Machine Learning. I'm a passionate software developer skilled in HTML, CSS, JavaScript, and Python with interests in ML and competitive programming.
+              </motion.p>
+              
+              <motion.p
+                className="about-text-block"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                I enjoy building practical solutions and constantly explore new technologies to expand my skill set. My journey in web development has taught me the importance of clean code, responsive design, and user-centric applications.
+              </motion.p>
+              
+              <motion.p
+                className="about-text-block"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
+                I aim to contribute to impactful projects and grow as a developer through continuous learning and collaboration. Always eager to take on new challenges and expand my horizons in both frontend and backend development.
+              </motion.p>
+            </div>
+          </div>
         </div>
       </section>
 
