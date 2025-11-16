@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@splinetool/react-spline": "^4.1.0",
     "firebase": "^10.12.2",
     "framer-motion": "^11.2.6",
     "prism-react-renderer": "^2.4.1",

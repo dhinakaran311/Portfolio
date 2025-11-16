@@ -32,6 +32,7 @@ import { savePortfolioData, loadPortfolioData, backupToFirebase, restoreFromFire
 import { useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
 import ResumePreviewModal from './components/ResumePreviewModal';
+import ThemeToggle from './components/ThemeToggle';
 import DKLoader from './components/DKLoader';
 
 // Import components
@@ -193,9 +194,23 @@ const App = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showResumeModal, setShowResumeModal] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
 
   const { currentUser, login, logout } = useAuth();
   const sectionRefs = useRef({});
+
+  // Apply theme to body and save to localStorage
+  useEffect(() => {
+    document.body.className = theme === 'light' ? 'light-mode' : '';
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  // Toggle theme function
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
+  };
 
   // Handle login
   const handleLogin = async (email, password) => {
@@ -842,6 +857,7 @@ const App = () => {
             ) : (
               <></>
             )}
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           </div>
         </div>
       </nav>
@@ -865,47 +881,15 @@ const App = () => {
               transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
             >
               <div className="mobile-menu-header">
-                <motion.div
-                  className="nav-logo"
-                  onClick={() => {
-                    scrollToSection("home");
-                    closeMobileMenu();
-                  }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <span className="logo-icon"><FaCode /></span>
-                  <span className="logo-text">Dhinakaran</span>
-                </motion.div>
-                <button className="mobile-menu-close" onClick={closeMobileMenu}>
-                  <FaTimes />
-                </button>
+                <h3>Menu</h3>
+                <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
               </div>
-
-              <div className="mobile-menu-links">
-                {[
-                  "home",
-                  "about",
-                  "skills",
-                  "projects",
-                  "experience",
-                  "contact",
-                ].map((item) => (
-                  <motion.a
-                    key={item}
-                    href={`#${item}`}
-                    className={`nav-link ${activeSection === item ? "active" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item);
-                      closeMobileMenu();
-                    }}
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                  </motion.a>
-                ))}
-              </div>
+              <a href="#home" className="mobile-nav-link" onClick={closeMobileMenu}>Home</a>
+              <a href="#about" className="mobile-nav-link" onClick={closeMobileMenu}>About</a>
+              <a href="#skills" className="mobile-nav-link" onClick={closeMobileMenu}>Skills</a>
+              <a href="#projects" className="mobile-nav-link" onClick={closeMobileMenu}>Projects</a>
+              <a href="#internships" className="mobile-nav-link" onClick={closeMobileMenu}>Internships</a>
+              <a href="#contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</a>
 
               <div className="mobile-menu-buttons">
                 <motion.button
