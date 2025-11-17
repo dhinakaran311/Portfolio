@@ -22,7 +22,6 @@ const ProjectCard = ({ project }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -10 }}
     >
       <div className="project-image-container">
         <div className="project-image-bg"></div>
