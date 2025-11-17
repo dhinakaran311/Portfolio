@@ -197,6 +197,14 @@ const App = () => {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
+  
+  // Cursor follower state
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [followerPosition, setFollowerPosition] = useState({ x: 0, y: 0 });
+  const [isCursorVisible, setIsCursorVisible] = useState(false);
+  const cursorTimeoutRef = useRef(null);
+  const animationFrameRef = useRef(null);
+  const isMobileRef = useRef(false);
 
   const { currentUser, login, logout } = useAuth();
   const sectionRefs = useRef({});
@@ -206,6 +214,73 @@ const App = () => {
     document.body.className = theme === 'light' ? 'light-mode' : '';
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Cursor follower mouse tracking
+  useEffect(() => {
+    // Check if mobile
+    isMobileRef.current = window.innerWidth < 768;
+    if (isMobileRef.current) return;
+
+    const handleMouseMove = (e) => {
+      if (isMobileRef.current) return;
+      
+      // Clear existing timeout
+      if (cursorTimeoutRef.current) {
+        clearTimeout(cursorTimeoutRef.current);
+      }
+      
+      // Update cursor position
+      setCursorPosition({ x: e.clientX, y: e.clientY });
+      
+      // Show cursor follower
+      setIsCursorVisible(true);
+      
+      // Hide after 1.2 seconds of inactivity
+      cursorTimeoutRef.current = setTimeout(() => {
+        setIsCursorVisible(false);
+      }, 1200);
+    };
+
+    // Smooth following animation
+    const animateFollower = () => {
+      setFollowerPosition(prev => {
+        const lerpFactor = 0.14;
+        const newX = prev.x + (cursorPosition.x - prev.x) * lerpFactor;
+        const newY = prev.y + (cursorPosition.y - prev.y) * lerpFactor;
+        return { x: newX, y: newY };
+      });
+      
+      animationFrameRef.current = requestAnimationFrame(animateFollower);
+    };
+
+    // Start animation loop
+    animationFrameRef.current = requestAnimationFrame(animateFollower);
+
+    // Add event listener
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Handle window resize
+    const handleResize = () => {
+      isMobileRef.current = window.innerWidth < 768;
+      if (isMobileRef.current) {
+        setIsCursorVisible(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (cursorTimeoutRef.current) {
+        clearTimeout(cursorTimeoutRef.current);
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [cursorPosition]);
 
   // Toggle theme function
   const toggleTheme = () => {
@@ -736,6 +811,16 @@ const App = () => {
 
   return (
     <div className="app">
+      {/* Cursor Follower */}
+      <div 
+        className={`cursor-follower ${isCursorVisible ? 'visible' : ''}`}
+        style={{
+          transform: `translate3d(${followerPosition.x - 14}px, ${followerPosition.y - 14}px, 0)`
+        }}
+      >
+        <FaCode />
+      </div>
+      
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">

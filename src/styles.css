@@ -3767,6 +3767,51 @@ body.light-mode .theme-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.9);
 }
 
+/* Cursor Follower */
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--accent-1);
+  font-size: 22px;
+
+  pointer-events: none;
+  z-index: 9999;
+
+  background: rgba(99,102,241,0.20);
+  border: 1px solid rgba(139,92,246,0.5);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(139,92,246,0.45);
+
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-follower.visible {
+  opacity: 1;
+}
+
+/* Light mode cursor follower */
+body.light-mode .cursor-follower {
+  background: rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.2);
+  color: var(--accent-2);
+}
+
+/* Hide on mobile */
+@media (max-width: 767px) {
+  .cursor-follower {
+    display: none;
+  }
+}
+
 /* Resume Preview Modal */
 .resume-modal-overlay {
   position: fixed;
