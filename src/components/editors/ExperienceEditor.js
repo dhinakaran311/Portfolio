@@ -7,9 +7,39 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
     role: "",
     company: "",
     duration: "",
+    startDate: "",
+    endDate: "",
     description: "",
   });
   const [editingId, setEditingId] = useState(null);
+
+  // Format date from month inputs to readable string
+  const formatDuration = (startDate, endDate) => {
+    if (!startDate) return "";
+    
+    const formatDate = (dateString) => {
+      const date = new Date(dateString + '-01');
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[date.getMonth()]} ${date.getFullYear()}`;
+    };
+    
+    const start = formatDate(startDate);
+    const end = endDate ? formatDate(endDate) : 'Present';
+    
+    return startDate === endDate ? start : `${start} - ${end}`;
+  };
+
+  // Handle date changes
+  const handleDateChange = (field, value) => {
+    setNewExp(prev => {
+      const updated = { ...prev, [field]: value };
+      // Auto-generate duration when dates change
+      if (updated.startDate || updated.endDate) {
+        updated.duration = formatDuration(updated.startDate, updated.endDate);
+      }
+      return updated;
+    });
+  };
 
   const handleAddExp = (e) => {
     e.preventDefault();
@@ -18,6 +48,8 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
       role: "",
       company: "",
       duration: "",
+      startDate: "",
+      endDate: "",
       description: "",
     });
   };
@@ -30,6 +62,8 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
       role: "",
       company: "",
       duration: "",
+      startDate: "",
+      endDate: "",
       description: "",
     });
   };
@@ -40,6 +74,8 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
       role: exp.role,
       company: exp.company,
       duration: exp.duration,
+      startDate: exp.startDate || "",
+      endDate: exp.endDate || "",
       description: exp.description,
     });
   };
@@ -82,15 +118,37 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
           </div>
         </div>
 
+        <div className="editor-grid">
+          <div className="editor-group">
+            <label>Start Date</label>
+            <input
+              type="month"
+              value={newExp.startDate}
+              onChange={(e) => handleDateChange("startDate", e.target.value)}
+              className="editor-input"
+              required
+            />
+          </div>
+          <div className="editor-group">
+            <label>End Date (Optional)</label>
+            <input
+              type="month"
+              value={newExp.endDate}
+              onChange={(e) => handleDateChange("endDate", e.target.value)}
+              className="editor-input"
+              min={newExp.startDate}
+            />
+          </div>
+        </div>
+
         <div className="editor-group">
-          <label>Duration</label>
+          <label>Duration (Auto-generated)</label>
           <input
             type="text"
             value={newExp.duration}
-            onChange={(e) => setNewExp({ ...newExp, duration: e.target.value })}
+            readOnly
             className="editor-input"
             placeholder="e.g. Jan 2023 - Present"
-            required
           />
         </div>
 
@@ -117,6 +175,8 @@ const ExperienceEditor = ({ experiences, onAdd, onUpdate, onDelete }) => {
                   role: "",
                   company: "",
                   duration: "",
+                  startDate: "",
+                  endDate: "",
                   description: "",
                 });
               }}

@@ -1544,6 +1544,414 @@ a {
   line-height: 1.7;
 }
 
+/* Internship Section - Horizontal Scroll with Fixed-Width Cards */
+.internship-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.internships-scroll-container {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 20px;
+}
+
+.internships-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.internships-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+.internships-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border-radius: 10px;
+}
+
+.internships-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-2);
+}
+
+.intern-card {
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(14px);
+  gap: 14px;
+  transition: 0.3s ease;
+  height: auto;
+  scroll-snap-align: start;
+  margin-right: 12px;
+}
+
+.intern-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(139,92,246,0.35);
+  box-shadow: 0 0 22px rgba(139,92,246,0.30);
+}
+
+.intern-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.intern-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.intern-info {
+  flex: 1;
+}
+
+.intern-company {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.intern-role {
+  color: var(--text-secondary);
+  margin-top: 4px;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.intern-duration {
+  color: var(--accent-1);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(99,102,241,0.15);
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+}
+
+.intern-description-container {
+  margin: 0;
+}
+
+.intern-desc-wrapper {
+  max-height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.intern-desc-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(17, 24, 39, 0.9));
+}
+
+.intern-desc-wrapper.expanded {
+  max-height: none;
+}
+
+.intern-desc-wrapper.expanded::after {
+  display: none;
+}
+
+.view-more-btn {
+  background: none;
+  border: none;
+  color: var(--accent-1);
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  transition: 0.2s ease;
+  padding: 0;
+}
+
+.view-more-btn:hover {
+  color: var(--accent-2);
+}
+
+.intern-description-md {
+  color: var(--text-secondary);
+  line-height: 1.65;
+  font-size: 0.97rem;
+  margin: 0;
+}
+
+.intern-description-md ul {
+  margin-left: 18px;
+  list-style-type: disc;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.intern-description-md li {
+  margin-bottom: 6px;
+}
+
+.intern-description-md strong {
+  color: var(--accent-1);
+  font-weight: 600;
+}
+
+.intern-description-md em {
+  color: var(--accent-2);
+  font-style: italic;
+}
+
+.intern-description-md code {
+  background: rgba(99,102,241,0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.intern-description-md p {
+  margin: 8px 0;
+}
+
+.intern-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.intern-btn {
+  padding: 10px 16px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  border-radius: 10px;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 0 12px rgba(99,102,241,0.35);
+  transition: 0.25s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.intern-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px rgba(139,92,246,0.40);
+}
+
+/* Light mode adjustments */
+body.light-mode .intern-card {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.12);
+}
+
+body.light-mode .intern-company {
+  color: #1e1e2f;
+}
+
+body.light-mode .intern-role {
+  color: #4a5568;
+}
+
+body.light-mode .intern-description-md {
+  color: #1e1e2f;
+}
+
+body.light-mode .intern-duration {
+  background: rgba(79,70,229,0.1);
+  color: #4f46e5;
+}
+
+body.light-mode .intern-desc-wrapper::after {
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
+}
+
+body.light-mode .editor-input {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #1e1e2f;
+}
+
+body.light-mode .editor-input[readonly] {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light-mode .editor-container {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+  .internships-scroll-container {
+    gap: 16px;
+    scroll-padding-left: 16px;
+  }
+  
+  .intern-card {
+    width: 360px;
+    padding: 18px;
+    gap: 12px;
+    margin-right: 8px;
+  }
+  
+  .intern-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .intern-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+  
+  .intern-company {
+    font-size: 1.1rem;
+  }
+  
+  .intern-role {
+    font-size: 0.9rem;
+  }
+  
+  .intern-description-md {
+    font-size: 1rem;
+  }
+  
+  .intern-description-md ul {
+    margin-left: 16px;
+  }
+  
+  .intern-description-md li {
+    margin-bottom: 8px;
+  }
+  
+  .intern-buttons {
+    justify-content: center;
+  }
+  
+  .intern-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+}
+
+/* Light mode adjustments */
+body.light-mode .intern-card {
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.10);
+}
+
+body.light-mode .title {
+  color: #1e1e2f;
+}
+
+body.light-mode .subtitle {
+  color: #4a5568;
+}
+
+body.light-mode .description {
+  color: #2d3748;
+}
+
+body.light-mode .intern-duration {
+  background: rgba(79,70,229,0.1);
+  color: #4f46e5;
+}
+
+body.light-mode .intern-desc-wrapper::after {
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.9));
+}
+
+body.light-mode .editor-input {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #1e1e2f;
+}
+
+body.light-mode .editor-input[readonly] {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light-mode .editor-container {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+  .internship-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .intern-card {
+    padding: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .intern-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .intern-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+  
+  .title {
+    font-size: 1.1rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+  }
+  
+  .intern-buttons {
+    justify-content: center;
+  }
+  
+  .intern-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+}
+
 /* Certifications Section - Clean Card Stack */
 .certifications-container {
   position: relative;
@@ -2498,6 +2906,22 @@ textarea.form-control {
   font-size: 1rem;
 }
 
+.editor-input[type="month"] {
+  cursor: pointer;
+}
+
+.editor-input[readonly] {
+  background: rgba(255, 255, 255, 0.02);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
 .tags-input {
   display: flex;
   gap: 10px;
@@ -3191,6 +3615,11 @@ textarea.form-control {
   .editor-container {
     padding: 15px;
     margin-bottom: 20px;
+  }
+
+  .editor-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
 
   .table-actions {
