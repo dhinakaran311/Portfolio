@@ -86,12 +86,868 @@ body.light-mode {
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
+/* ====================================================================
+   RESPONSIVE DESIGN SYSTEM - CONSOLIDATED BREAKPOINTS
+   ==================================================================== */
+
+/* Base responsive fixes - Apply to all screen sizes */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Text wrapping and overflow fixes */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Mobile-safe container spacing */
+.container, section {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.section {
+  padding: 100px 0;
+  position: relative;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Consistent spacing for headings */
+h2.section-title {
+  margin-top: 40px;
+  margin-bottom: 18px;
+}
+
+/* Touch-friendly buttons and interactive elements */
+button, .btn-primary, .btn-secondary, .project-btn, .intern-btn, 
+.download-btn, .sync-btn, .login-btn, .logout-btn {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ====================================================================
+   CONSOLIDATED MEDIA QUERIES
+   ==================================================================== */
+
+/* Tablet Landscape - 1200px and below */
+@media (max-width: 1200px) {
+  .nav-links {
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
+
+  .download-btn, .sync-btn, .login-btn, .logout-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .editor-container {
+    padding: 20px;
+  }
+
+  .hero-title {
+    font-size: 3.2rem;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
+}
+
+/* Tablet Portrait - 992px and below */
+@media (max-width: 992px) {
+  .container {
+    width: 92%;
+  }
+
+  .hero-title {
+    font-size: 2.8rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-content-single {
+    text-align: left;
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Large Mobile - 768px and below */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .section {
+    padding: 80px 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding: 100px 0 60px;
+    min-height: auto;
+  }
+
+  .hero-glass {
+    padding: 30px 20px;
+    margin-bottom: 40px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .profile-image-container {
+    width: 180px;
+    height: 180px;
+    margin: 20px auto;
+  }
+
+  /* Skills Section */
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+  }
+
+  .skill-card {
+    padding: 20px;
+  }
+
+  .skill-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .skill-name {
+    font-size: 1.1rem;
+  }
+
+  /* Projects Section */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .project-card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .project-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .project-title {
+    font-size: 1.3rem;
+  }
+
+  .project-description {
+    font-size: 0.95rem;
+  }
+
+  .project-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  /* Internship/Experience Section */
+  .internships-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    gap: 16px;
+  }
+
+  .intern-card {
+    flex-shrink: 0;
+    width: 380px;
+    max-width: 90vw;
+    padding: 18px;
+    gap: 12px;
+    margin-right: 8px;
+    scroll-snap-align: start;
+  }
+
+  .intern-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .intern-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .intern-company {
+    font-size: 1.1rem;
+  }
+
+  .intern-role {
+    font-size: 0.9rem;
+  }
+
+  .intern-description-md {
+    font-size: 1rem;
+  }
+
+  .intern-description-md ul {
+    margin-left: 16px;
+  }
+
+  .intern-description-md li {
+    margin-bottom: 8px;
+  }
+
+  .intern-buttons {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .intern-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+    padding: 8px 16px;
+  }
+
+  /* Contact Section */
+  .contact-form {
+    padding: 20px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .form-row .form-group {
+    width: 100%;
+  }
+
+  .contact-btn {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  /* Achievements Section */
+  .achievements-list {
+    padding-left: 25px;
+  }
+
+  .achievement-card {
+    padding: 20px;
+  }
+
+  .achievement-badge {
+    left: -35px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .achievement-title {
+    font-size: 1.25rem;
+  }
+
+  .achievement-date {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Editor Grid */
+  .editor-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .editor-container {
+    padding: 16px;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  
+  /* About Section */
+  .about-glass-container {
+    padding: 30px 20px;
+  }
+
+  .identity-badges {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .identity-badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .about-info-box {
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .about-info-row {
+    font-size: 0.95rem;
+  }
+
+  .about-text-content {
+    font-size: 0.95rem;
+  }
+
+  .about-text-block {
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  /* Certifications Section */
+  .certifications-grid {
+    padding: 20px 0;
+    margin: 0 -16px;
+    scroll-padding: 0 16px;
+  }
+
+  .certification-card {
+    min-width: 280px;
+    width: 280px;
+    margin: 0 8px;
+  }
+
+  /* Footer */
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+/* Small Mobile - 576px and below */
+@media (max-width: 576px) {
+  .container {
+    width: 98%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .section {
+    padding: 60px 0;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+    color: var(--text-primary);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  /* Hero Section */
+  .hero-title {
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-badge {
+    font-size: 0.9rem;
+    padding: 6px 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-glass {
+    padding: 25px 16px;
+  }
+
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Skills Section - Single column */
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .skill-card {
+    padding: 16px;
+  }
+
+  .skill-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .skill-level {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  /* Projects Section */
+  .project-card {
+    padding: 16px;
+  }
+
+  .project-title {
+    font-size: 1.2rem;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
+  }
+
+  .project-tech-stack {
+    font-size: 0.8rem;
+  }
+
+  /* Internship Section */
+  .intern-card {
+    width: 320px;
+    padding: 16px;
+  }
+
+  .intern-company {
+    font-size: 1rem;
+  }
+
+  .intern-role {
+    font-size: 0.85rem;
+  }
+
+  .intern-description-md {
+    font-size: 0.95rem;
+  }
+
+  .intern-duration {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  /* Contact Section */
+  .contact-form {
+    padding: 16px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+  }
+
+  .contact-btn {
+    font-size: 0.95rem;
+    padding: 10px 18px;
+  }
+
+  /* About Section */
+  .about-glass-container {
+    padding: 20px 16px;
+  }
+
+  .identity-badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .about-info-box {
+    padding: 16px;
+  }
+
+  .about-info-row {
+    font-size: 0.9rem;
+  }
+
+  .about-text-content {
+    font-size: 0.9rem;
+  }
+
+  /* Certifications Section */
+  .certification-card {
+    min-width: 260px;
+    width: 260px;
+    margin: 0 6px;
+  }
+
+  /* Editor Section */
+  .editor-container {
+    padding: 12px;
+  }
+
+  .editor-input {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .add-tag-btn {
+    padding: 0 16px;
+    font-size: 0.9rem;
+  }
+
+  .tag-item {
+    font-size: 0.85rem;
+    padding: 4px 12px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 30px 0 20px;
+  }
+
+  .footer-content {
+    gap: 16px;
+  }
+
+  .social-links {
+    gap: 12px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Extra Small Mobile - 480px and below */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .section {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Hero Section */
+  .hero-title {
+    font-size: 1.9rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-badge {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+  }
+
+  .hero-buttons {
+    gap: 10px;
+    max-width: 280px;
+  }
+
+  .btn-primary, .btn-secondary {
+    font-size: 0.95rem;
+    padding: 10px 18px;
+  }
+
+  .profile-image-container {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Section Titles */
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* Skills Section */
+  .skill-card {
+    padding: 14px;
+  }
+
+  .skill-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
+  }
+
+  /* Projects Section */
+  .project-card {
+    padding: 14px;
+  }
+
+  .project-title {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .project-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* Internship Section */
+  .intern-card {
+    width: 300px;
+    padding: 14px;
+  }
+
+  .intern-company {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .intern-role {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .intern-description-md {
+    font-size: 0.9rem;
+  }
+
+  .intern-btn {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+
+  /* Contact Section */
+  .contact-form {
+    padding: 14px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .contact-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  /* About Section */
+  .about-glass-container {
+    padding: 16px 12px;
+  }
+
+  .identity-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+  }
+
+  .about-info-box {
+    padding: 14px;
+  }
+
+  .about-info-row {
+    font-size: 0.85rem;
+  }
+
+  .about-text-content {
+    font-size: 0.85rem;
+  }
+
+  .about-text-block {
+    margin-bottom: 12px;
+  }
+
+  /* Certifications Section */
+  .certification-card {
+    min-width: 240px;
+    width: 240px;
+    margin: 0 4px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 20px 0 15px;
+  }
+
+  .social-link {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ====================================================================
+   LEGACY MEDIA QUERY CLEANUP
+   ==================================================================== */
+
+/* Remove old scattered media queries to prevent conflicts */
+
 
 body {
   font-family: var(--font-primary, 'Inter', 'Segoe UI', sans-serif);
@@ -281,6 +1137,19 @@ a {
 
 .nav-link.active {
   color: var(--accent-1);
+}
+
+.menu-button {
+  padding: 10px 18px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+  text-align: center;
 }
 
 .download-btn {
@@ -564,16 +1433,6 @@ a {
   }
 }
 
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 2.2rem;
-  }
-  
-  .hero-badge {
-    font-size: 0.9rem;
-    padding: 6px 15px;
-  }
-}
 
 .primary-btn:hover {
   background: var(--primary-dark);
@@ -2860,21 +3719,6 @@ textarea.form-control {
   gap: 5px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-row .form-group {
-    width: 100%;
-  }
-  
-  .achievements-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* Editor Grid */
 .editor-grid {
@@ -3105,7 +3949,7 @@ textarea.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 10001;
 }
 
 .modal-content {
@@ -3127,6 +3971,38 @@ textarea.form-control {
   color: var(--primary);
   font-weight: 700;
   letter-spacing: 0.5px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h2 {
+  font-size: 1.6rem;
+  margin: 0;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--light);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 5px;
+  line-height: 1;
+}
+
+.close-button:hover {
+  transform: rotate(90deg);
 }
 
 .modal-content .form-group {
@@ -3214,6 +4090,101 @@ textarea.form-control {
   transform: rotate(90deg);
 }
 
+
+/* Login Modal Theme Support */
+[data-theme="light"] .modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  color: #222;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .modal-content label {
+  color: #222;
+}
+
+[data-theme="light"] .modal-content input[type="email"],
+[data-theme="light"] .modal-content input[type="password"] {
+  background: rgba(0, 0, 0, 0.08);
+  color: #222;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .modal-content input:focus {
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--accent-1);
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .close-modal {
+  color: #222;
+}
+
+[data-theme="light"] .modal-header {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .modal-header h2 {
+  color: var(--accent-1);
+}
+
+[data-theme="light"] .close-button {
+  color: #222;
+}
+
+/* Mobile responsiveness for login modal */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 15px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    max-width: 360px;
+    padding: 20px;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .close-button {
+    font-size: 1.3rem;
+  }
+  
+  .modal-content input[type="email"],
+  .modal-content input[type="password"] {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .login-submit-btn,
+  .cancel-btn {
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+  
+  .modal-content {
+    width: 98%;
+    padding: 18px;
+  }
+  
+  .modal-header {
+    margin-bottom: 20px;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.3rem;
+  }
+}
 
 /* Admin Button (Navbar) */
 .login-btn,
@@ -3409,93 +4380,205 @@ textarea.form-control {
   color: var(--accent-1);
 }
 
-.mobile-menu-overlay {
+/* Full Screen Backdrop Overlay */
+.menu-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 1000;
-  transition: all 0.3s ease;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
 }
 
+/* Mobile Menu Theme Variables */
+[data-theme="dark"] {
+  --menu-bg: rgba(15,15,25,0.92);
+  --menu-text: #e2e8f0;
+  --menu-subtext: #cbd5e1;
+  --menu-border: rgba(255,255,255,0.08);
+}
+
+[data-theme="light"] {
+  --menu-bg: rgba(255,255,255,0.90);
+  --menu-text: #1E1E2F;
+  --menu-subtext: #374151;
+  --menu-border: rgba(0,0,0,0.10);
+}
+
+/* Mobile Menu Drawer */
 .mobile-menu {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 280px;
-  height: 100%;
-  background: var(--glass-bg);
-  border-right: 1px solid var(--border-light);
+  right: 0;
+  height: 100vh;
+  width: 78%;
+  max-width: 360px;
+  background: var(--menu-bg) !important;
   backdrop-filter: blur(14px);
-  z-index: 1001;
-  transition: transform 0.3s ease;
-  transform: translateX(-100%);
+  box-shadow: -4px 0 18px rgba(0,0,0,0.4);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
   overflow-y: auto;
+  max-height: 100vh;
+  color: var(--menu-text);
 }
 
-.mobile-menu-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--border-light);
+/* Menu Top Section with Theme Toggle */
+.menu-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
-.mobile-menu-close {
+.theme-toggle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  color: var(--menu-text);
+  transition: 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Close Button */
+.close-menu-btn {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--menu-text);
   background: none;
   border: none;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  cursor: pointer;
   padding: 5px;
+  transition: 0.25s ease;
 }
 
-.mobile-menu-links {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.mobile-menu-links .nav-link {
-  display: block;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--border-light);
-  font-size: 1rem;
-  text-transform: capitalize;
-  color: var(--text-primary);
-  transition: var(--transition);
-}
-
-.mobile-menu-links .nav-link:hover,
-.mobile-menu-links .nav-link.active {
+.close-menu-btn:hover {
   color: var(--accent-1);
-  padding-left: 10px;
 }
 
-.mobile-menu-links .nav-link:after {
-  display: none;
-}
-
-.mobile-menu-buttons {
-  padding: 20px;
+/* Menu Items - Vertical List */
+.menu-items {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  border-top: 1px solid var(--border-light);
+  gap: 14px;
+  margin-top: 18px;
 }
 
-.mobile-menu-buttons .download-btn,
-.mobile-menu-buttons .sync-btn,
-.mobile-menu-buttons .login-btn,
-.mobile-menu-buttons .logout-btn {
-  width: 100%;
+.menu-item {
+  color: var(--menu-text);
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--menu-border);
+  transition: 0.25s ease;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:hover {
+  color: var(--accent-1);
+  padding-left: 8px;
+}
+
+/* Menu Divider */
+.menu-divider {
+  height: 1px;
+  background: var(--menu-border);
+  margin: 24px 0;
+}
+
+/* Icon color fixes for mobile menu */
+.mobile-menu svg,
+.theme-toggle-btn svg {
+  color: var(--menu-text);
+}
+
+/* Action Buttons */
+.menu-actions {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-button {
+  padding: 10px 18px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 12px;
-  font-size: 0.9rem;
+  gap: 8px;
+}
+
+.menu-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+/* Custom Scrollbar */
+.mobile-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-menu::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+  border-radius: 10px;
+}
+
+.mobile-menu::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Theme Support */
+[data-theme="light"] .mobile-menu {
+  background: rgba(255,255,255,0.95);
+  box-shadow: -4px 0 18px rgba(0,0,0,0.15);
+}
+
+[data-theme="light"] .menu-item {
+  color: #222;
+  border-bottom-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] .menu-item {
+  color: #e2e8f0;
+}
+
+[data-theme="light"] .close-menu-btn,
+[data-theme="light"] .theme-toggle-btn {
+  color: #222;
+}
+
+[data-theme="light"] .theme-toggle-btn {
+  background: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(0,0,0,0.15);
 }
 
 @media (max-width: 968px) {
@@ -4235,11 +5318,6 @@ body.light-mode .cursor-follower {
 }
 
 /* Hide on mobile */
-@media (max-width: 767px) {
-  .cursor-follower {
-    display: none;
-  }
-}
 
 /* Resume Preview Modal */
 .resume-modal-overlay {

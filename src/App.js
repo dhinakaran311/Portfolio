@@ -2,7 +2,7 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback
+  useCallback,
 } from 'react';
 import {
   FaGithub,
@@ -19,10 +19,11 @@ import {
   FaUpload,
   FaBars,
   FaTimes,
-  FaLock,
   FaCertificate,
   FaExternalLinkAlt,
   FaCalendarAlt,
+  FaSyncAlt,
+  FaUserShield,
 } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -1065,7 +1066,7 @@ const App = () => {
         {isMobileMenuOpen && (
           <>
             <motion.div
-              className="mobile-menu-overlay"
+              className="menu-overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1073,25 +1074,32 @@ const App = () => {
             />
             <motion.div
               className="mobile-menu"
-              initial={{ transform: "translateX(-100%)" }}
+              initial={{ transform: "translateX(100%)" }}
               animate={{ transform: "translateX(0%)" }}
-              exit={{ transform: "translateX(-100%)" }}
+              exit={{ transform: "translateX(100%)" }}
               transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
             >
-              <div className="mobile-menu-header">
-                <h3>Menu</h3>
+              <button className="close-menu-btn" onClick={closeMobileMenu}>
+                <FaTimes />
+              </button>
+              
+              <div className="menu-top">
+                <h3 style={{ color: 'var(--text-primary)', margin: 0, fontSize: '1.2rem' }}>Menu</h3>
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
               </div>
-              <a href="#home" className="mobile-nav-link" onClick={closeMobileMenu}>Home</a>
-              <a href="#about" className="mobile-nav-link" onClick={closeMobileMenu}>About</a>
-              <a href="#skills" className="mobile-nav-link" onClick={closeMobileMenu}>Skills</a>
-              <a href="#projects" className="mobile-nav-link" onClick={closeMobileMenu}>Projects</a>
-              <a href="#internships" className="mobile-nav-link" onClick={closeMobileMenu}>Internships</a>
-              <a href="#contact" className="mobile-nav-link" onClick={closeMobileMenu}>Contact</a>
+              
+              <div className="menu-items">
+                <a href="#home" className="menu-item" onClick={closeMobileMenu}>Home</a>
+                <a href="#about" className="menu-item" onClick={closeMobileMenu}>About</a>
+                <a href="#skills" className="menu-item" onClick={closeMobileMenu}>Skills</a>
+                <a href="#projects" className="menu-item" onClick={closeMobileMenu}>Projects</a>
+                <a href="#internships" className="menu-item" onClick={closeMobileMenu}>Internships</a>
+                <a href="#contact" className="menu-item" onClick={closeMobileMenu}>Contact</a>
+              </div>
 
-              <div className="mobile-menu-buttons">
+              <div className="menu-actions">
                 <motion.button
-                  className="download-btn"
+                  className="menu-button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
@@ -1102,66 +1110,40 @@ const App = () => {
                   <FaFileDownload /> Resume
                 </motion.button>
                 <motion.button
-                  className="sync-btn"
+                  className="menu-button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => {
                     handleForceRefresh();
                     closeMobileMenu();
                   }}
                   disabled={isSyncing}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
-                  <FaCloud /> {isSyncing ? 'Refreshing...' : 'Refresh'}
+                  <FaSyncAlt className={isSyncing ? 'spinning' : ''} /> Refresh
                 </motion.button>
-                {isAdmin ? (
-                  <>
-                    <motion.button
-                      className="sync-btn"
-                      onClick={() => {
-                        handleBackupToFirebase();
-                        closeMobileMenu();
-                      }}
-                      disabled={isSyncing}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <FaUpload /> {isSyncing ? 'Syncing...' : 'Backup'}
-                    </motion.button>
-                    <motion.button
-                      className="sync-btn"
-                      onClick={() => {
-                        handleRestoreFromFirebase();
-                        closeMobileMenu();
-                      }}
-                      disabled={isSyncing}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <FaDownload /> Restore
-                    </motion.button>
-                    <motion.button
-                      className="logout-btn"
-                      onClick={() => {
-                        handleLogout();
-                        closeMobileMenu();
-                      }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <FaSignOutAlt /> Logout
-                    </motion.button>
-                  </>
+                {currentUser ? (
+                  <motion.button
+                    className="menu-button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      handleLogout();
+                      closeMobileMenu();
+                    }}
+                  >
+                    <FaSignOutAlt /> Logout
+                  </motion.button>
                 ) : (
                   <motion.button
-                    className="login-btn"
+                    className="menu-button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       setShowLoginModal(true);
                       closeMobileMenu();
                     }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                   >
-                    <FaLock /> Admin
+                    <FaUserShield /> Admin
                   </motion.button>
                 )}
               </div>
