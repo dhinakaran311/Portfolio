@@ -6008,3 +6008,353 @@ body.light-mode .cursor-follower {
     padding-top: 10px;
   }
 }
+
+/* ====================================================================
+   LIGHT MODE FIXES - Comprehensive styling for light theme
+   ==================================================================== */
+
+body.light-mode {
+
+  /* 1. Hero Section - "View Projects" Button Fix */
+  .btn-secondary {
+    background: rgba(79, 70, 229, 0.1);
+    border: 2px solid var(--accent-1);
+    color: var(--accent-1);
+    font-weight: 600;
+  }
+
+  .btn-secondary:hover {
+    background: var(--accent-1);
+    color: white;
+  }
+
+  /* 2. About Section - Badge Contrast Fix */
+  .identity-badge,
+  .about-badge,
+  .badge {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    color: white !important;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+  }
+
+  /* 3. About Section - Summary Card Text Fix */
+  .about-text,
+  .about-description,
+  .about-info-row,
+  .about-text-block,
+  .about-text-content {
+    color: var(--text-primary) !important;
+  }
+
+  .about-glass-container,
+  .about-info-box {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  /* 4. Projects Section - Tag Contrast Fix */
+  .project-tag,
+  .tech-tag,
+  .tag {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    color: white !important;
+    font-weight: 500;
+    border: none;
+  }
+
+  .project-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .project-card:hover {
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.15);
+  }
+
+  .project-title,
+  .project-description {
+    color: var(--text-primary);
+  }
+
+  /* 5. Experience Section - Text Highlights Fix */
+  .intern-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .intern-card:hover {
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.15);
+  }
+
+  .intern-description-md strong,
+  .intern-description-md b {
+    color: var(--accent-1);
+    font-weight: 700;
+  }
+
+  .intern-description-md {
+    color: var(--text-primary);
+  }
+
+  .intern-company,
+  .intern-role {
+    color: var(--text-primary);
+  }
+
+  .intern-duration {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: white;
+  }
+
+  /* 6. Contact Section - Input Placeholder Fix */
+  .form-control::placeholder,
+  input::placeholder,
+  textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+  }
+
+  .form-control,
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.15);
+    color: var(--text-primary);
+  }
+
+  .form-control:focus,
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  }
+
+  .contact-form {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* 7. Footer - Complete Light Mode Styling (Critical Fix) */
+  footer,
+  .footer-section {
+    background: linear-gradient(180deg, #e8eaf6 0%, #c5cae9 100%) !important;
+  }
+
+  .footer-content,
+  .footer-bottom {
+    background: transparent;
+  }
+
+  .footer-brand h2,
+  .nav-title,
+  .contact-title,
+  .footer h3 {
+    color: var(--text-primary) !important;
+  }
+
+  .footer-brand p,
+  .footer-link,
+  .footer a,
+  .copyright,
+  .footer-text {
+    color: var(--text-secondary) !important;
+  }
+
+  .footer-link:hover,
+  .footer a:hover {
+    color: var(--accent-1) !important;
+  }
+
+  .footer-socials .social-icon,
+  .footer .social-link {
+    background: white;
+    color: var(--accent-1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .footer-socials .social-icon:hover,
+  .footer .social-link:hover {
+    background: var(--accent-1);
+    color: white;
+  }
+
+  .back-to-top {
+    background: var(--accent-1);
+    color: white;
+  }
+
+  .back-to-top:hover {
+    background: var(--accent-2);
+  }
+
+  /* 8. Skills Section - Card Background & Effects */
+  .skill-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .skill-card:hover {
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.2);
+    border-color: var(--accent-1);
+  }
+
+  .skill-name {
+    color: var(--text-primary);
+  }
+
+  .progress-bar {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  /* 9. Certifications Section */
+  .certification-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .certification-title,
+  .certification-meta {
+    color: var(--text-primary);
+  }
+
+  /* 10. Navbar Light Mode */
+  .navbar {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-link {
+    color: var(--text-primary);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--accent-1);
+  }
+
+  .nav-logo .logo-text {
+    color: var(--text-primary);
+  }
+
+  /* 11. Section Titles */
+  .section-title,
+  .section-subtitle {
+    color: var(--text-primary);
+  }
+
+  /* 12. Hero Section Enhanced */
+  .hero-glass {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .hero-title,
+  .hero-subtitle,
+  .hero-description {
+    color: var(--text-primary);
+  }
+
+  .hero-badge {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: white;
+  }
+
+  /* 13. Mobile Menu Light Mode */
+  .mobile-menu {
+    background: rgba(255, 255, 255, 0.98);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-item {
+    color: var(--text-primary);
+  }
+
+  .menu-item:hover {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--accent-1);
+  }
+
+  /* 14. Achievements Section */
+  .achievement-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .achievement-title,
+  .achievement-description {
+    color: var(--text-primary);
+  }
+
+  /* 15. Buttons General */
+  .download-btn,
+  .sync-btn {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--accent-1);
+    border: 1px solid var(--accent-1);
+  }
+
+  .download-btn:hover,
+  .sync-btn:hover {
+    background: var(--accent-1);
+    color: white;
+  }
+
+  /* 16. Scroll to Top Button */
+  .scroll-top {
+    background: var(--accent-1);
+    color: white;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  }
+
+  /* 17. Editor Cards (Admin) */
+  .editor-container {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .editor-input {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: var(--text-primary);
+  }
+
+  /* 18. Toast Notifications */
+  .Toastify__toast {
+    background: white !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* 19. About Section - Highlight Cards Text Fix */
+  .highlight-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .highlight-text {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+  }
+
+  .highlight-icon {
+    filter: none;
+  }
+
+  /* 20. About Section - Info Box Text */
+  .about-info-row span,
+  .about-info-row {
+    color: var(--text-primary) !important;
+  }
+
+  .about-info-icon {
+    filter: none;
+  }
+}
