@@ -212,7 +212,7 @@ const App = () => {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
-  
+
   // Cursor follower state
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [followerPosition, setFollowerPosition] = useState({ x: 0, y: 0 });
@@ -238,18 +238,18 @@ const App = () => {
 
     const handleMouseMove = (e) => {
       if (isMobileRef.current) return;
-      
+
       // Clear existing timeout
       if (cursorTimeoutRef.current) {
         clearTimeout(cursorTimeoutRef.current);
       }
-      
+
       // Update cursor position
       setCursorPosition({ x: e.clientX, y: e.clientY });
-      
+
       // Show cursor follower
       setIsCursorVisible(true);
-      
+
       // Hide after 1.2 seconds of inactivity
       cursorTimeoutRef.current = setTimeout(() => {
         setIsCursorVisible(false);
@@ -264,7 +264,7 @@ const App = () => {
         const newY = prev.y + (cursorPosition.y - prev.y) * lerpFactor;
         return { x: newX, y: newY };
       });
-      
+
       animationFrameRef.current = requestAnimationFrame(animateFollower);
     };
 
@@ -396,7 +396,7 @@ const App = () => {
   useEffect(() => {
     const MIN_LOADING_TIME = 3500; // 2.5 seconds minimum loading time for smoother animation
     const startTime = Date.now();
-    
+
     const initializeData = async () => {
       setIsLoading(true);
       try {
@@ -418,7 +418,7 @@ const App = () => {
         // Calculate remaining time to ensure minimum loading time
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsedTime);
-        
+
         // Set timeout to ensure minimum loading time is met
         setTimeout(() => {
           setIsLoading(false);
@@ -553,7 +553,7 @@ const App = () => {
         formData,
         process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
-      
+
       toast.success("Message sent successfully!");
       reset();
     } catch (error) {
@@ -707,14 +707,14 @@ const App = () => {
           >
             {skill.icon && skill.icon.startsWith('<svg') ? (
               // Inline SVG code
-              <div 
+              <div
                 className="skill-icon-img"
                 dangerouslySetInnerHTML={{ __html: skill.icon }}
               />
             ) : (
               // Image URL
-              <img 
-                src={skill.icon} 
+              <img
+                src={skill.icon}
                 alt={skill.name}
                 className="skill-icon-img"
                 onError={(e) => {
@@ -744,7 +744,7 @@ const App = () => {
 
   const renderExperiences = () => {
     if (!data.experiences || !Array.isArray(data.experiences)) return null;
-    
+
     // Date parsing function for accurate month + year sorting
     const parseDateString = (str) => {
       if (!str) return { month: 0, year: 0 };
@@ -767,7 +767,7 @@ const App = () => {
         // Return the latest date in the range
         return parsed.reduce((latest, curr) =>
           curr.year > latest.year || (curr.year === latest.year && curr.month > latest.month)
-          ? curr : latest
+            ? curr : latest
         );
       }
 
@@ -779,7 +779,7 @@ const App = () => {
 
       return { month: 0, year: 0 };
     };
-    
+
     // Sort internships by month + year (latest first)
     const sortedExperiences = [...data.experiences].sort((a, b) => {
       const A = parseDateString(a.duration);
@@ -789,7 +789,7 @@ const App = () => {
       if (B.year !== A.year) return B.year - A.year;
       return B.month - A.month;
     });
-    
+
     return (
       <div className="internships-scroll-container">
         {sortedExperiences.map((exp, index) => (
@@ -809,12 +809,12 @@ const App = () => {
                 <p className="intern-role">{exp.role}</p>
               </div>
             </div>
-            
+
             {/* Duration */}
             <div className="intern-duration">
               <FaCalendarAlt /> {exp.duration}
             </div>
-            
+
             {/* Markdown Description */}
             <div className="intern-description-container">
               <div className={`intern-desc-wrapper ${expandedCards[exp.id] ? 'expanded' : ''}`}>
@@ -824,16 +824,16 @@ const App = () => {
                   </ReactMarkdown>
                 </div>
               </div>
-              
+
               {/* See More / Show Less Button */}
-              <button 
-                className="view-more-btn" 
+              <button
+                className="view-more-btn"
                 onClick={() => toggleCardExpansion(exp.id)}
               >
                 {expandedCards[exp.id] ? 'Show Less' : 'See More'}
               </button>
             </div>
-            
+
             {/* Buttons */}
             {(exp.certificate || exp.link) && (
               <div className="intern-buttons">
@@ -878,7 +878,7 @@ const App = () => {
         transition={{ duration: 0.5, delay: index * 0.1 }}
         whileHover={{ scale: 1.05 }}
       >
-        <div 
+        <div
           className="certification-image-container"
           onClick={() => setSelectedCertificate(cert)}
         >
@@ -926,7 +926,7 @@ const App = () => {
   return (
     <div className="app">
       {/* Cursor Follower */}
-      <div 
+      <div
         className={`cursor-follower ${isCursorVisible ? 'visible' : ''}`}
         style={{
           transform: `translate3d(${followerPosition.x - 14}px, ${followerPosition.y - 14}px, 0)`
@@ -934,7 +934,7 @@ const App = () => {
       >
         <FaCode />
       </div>
-      
+
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
@@ -1082,12 +1082,12 @@ const App = () => {
               <button className="close-menu-btn" onClick={closeMobileMenu}>
                 <FaTimes />
               </button>
-              
+
               <div className="menu-top">
                 <h3 style={{ color: 'var(--text-primary)', margin: 0, fontSize: '1.2rem' }}>Menu</h3>
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
               </div>
-              
+
               <div className="menu-items">
                 <a href="#home" className="menu-item" onClick={closeMobileMenu}>Home</a>
                 <a href="#about" className="menu-item" onClick={closeMobileMenu}>About</a>
@@ -1163,16 +1163,16 @@ const App = () => {
           <div className="hero-orb orb-1"></div>
           <div className="hero-orb orb-2"></div>
         </div>
-        
+
         <div className="container">
           <div className="hero-content">
-            <motion.div 
+            <motion.div
               className="hero-glass"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <motion.h1 
+              <motion.h1
                 className="hero-title"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1180,8 +1180,8 @@ const App = () => {
               >
                 Hi, I'm <span className="gradient-text">Dhinakaran</span>
               </motion.h1>
-              
-              <motion.div 
+
+              <motion.div
                 className="hero-badge"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -1201,8 +1201,8 @@ const App = () => {
                   repeat={Infinity}
                 />
               </motion.div>
-              
-              <motion.p 
+
+              <motion.p
                 className="hero-description"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1211,8 +1211,8 @@ const App = () => {
                 Passionate about building intelligent solutions and exploring new technologies.
                 I specialize in creating seamless web experiences with modern technologies.
               </motion.p>
-              
-              <motion.div 
+
+              <motion.div
                 className="hero-buttons"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1221,7 +1221,7 @@ const App = () => {
                 <motion.a
                   href="#contact"
                   className="btn-primary"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     boxShadow: '0 5px 20px rgba(99, 102, 241, 0.4)'
                   }}
@@ -1236,7 +1236,7 @@ const App = () => {
                 <motion.a
                   href="#projects"
                   className="btn-secondary"
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     backgroundColor: 'rgba(255, 255, 255, 0.05)'
                   }}
@@ -1250,8 +1250,8 @@ const App = () => {
                 </motion.a>
               </motion.div>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="profile-image-container"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -1259,9 +1259,9 @@ const App = () => {
             >
               <div className="profile-glow"></div>
               <div className="profile-image-wrapper">
-                <img 
-                  src="/images/profile.jpeg" 
-                  alt="Dhinakaran" 
+                <img
+                  src="/images/profile.jpeg"
+                  alt="Dhinakaran"
                   className="profile-image"
                 />
               </div>
@@ -1289,18 +1289,18 @@ const App = () => {
             </motion.h2>
             <div className="section-subtitle">Get to know me better</div>
           </div>
-          
+
           <div className="about-glass-container">
             {/* Background Decorations */}
             <div className="about-bg-orb orb-1"></div>
             <div className="about-bg-orb orb-2"></div>
             <div className="about-bg-orb orb-3"></div>
-            
+
             {/* Identity Badges */}
             <div className="identity-badges">
               {[
                 "AI/ML Engineer",
-                "Frontend Developer", 
+                "Frontend Developer",
                 "Full-Stack Learner",
                 "Competitive Programmer"
               ].map((badge, index) => (
@@ -1316,7 +1316,7 @@ const App = () => {
                 </motion.div>
               ))}
             </div>
-            
+
             {/* Highlight Cards */}
             <div className="highlight-cards">
               {[
@@ -1339,7 +1339,7 @@ const App = () => {
                 </motion.div>
               ))}
             </div>
-            
+
             {/* Personal Details Info Box */}
             <motion.div
               className="about-info-box"
@@ -1358,7 +1358,7 @@ const App = () => {
                 <span className="about-info-icon">👤</span>
                 <span>Name: Dhinakaran M S</span>
               </motion.div>
-              
+
               <motion.div
                 className="about-info-row"
                 initial={{ opacity: 0, x: -20 }}
@@ -1369,7 +1369,7 @@ const App = () => {
                 <span className="about-info-icon">📧</span>
                 <span>Email: dhinakaranms123@gmail.com</span>
               </motion.div>
-              
+
               <motion.div
                 className="about-info-row"
                 initial={{ opacity: 0, x: -20 }}
@@ -1381,7 +1381,7 @@ const App = () => {
                 <span>Location: Coimbatore, Tamil Nadu, India</span>
               </motion.div>
             </motion.div>
-            
+
             {/* Text Content */}
             <div className="about-text-content">
               <motion.p
@@ -1393,7 +1393,7 @@ const App = () => {
               >
                 I am a pre-final year Computer Science and Engineering student at KIT, specializing in AI and Machine Learning. I'm a passionate software developer skilled in HTML, CSS, JavaScript, and Python with interests in ML and competitive programming.
               </motion.p>
-              
+
               <motion.p
                 className="about-text-block"
                 initial={{ opacity: 0, y: 20 }}
@@ -1403,7 +1403,7 @@ const App = () => {
               >
                 I enjoy building practical solutions and constantly explore new technologies to expand my skill set. My journey in web development has taught me the importance of clean code, responsive design, and user-centric applications.
               </motion.p>
-              
+
               <motion.p
                 className="about-text-block"
                 initial={{ opacity: 0, y: 20 }}
@@ -1787,7 +1787,7 @@ const App = () => {
                   className="social-icon"
                 />
                 <SocialLink
-                  href="https://linkedin.com/in/dhinakaran-ms"
+                  href="https://www.linkedin.com/in/dhinakaran-ms-934296378/"
                   icon={<FaLinkedin />}
                   label="LinkedIn Profile"
                   className="social-icon"
@@ -1802,9 +1802,9 @@ const App = () => {
             </div>
 
             {/* Back to Top Button */}
-            <button 
-              className="back-to-top" 
-              onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+            <button
+              className="back-to-top"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               aria-label="Back to top"
             >
               <FaArrowUp />
@@ -1868,7 +1868,7 @@ const App = () => {
             >
               <div className="certificate-modal-header">
                 <h3>{selectedCertificate.title}</h3>
-                <button 
+                <button
                   className="certificate-modal-close"
                   onClick={() => setSelectedCertificate(null)}
                 >
