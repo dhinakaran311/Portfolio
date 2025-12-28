@@ -692,13 +692,10 @@ const App = () => {
   const renderSkills = () => {
     if (!data.skills || !Array.isArray(data.skills)) return null;
     return data.skills.map((skill, index) => (
-      <motion.div
+      <div
         key={skill.id}
         className="skill-card"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        style={{ animationDelay: `${index * 0.2}s, ${index * 0.3}s` }}
       >
         <div className="skill-header">
           <div
@@ -727,18 +724,18 @@ const App = () => {
         </div>
         <div className="progress-container">
           <div className="progress-bar">
-            <motion.div
+            <div
               className="progress-fill"
-              initial={{ width: 0 }}
-              whileInView={{ width: `${skill.level}%` }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: index * 0.1 }}
-              style={{ backgroundColor: skill.color }}
-            ></motion.div>
+              style={{
+                backgroundColor: skill.color,
+                width: `${skill.level}%`,
+                transition: 'width 1s ease-out'
+              }}
+            ></div>
           </div>
           <div className="progress-value">{skill.level}%</div>
         </div>
-      </motion.div>
+      </div>
     ));
   };
 
