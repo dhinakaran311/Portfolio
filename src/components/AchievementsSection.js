@@ -5,11 +5,11 @@ import { FaTrophy, FaLink } from "react-icons/fa";
 const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const AchievementsSection = ({ achievements }) => {
-  console.log('AchievementsSection received:', achievements);
-  
+  // console.log('AchievementsSection received:', achievements);
+
   // Ensure achievements is an array and has items
   if (!Array.isArray(achievements) || achievements.length === 0) {
-    console.log('No achievements to display');
+    // console.log('No achievements to display');
     return null;
   }
 
@@ -18,9 +18,9 @@ const AchievementsSection = ({ achievements }) => {
     // Convert years to numbers for comparison
     const yearA = parseInt(a.year) || 0;
     const yearB = parseInt(b.year) || 0;
-    
+
     if (yearB !== yearA) return yearB - yearA;
-    
+
     // If years are the same, sort by month
     const monthA = monthOrder.indexOf(a.month);
     const monthB = monthOrder.indexOf(b.month);
@@ -41,7 +41,7 @@ const AchievementsSection = ({ achievements }) => {
           <div className="achievement-badge">
             <FaTrophy size={12} />
           </div>
-          
+
           <div className="achievement-header">
             <div>
               <h3 className="achievement-title">{ach.title}</h3>
@@ -49,20 +49,20 @@ const AchievementsSection = ({ achievements }) => {
             </div>
             <span className="achievement-date">{ach.month} {ach.year}</span>
           </div>
-          
+
           <p className="achievement-description">{ach.description}</p>
-          
+
           {ach.image && (
             <div className="achievement-image-container">
               <img src={ach.image} alt={ach.title} className="achievement-image" />
             </div>
           )}
-          
+
           {ach.link && (
-            <a 
-              href={ach.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href={ach.link}
+              target="_blank"
+              rel="noopener noreferrer"
               className="achievement-link"
             >
               View Proof <FaLink size={12} />
