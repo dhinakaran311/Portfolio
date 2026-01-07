@@ -322,10 +322,9 @@ const App = () => {
     }
   }, [currentUser]); // ADMIN_EMAIL is a constant and doesn't need to be in the dependency array
 
-  // Handle keyboard shortcut Alt+D then A to toggle login form
   useEffect(() => {
     if (!currentUser) {  // Only allow login shortcut if not already logged in
-      let dPressed = false;
+      let keyonePressed = false;
       let aPressedTimeout = null;
 
       const handleKeyDown = (e) => {
@@ -336,23 +335,23 @@ const App = () => {
           const key = e.key.toLowerCase();
 
           // Handle Alt+D
-          if (e.altKey && key === 'd') {
+          if (e.altKey && key === process.env.REACT_APP_KEYONE) {
             e.preventDefault();
-            dPressed = true;
+            keyonePressed = true;
 
-            // Set a timeout to reset dPressed after 2 seconds
+            // Set a timeout to reset keyonePressed after 2 seconds
             clearTimeout(aPressedTimeout);
             aPressedTimeout = setTimeout(() => {
-              dPressed = false;
+              keyonePressed = false;
             }, 2000);
           }
 
           // Handle Alt+A after D
-          if (e.altKey && key === 'a' && dPressed) {
+          if (e.altKey && key === process.env.REACT_APP_KEYTWO && keyonePressed) {
             e.preventDefault();
             e.stopPropagation();
             setShowLoginModal(true);
-            dPressed = false;
+            keyonePressed = false;
             clearTimeout(aPressedTimeout);
           }
         } catch (error) {
@@ -364,7 +363,7 @@ const App = () => {
         try {
           // Check if Alt key is released
           if (e && e.key && typeof e.key === 'string' && e.key.toLowerCase() === 'alt') {
-            dPressed = false;
+            keyonePressed = false;
             clearTimeout(aPressedTimeout);
           }
         } catch (error) {
