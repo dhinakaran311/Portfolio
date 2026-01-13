@@ -47,11 +47,19 @@ REACT_APP_FIREBASE_PROJECT_ID=your_project_id
 REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 REACT_APP_FIREBASE_APP_ID=your_app_id
+REACT_APP_FIREBASE_MEASUREMENT_ID=your_measurement_id
 REACT_APP_EMAILJS_SERVICE_ID=your_emailjs_service_id
 REACT_APP_EMAILJS_TEMPLATE_ID=your_emailjs_template_id
 REACT_APP_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
-REACT_APP_ADMIN_EMAIL=your_admin_email
+REACT_APP_ADMIN_EMAIL=your_admin_email@example.com
+REACT_APP_KEYONE=first key
+REACT_APP_KEYTWO=second key
 ```
+
+**Note:** 
+- `REACT_APP_KEYONE` and `REACT_APP_KEYTWO` are used for the keyboard shortcut to open the admin login modal (Alt+D then Alt+A)
+- These should be lowercase letters (default: 'd' and 'a')
+- Create a `.env` file in the root directory with your actual values
 
 ## 📂 Project Structure
 

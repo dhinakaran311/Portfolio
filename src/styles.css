@@ -355,32 +355,42 @@ button,
   /* Projects Section */
   .projects-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 24px;
   }
 
   .project-card {
-    padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
 
-  .project-card img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 12px;
+  .project-card:hover {
+    transform: translateY(-8px);
   }
 
-  .project-title {
-    font-size: 1.3rem;
+  .project-image-container {
+    height: 220px;
+  }
+
+  .project-content {
+    padding: 24px;
+  }
+
+  .project-content h3 {
+    font-size: 1.35rem;
+    margin-bottom: 14px;
   }
 
   .project-description {
     font-size: 0.95rem;
+    margin-bottom: 20px;
   }
 
-  .project-btn {
-    padding: 8px 16px;
-    font-size: 0.9rem;
+  .project-links {
+    gap: 10px;
+  }
+
+  .project-link {
+    padding: 11px 20px;
+    font-size: 0.85rem;
   }
 
   /* Internship/Experience Section */
@@ -860,24 +870,47 @@ button,
 
   /* Projects Section */
   .project-card {
-    padding: 14px;
+    border-radius: 20px;
   }
 
-  .project-title {
-    font-size: 1.1rem;
-    color: var(--text-primary);
-    font-weight: 600;
+  .project-image-container {
+    height: 200px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .project-content {
+    padding: 20px;
+  }
+
+  .project-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
   }
 
   .project-description {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 400;
+    font-size: 0.9rem;
+    margin-bottom: 18px;
   }
 
-  .project-btn {
-    padding: 6px 14px;
+  .project-tags {
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .project-tag {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .project-link {
+    padding: 10px 18px;
     font-size: 0.85rem;
+    width: 100%;
   }
 
   /* Internship Section */
@@ -1973,152 +2006,496 @@ a {
   text-shadow: 0 0 8px currentColor;
 }
 
-/* Projects Section */
+/* Projects Section - Optimized Clean Card Format */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 36px;
 }
 
-.project-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(14px);
-  border-radius: 18px;
-  padding: 18px;
-  transition: 0.3s ease;
-  box-shadow: 0 0 0 transparent;
+/* ============================================
+   ELEGANT PROJECT CARD - Optimized & Modern
+   ============================================ */
+
+.project-card-elegant {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(20px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  will-change: transform;
 }
 
-.project-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(139, 92, 246, 0.35);
-  box-shadow: 0 0 22px rgba(139, 92, 246, 0.30);
+.project-card-elegant:hover {
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3),
+              0 0 0 1px rgba(99, 102, 241, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.project-image-container {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-.project-image-bg {
+.project-gradient-bg {
   position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.1) 0%, 
+    rgba(139, 92, 246, 0.05) 50%, 
+    transparent 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project-card-elegant:hover .project-gradient-bg {
+  opacity: 1;
+}
+
+/* Image Section */
+.project-image-elegant {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  z-index: 1;
+}
+
+.project-image-inner {
+  position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  opacity: 0.2;
+  overflow: hidden;
 }
 
-.project-image {
+.project-image-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 14px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.6s ease;
+  filter: brightness(0.85) contrast(1.1);
+  will-change: transform;
 }
 
-.project-content {
-  padding: 25px;
-  position: relative;
-  z-index: 2;
+.project-card-elegant:hover .project-image-img {
+  transform: scale(1.12) translateY(-4px);
+  filter: brightness(1) contrast(1.15);
 }
 
-.project-content h3 {
-  font-size: 1.4rem;
-  margin-bottom: 15px;
-  color: var(--text-primary);
+.project-image-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  transition: transform 0.8s ease;
+  pointer-events: none;
 }
 
-.project-description {
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  line-height: 1.65;
-  opacity: 0.92;
+.project-card-elegant:hover .project-image-shine {
+  transform: rotate(45deg) translate(100%, 100%);
 }
 
-.show-more-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: transparent;
-  border: none;
-  color: var(--primary);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 5px 10px;
-  margin-left: 5px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 3;
-}
-
-.show-more-btn:hover {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-.show-more-btn svg {
-  font-size: 0.75rem;
-  transition: transform 0.3s ease;
-}
-
-.show-more-btn:hover svg {
-  transform: scale(1.2);
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.project-tag {
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  color: var(--accent-1);
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  transition: 0.25s ease;
-}
-
-.project-tag:hover {
-  background: rgba(139, 92, 246, 0.25);
-  border-color: rgba(139, 92, 246, 0.4);
-  color: #fff;
-}
-
-.project-links {
-  display: flex;
-  gap: 15px;
-}
-
-.project-link {
+.project-status-elegant {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
+  padding: 8px 16px;
+  background: rgba(16, 185, 129, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
   color: white;
-  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.40);
-  transition: 0.3s ease;
-  text-decoration: none;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.project-link:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.45);
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+.project-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, 
+    rgba(0, 0, 0, 0.3) 0%, 
+    rgba(0, 0, 0, 0.6) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.project-quick-actions {
+  display: flex;
+  gap: 16px;
+  pointer-events: all;
+}
+
+.quick-action-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.quick-action-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.github-quick:hover {
+  background: rgba(36, 41, 46, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.live-quick:hover {
+  background: rgba(99, 102, 241, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Content Section */
+.project-content-elegant {
+  padding: 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.project-header-elegant {
+  position: relative;
+}
+
+.project-title-elegant {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, 
+    var(--text-primary) 0%, 
+    var(--accent-1) 50%,
+    var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.4s ease;
+}
+
+.project-card-elegant:hover .project-title-elegant {
+  background: linear-gradient(135deg, 
+    var(--accent-1) 0%, 
+    var(--accent-2) 50%,
+    var(--accent-3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.project-accent-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-1), transparent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.project-card-elegant:hover .project-accent-line {
+  width: 100px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), transparent);
+}
+
+.project-description-elegant {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+  transition: color 0.3s ease;
+}
+
+.project-card-elegant:hover .project-description-elegant {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.expand-btn-elegant {
+  background: none;
+  border: none;
+  color: var(--accent-1);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.expand-btn-elegant::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-1);
+  transition: width 0.3s ease;
+}
+
+.expand-btn-elegant:hover {
+  color: var(--accent-2);
+}
+
+.expand-btn-elegant:hover::after {
+  width: 100%;
+}
+
+/* Tags */
+.project-tags-elegant {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.project-tag-elegant {
+  padding: 8px 16px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 16px;
+  color: var(--accent-1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.project-tag-elegant:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Action Buttons */
+.project-actions-elegant {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.action-btn-elegant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn-elegant::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.6s ease;
+}
+
+.action-btn-elegant:hover::before {
+  left: 100%;
+}
+
+.github-btn-elegant {
+  background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.github-btn-elegant:hover {
+  background: linear-gradient(135deg, #2d3339 0%, #24292e 100%);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.live-btn-elegant {
+  background: linear-gradient(135deg, 
+    var(--accent-1) 0%, 
+    var(--accent-2) 100%);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.live-btn-elegant:hover {
+  background: linear-gradient(135deg, 
+    var(--accent-2) 0%, 
+    var(--accent-1) 100%);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.action-btn-elegant svg {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.action-btn-elegant:hover svg {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Mobile Responsive for Elegant Card */
+@media (max-width: 768px) {
+  .project-card-elegant {
+    border-radius: 20px;
+  }
+
+  .project-card-elegant:hover {
+    transform: translateY(-8px) scale(1.01);
+  }
+
+  .project-image-elegant {
+    height: 280px;
+  }
+
+  .project-content-elegant {
+    padding: 24px;
+    gap: 18px;
+  }
+
+  .project-title-elegant {
+    font-size: 1.35rem;
+  }
+
+  .project-description-elegant {
+    font-size: 0.9rem;
+  }
+
+  .project-actions-elegant {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-btn-elegant {
+    width: 100%;
+    padding: 14px 24px;
+  }
+
+  .quick-action-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-image-elegant {
+    height: 240px;
+  }
+
+  .project-content-elegant {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .project-title-elegant {
+    font-size: 1.25rem;
+  }
+
+  .project-tags-elegant {
+    gap: 8px;
+  }
+
+  .project-tag-elegant {
+    padding: 6px 14px;
+    font-size: 0.75rem;
+  }
+
+  .project-status-elegant {
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    font-size: 0.7rem;
+  }
 }
 
 /* Experience & Achievements Sections */
