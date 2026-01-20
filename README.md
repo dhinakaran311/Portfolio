@@ -31,7 +31,7 @@
 
 ### **Admin Dashboard** 🔐
 - 🔑 **Firebase Authentication** – Secure admin login system
-- ⌨️ **Keyboard Shortcut Access** – Secret combination (Alt + first key, then Alt + second key) to open login
+- ⌨️ **Keyboard Shortcut Access** – Secret combination (Alt+firstkey+secondkey) to open login
 - ✏️ **Real-time Content Editing** – Edit all sections without code changes
 - 💾 **Firebase Sync** – Automatic backup and restore from Firebase
 - 🔄 **Force Refresh** – Pull latest data from Firebase
@@ -125,10 +125,13 @@ REACT_APP_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 # Admin Configuration
 REACT_APP_ADMIN_EMAIL=your_admin_email@example.com
 
-# Admin Login Keyboard Shortcut (Alt + first key, then Alt + second key)
-REACT_APP_KEYONE=your_first_key
-REACT_APP_KEYTWO=your_second_key
+# Admin Login Keyboard Shortcut (Alt+firstkey+secondkey)
+# Set your own secret keys below (single lowercase letters recommended)
+REACT_APP_KEYONE=your_secret_key_1
+REACT_APP_KEYTWO=your_secret_key_2
 ```
+
+> **⚠️ Security Note:** For the keyboard shortcut, choose your own secret keys (e.g., single letters like 'a' and 'b', or any other combination). Keep these keys private and don't share them publicly.
 
 ### **Getting API Keys**
 
@@ -194,7 +197,7 @@ Simply visit the [live demo](https://portfoliodk311.netlify.app) to explore the 
 ### **For Admin (Content Management)**
 
 1. **Access Admin Login:**
-   - Press `Alt + first key`, then `Alt + second key` to open the login modal (keys configured in `.env`)
+   - Press `Alt+firstkey+secondkey` to open the login modal (keys configured in `.env`)
    - Or manually set up login via Firebase Authentication
 
 2. **Login:**
@@ -263,7 +266,7 @@ npm test -- --coverage
 ## 📱 Key Features Details
 
 ### **Keyboard Shortcuts**
-- `Alt + first key` → `Alt + second key`: Open admin login modal (secret keys configured in `.env`)
+- `Alt+firstkey+secondkey`: Open admin login modal (secret keys configured in `.env`)
 - Navigate using navbar or smooth scroll
 
 ### **Data Persistence**
