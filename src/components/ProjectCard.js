@@ -8,24 +8,24 @@ const MAX_LENGTH = 100;
 const ProjectCard = memo(({ project }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const { shouldTruncate, displayDescription, imageSrc } = useMemo(() => {
     if (!project) return { shouldTruncate: false, displayDescription: '', imageSrc: '' };
-    
+
     const desc = project.description || '';
     const truncate = desc.length > MAX_LENGTH;
-    const display = truncate && !isExpanded 
-      ? desc.slice(0, MAX_LENGTH) + '...' 
+    const display = truncate && !isExpanded
+      ? desc.slice(0, MAX_LENGTH) + '...'
       : desc;
     const img = project.image || `/images/project-${(project.id % 3) + 1}.jpg`;
-    
+
     return { shouldTruncate: truncate, displayDescription: display, imageSrc: img };
   }, [project, isExpanded]);
 
   const toggleExpand = useCallback(() => {
     setIsExpanded(prev => !prev);
   }, []);
-  
+
   if (!project) return null;
 
   return (
@@ -40,7 +40,7 @@ const ProjectCard = memo(({ project }) => {
     >
       {/* Gradient Background Effect */}
       <div className="project-gradient-bg"></div>
-      
+
       {/* Image Section */}
       <div className="project-image-elegant">
         <div className="project-image-inner">
@@ -52,10 +52,10 @@ const ProjectCard = memo(({ project }) => {
           />
           <div className="project-image-shine"></div>
         </div>
-        
+
         {/* Status Badge */}
         {project.live && (
-          <motion.div 
+          <motion.div
             className="project-status-elegant"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -67,7 +67,7 @@ const ProjectCard = memo(({ project }) => {
         )}
 
         {/* Hover Overlay with Quick Actions */}
-        <motion.div 
+        <motion.div
           className="project-hover-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0 }}
@@ -104,11 +104,11 @@ const ProjectCard = memo(({ project }) => {
           <h3 className="project-title-elegant">{project.title}</h3>
           <div className="project-accent-line"></div>
         </div>
-        
+
         <p className="project-description-elegant">
           {displayDescription}
           {shouldTruncate && (
-            <button 
+            <button
               className="expand-btn-elegant"
               onClick={toggleExpand}
               aria-label={isExpanded ? 'Show less' : 'Show more'}
@@ -121,8 +121,8 @@ const ProjectCard = memo(({ project }) => {
         {/* Tags */}
         <div className="project-tags-elegant">
           {project.tags.map((tag, index) => (
-            <motion.span 
-              key={tag} 
+            <motion.span
+              key={tag}
               className="project-tag-elegant"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}

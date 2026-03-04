@@ -1,7 +1,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaExternalLinkAlt, FaCheckCircle } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaCheckCircle, FaFilePdf } from 'react-icons/fa';
 import CertificationsEditor from '../editors/CertificationsEditor';
+
+// Auto-generate a JPG thumbnail of page 1 from a Cloudinary PDF URL
+const getCldPdfThumbnail = (pdfUrl) => {
+    if (!pdfUrl || !pdfUrl.includes('cloudinary.com')) return null;
+    if (pdfUrl.includes('pg_1')) return pdfUrl;
+    const transform = 'pg_1,w_600,c_scale,f_jpg';
+    // raw/upload → convert to image delivery with pg_1 transformation
+    if (pdfUrl.includes('/raw/upload/')) {
+        return pdfUrl
+            .replace('/raw/upload/', `/image/upload/${transform}/`)
+            .replace(/\.pdf$/i, '.jpg');
+    }
+    // image/upload → insert pg_1 transformation
+    if (pdfUrl.includes('/image/upload/')) {
+        return pdfUrl
+            .replace('/image/upload/', `/image/upload/${transform}/`)
+            .replace(/\.pdf$/i, '.jpg');
+    }
+    return null;
+};
 
 const CATEGORY_COLORS = {
     Cloud: { bg: 'rgba(56, 189, 248, 0.15)', text: '#38bdf8', border: 'rgba(56,189,248,0.35)' },
@@ -55,16 +75,32 @@ const CertificationsSection = ({
                         onClick={() => setSelectedCertificate(cert)}
                     >
                         <div className="cert-thumbnail-shimmer" />
-                        <img
-                            src={cert.image || `/images/cert-${(cert.id % 3) + 1}.jpg`}
-                            alt={cert.title}
-                            className="cert-thumbnail-img"
-                            onError={(e) => {
-                                e.target.src = `/images/cert-${(cert.id % 3) + 1}.jpg`;
-                            }}
-                        />
+
+                        {/* Use uploaded image, OR auto-thumbnail from PDF, OR placeholder */}
+                        {(cert.image || getCldPdfThumbnail(cert.pdfUrl)) ? (
+                            <img
+                                src={cert.image || getCldPdfThumbnail(cert.pdfUrl)}
+                                alt={cert.title}
+                                className="cert-thumbnail-img"
+                                onError={(e) => {
+                                    // If auto-thumbnail fails, show PDF icon fallback
+                                    e.target.style.display = 'none';
+                                    e.target.nextSibling.style.display = 'flex';
+                                }}
+                            />
+                        ) : null}
+
+                        {/* Fallback placeholder: shown only after image error or no source */}
+                        <div
+                            className="cert-thumbnail-pdf-placeholder"
+                            style={{ display: (cert.image || cert.pdfUrl) ? 'none' : 'flex' }}
+                        >
+                            <FaFilePdf size={40} color="#ef4444" />
+                            <span>Certificate PDF</span>
+                        </div>
+
                         <div className="cert-thumbnail-overlay">
-                            <span>View Full Size</span>
+                            <span>{cert.pdfUrl ? 'View PDF' : 'View Full Size'}</span>
                         </div>
 
                         {/* Category chip bottom-left */}
