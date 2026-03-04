@@ -1296,7 +1296,7 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -1345,10 +1345,10 @@ a {
 }
 
 .name-gradient {
-  background: linear-gradient(135deg, 
-    var(--accent-1) 0%, 
-    var(--accent-2) 50%,
-    var(--accent-3) 100%);
+  background: linear-gradient(135deg,
+      var(--accent-1) 0%,
+      var(--accent-2) 50%,
+      var(--accent-3) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1540,7 +1540,7 @@ a {
   overflow: hidden;
   z-index: 2;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
-              0 0 0 4px rgba(99, 102, 241, 0.2);
+    0 0 0 4px rgba(99, 102, 241, 0.2);
   transition: transform 0.4s ease;
 }
 
@@ -1592,9 +1592,12 @@ a {
 }
 
 @keyframes floatOrb {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
+
   50% {
     transform: translate(30px, -30px) scale(1.1);
   }
@@ -1604,16 +1607,20 @@ a {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
 @keyframes floatDecoration {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) scale(1);
     opacity: 0.6;
   }
+
   50% {
     transform: translateY(-20px) scale(1.1);
     opacity: 0.8;
@@ -2581,8 +2588,8 @@ body.light-mode .text-card-header {
   flex-direction: column;
   backdrop-filter: blur(20px);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.4s ease,
-              box-shadow 0.4s ease;
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   will-change: transform;
 }
@@ -2591,8 +2598,8 @@ body.light-mode .text-card-header {
   transform: translateY(-12px) scale(1.02);
   border-color: rgba(99, 102, 241, 0.4);
   box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3),
-              0 0 0 1px rgba(99, 102, 241, 0.2),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 0 0 1px rgba(99, 102, 241, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .project-gradient-bg {
@@ -2601,10 +2608,10 @@ body.light-mode .text-card-header {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(99, 102, 241, 0.1) 0%, 
-    rgba(139, 92, 246, 0.05) 50%, 
-    transparent 100%);
+  background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.1) 0%,
+      rgba(139, 92, 246, 0.05) 50%,
+      transparent 100%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -2637,7 +2644,7 @@ body.light-mode .text-card-header {
   height: 100%;
   object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-              filter 0.6s ease;
+    filter 0.6s ease;
   filter: brightness(0.85) contrast(1.1);
   will-change: transform;
 }
@@ -2653,12 +2660,10 @@ body.light-mode .text-card-header {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%);
   transform: rotate(45deg);
   transition: transform 0.8s ease;
   pointer-events: none;
@@ -2687,7 +2692,7 @@ body.light-mode .text-card-header {
   letter-spacing: 1px;
   z-index: 10;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .status-indicator {
@@ -2700,11 +2705,14 @@ body.light-mode .text-card-header {
 }
 
 @keyframes statusPulse {
-  0%, 100% { 
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
-  50% { 
+
+  50% {
     opacity: 0.6;
     transform: scale(1.2);
   }
@@ -2716,9 +2724,9 @@ body.light-mode .text-card-header {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, 
-    rgba(0, 0, 0, 0.3) 0%, 
-    rgba(0, 0, 0, 0.6) 100%);
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.6) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2787,10 +2795,10 @@ body.light-mode .text-card-header {
   color: var(--text-primary);
   margin: 0 0 12px 0;
   line-height: 1.2;
-  background: linear-gradient(135deg, 
-    var(--text-primary) 0%, 
-    var(--accent-1) 50%,
-    var(--accent-2) 100%);
+  background: linear-gradient(135deg,
+      var(--text-primary) 0%,
+      var(--accent-1) 50%,
+      var(--accent-2) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2798,10 +2806,10 @@ body.light-mode .text-card-header {
 }
 
 .project-card-elegant:hover .project-title-elegant {
-  background: linear-gradient(135deg, 
-    var(--accent-1) 0%, 
-    var(--accent-2) 50%,
-    var(--accent-3) 100%);
+  background: linear-gradient(135deg,
+      var(--accent-1) 0%,
+      var(--accent-2) 50%,
+      var(--accent-3) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2926,10 +2934,10 @@ body.light-mode .text-card-header {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent);
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: left 0.6s ease;
 }
 
@@ -2940,30 +2948,30 @@ body.light-mode .text-card-header {
 .github-btn-elegant {
   background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .github-btn-elegant:hover {
   background: linear-gradient(135deg, #2d3339 0%, #24292e 100%);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
 
 .live-btn-elegant {
-  background: linear-gradient(135deg, 
-    var(--accent-1) 0%, 
-    var(--accent-2) 100%);
+  background: linear-gradient(135deg,
+      var(--accent-1) 0%,
+      var(--accent-2) 100%);
   box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .live-btn-elegant:hover {
-  background: linear-gradient(135deg, 
-    var(--accent-2) 0%, 
-    var(--accent-1) 100%);
+  background: linear-gradient(135deg,
+      var(--accent-2) 0%,
+      var(--accent-1) 100%);
   box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
@@ -7289,4 +7297,290 @@ body.light-mode {
   .about-info-icon {
     filter: none;
   }
+}
+
+/* ====================================================================
+   STITCH DESIGN — PREMIUM CERTIFICATIONS SECTION
+   ==================================================================== */
+
+/* Grid */
+.certifications-grid-premium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+
+/* Card */
+.cert-card-premium {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.cert-card-premium:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.3),
+    0 12px 40px rgba(139, 92, 246, 0.2),
+    0 0 60px rgba(56, 189, 248, 0.08);
+}
+
+/* Verified Badge */
+.cert-verified-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+/* Thumbnail */
+.cert-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cert-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.4s ease;
+  background: #0d0f18;
+  padding: 8px;
+}
+
+.cert-card-premium:hover .cert-thumbnail-img {
+  transform: scale(1.06);
+}
+
+/* Shimmer effect on hover */
+.cert-thumbnail-shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: linear-gradient(120deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 70%);
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cert-card-premium:hover .cert-thumbnail-shimmer {
+  opacity: 1;
+  animation: shimmerSlide 1.2s ease;
+}
+
+@keyframes shimmerSlide {
+  0% {
+    background-position: -200% 0;
+    opacity: 1;
+  }
+
+  100% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+}
+
+/* Enlarged overlay */
+.cert-thumbnail-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 15, 24, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.cert-thumbnail:hover .cert-thumbnail-overlay {
+  opacity: 1;
+}
+
+/* Category chip — bottom-left of thumbnail */
+.cert-category-chip {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 15;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: capitalize;
+  backdrop-filter: blur(8px);
+}
+
+/* Card body */
+.cert-body {
+  padding: 20px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.cert-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cert-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cert-issuer {
+  font-size: 0.85rem;
+  color: #a78bfa;
+  font-weight: 500;
+}
+
+.cert-date-pill {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #818cf8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cert-credential-id {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin: 0;
+  font-family: monospace;
+}
+
+/* Credential button */
+.cert-credential-btn {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e0e7ff;
+  background: transparent;
+  border: 1px solid rgba(139, 92, 246, 0.5);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+}
+
+.cert-credential-btn:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: rgba(139, 92, 246, 0.9);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.3), 0 0 6px rgba(56, 189, 248, 0.15);
+  color: #fff;
+}
+
+.cert-credential-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .certifications-grid-premium {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .certifications-grid-premium {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .cert-thumbnail {
+    height: 180px;
+  }
+}
+
+/* Light mode overrides */
+body.light-mode .cert-card-premium {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .cert-card-premium:hover {
+  border-color: rgba(79, 70, 229, 0.5);
+  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.3), 0 8px 30px rgba(79, 70, 229, 0.15);
+}
+
+body.light-mode .cert-title {
+  color: var(--text-primary);
+}
+
+body.light-mode .cert-issuer {
+  color: var(--accent-2);
+}
+
+body.light-mode .cert-date-pill {
+  background: rgba(79, 70, 229, 0.1);
+  border-color: rgba(79, 70, 229, 0.25);
+  color: var(--accent-1);
+}
+
+body.light-mode .cert-credential-btn {
+  color: var(--accent-1);
+  border-color: rgba(79, 70, 229, 0.45);
+}
+
+body.light-mode .cert-credential-btn:hover {
+  background: rgba(79, 70, 229, 0.12);
+  border-color: var(--accent-1);
+  color: var(--accent-1);
 }

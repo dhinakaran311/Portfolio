@@ -2,54 +2,48 @@
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
 
+const EMPTY_CERT = {
+  title: "",
+  issuer: "",
+  date: "",
+  credential: "",
+  link: "",
+  image: "",
+  category: "",
+};
+
 const CertificationsEditor = ({
   certifications,
   onAdd,
   onUpdate,
   onDelete,
 }) => {
-  const [newCert, setNewCert] = useState({
-    title: "",
-    issuer: "",
-    date: "",
-    credential: "",
-    image: "",
-  });
+  const [newCert, setNewCert] = useState({ ...EMPTY_CERT });
   const [editingId, setEditingId] = useState(null);
 
   const handleAddCert = (e) => {
     e.preventDefault();
     onAdd(newCert);
-    setNewCert({
-      title: "",
-      issuer: "",
-      date: "",
-      credential: "",
-      image: "",
-    });
+    setNewCert({ ...EMPTY_CERT });
   };
 
   const handleUpdateCert = (e) => {
     e.preventDefault();
     onUpdate(editingId, newCert);
     setEditingId(null);
-    setNewCert({
-      title: "",
-      issuer: "",
-      date: "",
-      credential: "",
-      image: "",
-    });
+    setNewCert({ ...EMPTY_CERT });
   };
 
   const handleEdit = (cert) => {
     setEditingId(cert.id);
     setNewCert({
-      title: cert.title,
-      issuer: cert.issuer,
-      date: cert.date,
-      credential: cert.credential,
+      title: cert.title || "",
+      issuer: cert.issuer || "",
+      date: cert.date || "",
+      credential: cert.credential || "",
+      link: cert.link || "",
       image: cert.image || "",
+      category: cert.category || "",
     });
   };
 
@@ -66,17 +60,17 @@ const CertificationsEditor = ({
         {editingId ? "Edit Certification" : "Add New Certification"}
       </h3>
       <form onSubmit={editingId ? handleUpdateCert : handleAddCert}>
+        {/* Row 1: Title + Issuer */}
         <div className="editor-grid">
           <div className="editor-group">
             <label>Title</label>
             <input
               type="text"
               value={newCert.title}
-              onChange={(e) =>
-                setNewCert({ ...newCert, title: e.target.value })
-              }
+              onChange={(e) => setNewCert({ ...newCert, title: e.target.value })}
               className="editor-input"
               required
+              placeholder="e.g. AWS Certified Developer"
             />
           </div>
           <div className="editor-group">
@@ -84,15 +78,15 @@ const CertificationsEditor = ({
             <input
               type="text"
               value={newCert.issuer}
-              onChange={(e) =>
-                setNewCert({ ...newCert, issuer: e.target.value })
-              }
+              onChange={(e) => setNewCert({ ...newCert, issuer: e.target.value })}
               className="editor-input"
               required
+              placeholder="e.g. Amazon Web Services"
             />
           </div>
         </div>
 
+        {/* Row 2: Date + Category */}
         <div className="editor-grid">
           <div className="editor-group">
             <label>Date</label>
@@ -101,31 +95,53 @@ const CertificationsEditor = ({
               value={newCert.date}
               onChange={(e) => setNewCert({ ...newCert, date: e.target.value })}
               className="editor-input"
-              placeholder="e.g. 2023"
+              placeholder="e.g. Jan 2024"
               required
             />
           </div>
           <div className="editor-group">
-            <label>Credential (optional)</label>
+            <label>Category (optional)</label>
             <input
               type="text"
-              value={newCert.credential}
-              onChange={(e) =>
-                setNewCert({ ...newCert, credential: e.target.value })
-              }
+              value={newCert.category}
+              onChange={(e) => setNewCert({ ...newCert, category: e.target.value })}
               className="editor-input"
+              placeholder="e.g. Cloud, Frontend, Security"
             />
           </div>
         </div>
 
+        {/* Row 3: Credential ID + External Link */}
+        <div className="editor-grid">
+          <div className="editor-group">
+            <label>Credential ID (optional)</label>
+            <input
+              type="text"
+              value={newCert.credential}
+              onChange={(e) => setNewCert({ ...newCert, credential: e.target.value })}
+              className="editor-input"
+              placeholder="e.g. ABC123XYZ"
+            />
+          </div>
+          <div className="editor-group">
+            <label>Credential External Link (optional)</label>
+            <input
+              type="url"
+              value={newCert.link}
+              onChange={(e) => setNewCert({ ...newCert, link: e.target.value })}
+              className="editor-input"
+              placeholder="https://www.credly.com/..."
+            />
+          </div>
+        </div>
+
+        {/* Certificate Image URL */}
         <div className="editor-group">
           <label>Certificate Image URL (optional)</label>
           <input
             type="url"
             value={newCert.image}
-            onChange={(e) =>
-              setNewCert({ ...newCert, image: e.target.value })
-            }
+            onChange={(e) => setNewCert({ ...newCert, image: e.target.value })}
             className="editor-input"
             placeholder="Paste certificate image URL here"
           />
@@ -138,8 +154,9 @@ const CertificationsEditor = ({
                   borderRadius: "8px",
                   width: "100%",
                   maxHeight: "200px",
-                  objectFit: "cover",
+                  objectFit: "contain",
                   border: "2px solid #6366f1",
+                  background: "#0d0f18",
                 }}
                 onError={(e) => {
                   e.target.style.display = 'none';
@@ -159,13 +176,7 @@ const CertificationsEditor = ({
               type="button"
               onClick={() => {
                 setEditingId(null);
-                setNewCert({
-                  title: "",
-                  issuer: "",
-                  date: "",
-                  credential: "",
-                  image: "",
-                });
+                setNewCert({ ...EMPTY_CERT });
               }}
               className="cancel-btn"
             >
@@ -185,6 +196,8 @@ const CertificationsEditor = ({
             <tr>
               <th>Title</th>
               <th>Issuer</th>
+              <th>Date</th>
+              <th>Link</th>
               <th>Image</th>
               <th>Actions</th>
             </tr>
@@ -194,17 +207,33 @@ const CertificationsEditor = ({
               <tr key={cert.id}>
                 <td>{cert.title}</td>
                 <td>{cert.issuer}</td>
+                <td>{cert.date}</td>
+                <td>
+                  {cert.link ? (
+                    <a
+                      href={cert.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: '#818cf8', fontSize: '12px', textDecoration: 'underline' }}
+                    >
+                      View Link ↗
+                    </a>
+                  ) : (
+                    <span style={{ color: '#666', fontSize: '12px' }}>No link</span>
+                  )}
+                </td>
                 <td>
                   {cert.image ? (
-                    <img 
-                      src={cert.image} 
+                    <img
+                      src={cert.image}
                       alt={cert.title}
                       style={{
-                        width: '40px',
-                        height: '30px',
-                        objectFit: 'cover',
+                        width: '50px',
+                        height: '35px',
+                        objectFit: 'contain',
                         borderRadius: '4px',
-                        border: '1px solid #ddd'
+                        border: '1px solid #333',
+                        background: '#0d0f18',
                       }}
                       onError={(e) => e.target.style.display = 'none'}
                     />
