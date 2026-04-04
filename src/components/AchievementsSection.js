@@ -1,75 +1,149 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaTrophy, FaLink } from "react-icons/fa";
+import { FaTrophy, FaLink, FaMedal, FaStar, FaExternalLinkAlt } from "react-icons/fa";
 
-const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthOrder = [
+  "Jan","Feb","Mar","Apr","May","Jun",
+  "Jul","Aug","Sep","Oct","Nov","Dec"
+];
 
+/* ─── trophy icon picks ─── */
+const TROPHY_ICONS = [FaTrophy, FaMedal, FaStar];
+
+/* ─── card entrance animation ─── */
+const cardVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+/* ─── Animated background orbs ─── */
+const Orbs = () => (
+  <div className="ach-orbs" aria-hidden="true">
+    <div className="ach-orb ach-orb--purple" />
+    <div className="ach-orb ach-orb--cyan" />
+    <div className="ach-orb ach-orb--pink" />
+  </div>
+);
+
+/* ─── Individual achievement card ─── */
+const AchievementCard = ({ ach, index }) => {
+  const Icon = TROPHY_ICONS[index % TROPHY_ICONS.length];
+  const rankNum = String(index + 1).padStart(2, "0");
+
+  return (
+    <motion.article
+      className={`ach-card ach-card--${index === 0 ? "featured" : "regular"}`}
+      custom={index}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
+      whileHover={{ scale: 1.025, transition: { duration: 0.22 } }}
+    >
+      {/* Gradient ghost border overlay */}
+      <div className="ach-card__border" aria-hidden="true" />
+
+      {/* Card header row */}
+      <div className="ach-card__header">
+        {/* Icon badge */}
+        <div className="ach-card__icon-wrap">
+          <Icon className="ach-card__icon" />
+        </div>
+
+        {/* Date badge top-right */}
+        {(ach.month || ach.year) && (
+          <span className="ach-card__date">
+            {ach.month} {ach.year}
+          </span>
+        )}
+      </div>
+
+      {/* Rank number */}
+      <span className="ach-card__rank" aria-label={`Achievement number ${rankNum}`}>
+        #{rankNum}
+      </span>
+
+      {/* Title */}
+      <h3 className="ach-card__title">{ach.title}</h3>
+
+      {/* Issuer chip */}
+      {ach.issuer && (
+        <span className="ach-card__issuer">{ach.issuer}</span>
+      )}
+
+      {/* Description */}
+      {ach.description && (
+        <p className="ach-card__desc">{ach.description}</p>
+      )}
+
+      {/* Optional image */}
+      {ach.image && (
+        <div className="ach-card__img-wrap">
+          <img src={ach.image} alt={ach.title} className="ach-card__img" loading="lazy" />
+        </div>
+      )}
+
+      {/* View Proof link */}
+      {ach.link && (
+        <a
+          href={ach.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ach-card__proof-btn"
+        >
+          <FaLink className="ach-card__proof-icon" />
+          View Proof
+          <FaExternalLinkAlt className="ach-card__proof-arrow" />
+        </a>
+      )}
+    </motion.article>
+  );
+};
+
+/* ─── Main Section ─── */
 const AchievementsSection = ({ achievements }) => {
-  // console.log('AchievementsSection received:', achievements);
+  if (!Array.isArray(achievements) || achievements.length === 0) return null;
 
-  // Ensure achievements is an array and has items
-  if (!Array.isArray(achievements) || achievements.length === 0) {
-    // console.log('No achievements to display');
-    return null;
-  }
-
-  // Sort achievements by year and month
   const sorted = [...achievements].sort((a, b) => {
-    // Convert years to numbers for comparison
-    const yearA = parseInt(a.year) || 0;
-    const yearB = parseInt(b.year) || 0;
-
-    if (yearB !== yearA) return yearB - yearA;
-
-    // If years are the same, sort by month
-    const monthA = monthOrder.indexOf(a.month);
-    const monthB = monthOrder.indexOf(b.month);
-    return monthB - monthA;
+    const yearDiff = (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+    if (yearDiff !== 0) return yearDiff;
+    return monthOrder.indexOf(b.month) - monthOrder.indexOf(a.month);
   });
 
   return (
-    <div className="achievements-list">
-      {sorted.map((ach, index) => (
-        <motion.div
-          key={ach.id}
-          className="achievement-card"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
+    <div className="achievements-nebula">
+      {/* Animated background orbs */}
+      <Orbs />
+
+      {/* Bento grid of cards */}
+      <div className="ach-grid">
+        {sorted.map((ach, idx) => (
+          <AchievementCard key={ach.id ?? idx} ach={ach} index={idx} />
+        ))}
+      </div>
+
+      {/* "View All" CTA — always visible at bottom */}
+      <motion.div
+        className="ach-cta"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
+        <a
+          href="#achievements"
+          className="ach-cta__btn"
+          onClick={(e) => e.preventDefault()}
         >
-          <div className="achievement-badge">
-            <FaTrophy size={12} />
-          </div>
-
-          <div className="achievement-header">
-            <div>
-              <h3 className="achievement-title">{ach.title}</h3>
-              {ach.issuer && <span className="achievement-issuer">{ach.issuer}</span>}
-            </div>
-            <span className="achievement-date">{ach.month} {ach.year}</span>
-          </div>
-
-          <p className="achievement-description">{ach.description}</p>
-
-          {ach.image && (
-            <div className="achievement-image-container">
-              <img src={ach.image} alt={ach.title} className="achievement-image" />
-            </div>
-          )}
-
-          {ach.link && (
-            <a
-              href={ach.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="achievement-link"
-            >
-              View Proof <FaLink size={12} />
-            </a>
-          )}
-        </motion.div>
-      ))}
+          <span>View All Achievements</span>
+          <FaExternalLinkAlt className="ach-cta__arrow" />
+        </a>
+      </motion.div>
     </div>
   );
 };

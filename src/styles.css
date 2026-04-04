@@ -7893,3 +7893,484 @@ body.light-mode .cert-credential-btn:hover {
   color: rgba(255, 255, 255, 0.3);
   font-size: 0.9rem;
 }
+
+/* ====================================================================
+   STITCH DESIGN — "DIGITAL NEBULA" ACHIEVEMENTS SECTION
+   All styles scoped under .achievements-nebula / .ach-* only.
+   No other portfolio components are affected.
+   ==================================================================== */
+
+/* ── Design tokens (achievements-only) ─────────────────────────────── */
+.achievements-nebula {
+  --ach-purple:       #7c5cfc;
+  --ach-purple-light: #cabeff;
+  --ach-cyan:         #06b6d4;
+  --ach-pink:         #f472b6;
+  --ach-bg:           #0e1322;
+  --ach-card-bg:      rgba(47, 52, 69, 0.42);
+  --ach-border:       rgba(124, 92, 252, 0.22);
+  --ach-text:         #dee1f7;
+  --ach-muted:        #a0aec0;
+  --ach-font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --ach-font-body:    'Inter', system-ui, sans-serif;
+
+  position: relative;
+  padding-top: 16px;
+  overflow: hidden;
+}
+
+/* ── Animated background orbs ───────────────────────────────────────── */
+.ach-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ach-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+  animation: achOrbFloat 18s ease-in-out infinite alternate;
+}
+
+.ach-orb--purple {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #7c5cfc, transparent 70%);
+  top: -120px;
+  left: -100px;
+  animation-duration: 22s;
+}
+
+.ach-orb--cyan {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #06b6d4, transparent 70%);
+  top: 40%;
+  right: -80px;
+  animation-duration: 18s;
+  animation-delay: -6s;
+}
+
+.ach-orb--pink {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, #f472b6, transparent 70%);
+  bottom: 60px;
+  left: 35%;
+  animation-duration: 26s;
+  animation-delay: -12s;
+}
+
+@keyframes achOrbFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, -20px) scale(1.06); }
+  100% { transform: translate(-20px, 30px) scale(0.96); }
+}
+
+/* ── Bento grid ────────────────────────────────────────────────────── */
+.ach-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 8px;
+}
+
+/* First card spans 2 columns ("featured") */
+.ach-card--featured {
+  grid-column: span 2;
+}
+
+/* ── Glass card ──────────────────────────────────────────────────────── */
+.ach-card {
+  position: relative;
+  background: var(--ach-card-bg);
+  border-radius: 20px;
+  padding: 28px 26px 24px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
+  cursor: default;
+  font-family: var(--ach-font-body);
+}
+
+/* Ghost gradient border */
+.ach-card__border {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 92, 252, 0.55) 0%,
+    rgba(6, 182, 212, 0.28) 50%,
+    rgba(244, 114, 182, 0.18) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Hover glow */
+.ach-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(124, 92, 252, 0.35),
+    0 12px 48px rgba(124, 92, 252, 0.22),
+    0 0 60px rgba(6, 182, 212, 0.10);
+}
+
+/* ── Card header row ─────────────────────────────────────────────────── */
+.ach-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Glowing trophy icon ─────────────────────────────────────────────── */
+.ach-card__icon-wrap {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--ach-purple), var(--ach-cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 18px rgba(124, 92, 252, 0.5),
+    0 0 6px rgba(6, 182, 212, 0.3);
+}
+
+.ach-card__icon {
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+}
+
+/* ── Date badge ──────────────────────────────────────────────────────── */
+.ach-card__date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--ach-font-body);
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  background: rgba(124, 92, 252, 0.14);
+  border: 1px solid rgba(124, 92, 252, 0.38);
+  color: var(--ach-purple-light);
+  flex-shrink: 0;
+}
+
+/* ── Rank number ─────────────────────────────────────────────────────── */
+.ach-card__rank {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  font-family: 'Courier New', 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(124, 92, 252, 0.45);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Offset rank when date is also shown — rank goes below date */
+.ach-card__header + .ach-card__rank {
+  top: 68px;
+}
+
+/* ── Title ───────────────────────────────────────────────────────────── */
+.ach-card__title {
+  font-family: var(--ach-font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ach-text);
+  margin: 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.ach-card--featured .ach-card__title {
+  font-size: 1.35rem;
+}
+
+/* ── Issuer chip ─────────────────────────────────────────────────────── */
+.ach-card__issuer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: var(--ach-font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  background: rgba(244, 114, 182, 0.14);
+  border: 1px solid rgba(244, 114, 182, 0.35);
+  color: var(--ach-pink);
+  align-self: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.ach-card__issuer::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ach-pink);
+  flex-shrink: 0;
+}
+
+/* ── Description ─────────────────────────────────────────────────────── */
+.ach-card__desc {
+  font-family: var(--ach-font-body);
+  font-size: 0.9rem;
+  color: var(--ach-muted);
+  line-height: 1.65;
+  margin: 0;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Optional image ──────────────────────────────────────────────────── */
+.ach-card__img-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 200px;
+  position: relative;
+  z-index: 1;
+}
+
+.ach-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ach-card:hover .ach-card__img {
+  transform: scale(1.04);
+}
+
+/* ── View Proof button ───────────────────────────────────────────────── */
+.ach-card__proof-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-family: var(--ach-font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ach-cyan);
+  background: transparent;
+  border: 1px solid rgba(6, 182, 212, 0.45);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.ach-card__proof-btn:hover {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: var(--ach-cyan);
+  box-shadow: 0 0 18px rgba(6, 182, 212, 0.28), 0 0 6px rgba(124, 92, 252, 0.15);
+  color: #fff;
+  gap: 12px;
+}
+
+.ach-card__proof-icon {
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.ach-card__proof-arrow {
+  font-size: 0.68rem;
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.ach-card__proof-btn:hover .ach-card__proof-arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* ── CTA button ──────────────────────────────────────────────────────── */
+.ach-cta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.ach-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-family: var(--ach-font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--ach-purple), var(--ach-cyan));
+  box-shadow:
+    0 0 28px rgba(124, 92, 252, 0.4),
+    0 4px 20px rgba(6, 182, 212, 0.2);
+  transition: all 0.28s ease;
+}
+
+.ach-cta__btn:hover {
+  background: linear-gradient(135deg, #6941e0, var(--ach-cyan));
+  box-shadow:
+    0 0 40px rgba(124, 92, 252, 0.55),
+    0 8px 30px rgba(6, 182, 212, 0.28);
+  transform: translateY(-2px);
+  gap: 14px;
+}
+
+.ach-cta__arrow {
+  font-size: 0.78rem;
+  transition: transform 0.22s ease;
+}
+
+.ach-cta__btn:hover .ach-cta__arrow {
+  transform: translateX(4px);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .ach-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .ach-card--featured {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .ach-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ach-card--featured {
+    grid-column: span 1;
+  }
+
+  .ach-card {
+    padding: 22px 18px 20px;
+  }
+
+  .ach-card__title {
+    font-size: 1rem;
+  }
+
+  .ach-card--featured .ach-card__title {
+    font-size: 1.1rem;
+  }
+
+  .ach-orb--purple { width: 300px; height: 300px; }
+  .ach-orb--cyan   { width: 220px; height: 220px; }
+  .ach-orb--pink   { width: 180px; height: 180px; }
+}
+
+/* ── Light-mode overrides (achievement-only) ──────────────────────────── */
+body.light-mode .achievements-nebula {
+  --ach-card-bg:  rgba(255, 255, 255, 0.80);
+  --ach-border:   rgba(79, 70, 229, 0.18);
+  --ach-text:     #1e1b4b;
+  --ach-muted:    #4b5563;
+}
+
+body.light-mode .ach-orb {
+  opacity: 0.08;
+}
+
+body.light-mode .ach-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .ach-card__border {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.4) 0%,
+    rgba(6, 182, 212, 0.2) 50%,
+    rgba(244, 114, 182, 0.12) 100%
+  );
+}
+
+body.light-mode .ach-card:hover {
+  box-shadow:
+    0 0 0 1px rgba(79, 70, 229, 0.3),
+    0 12px 40px rgba(79, 70, 229, 0.12);
+}
+
+body.light-mode .ach-card__date {
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(79, 70, 229, 0.3);
+  color: #4f46e5;
+}
+
+body.light-mode .ach-card__rank {
+  color: rgba(79, 70, 229, 0.35);
+}
+
+body.light-mode .ach-card__proof-btn {
+  color: #0e7490;
+  border-color: rgba(14, 116, 144, 0.4);
+}
+
+body.light-mode .ach-card__proof-btn:hover {
+  background: rgba(14, 116, 144, 0.08);
+  border-color: #0e7490;
+  color: #0e7490;
+  box-shadow: 0 0 14px rgba(14, 116, 144, 0.2);
+}
+
+body.light-mode .ach-cta__btn {
+  background: linear-gradient(135deg, #4f46e5, #0891b2);
+  box-shadow: 0 0 24px rgba(79, 70, 229, 0.3), 0 4px 16px rgba(8, 145, 178, 0.15);
+}
+
+body.light-mode .ach-cta__btn:hover {
+  box-shadow: 0 0 36px rgba(79, 70, 229, 0.42), 0 8px 24px rgba(8, 145, 178, 0.2);
+}
