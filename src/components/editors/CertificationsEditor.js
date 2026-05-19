@@ -6,6 +6,11 @@ import { FaUpload, FaFilePdf, FaTimesCircle, FaSpinner, FaCheckCircle } from 're
 const CLOUD_NAME = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
+const sanitizeUrl = (url) => {
+  if (!url) return '';
+  return url.replace(/\s+/g, '');
+};
+
 const EMPTY_CERT = {
   title: "",
   issuer: "",
@@ -170,13 +175,25 @@ const CertificationsEditor = ({
 
   const handleAddCert = (e) => {
     e.preventDefault();
-    onAdd(newCert);
+    const certToSave = {
+      ...newCert,
+      link: sanitizeUrl(newCert.link),
+      image: sanitizeUrl(newCert.image),
+      pdfUrl: sanitizeUrl(newCert.pdfUrl)
+    };
+    onAdd(certToSave);
     resetForm();
   };
 
   const handleUpdateCert = (e) => {
     e.preventDefault();
-    onUpdate(editingId, newCert);
+    const certToSave = {
+      ...newCert,
+      link: sanitizeUrl(newCert.link),
+      image: sanitizeUrl(newCert.image),
+      pdfUrl: sanitizeUrl(newCert.pdfUrl)
+    };
+    onUpdate(editingId, certToSave);
     resetForm();
   };
 
@@ -323,8 +340,8 @@ const CertificationsEditor = ({
                     : <span style={{ color: '#555', fontSize: '12px' }}>—</span>}
                 </td>
                 <td>
-                  {cert.link ? (
-                    <a href={cert.link} target="_blank" rel="noopener noreferrer"
+                  {cert.link && sanitizeUrl(cert.link) ? (
+                    <a href={sanitizeUrl(cert.link)} target="_blank" rel="noopener noreferrer"
                       style={{ color: '#818cf8', fontSize: '12px', textDecoration: 'underline' }}>
                       View ↗
                     </a>

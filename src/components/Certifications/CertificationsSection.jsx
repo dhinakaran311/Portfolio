@@ -32,6 +32,11 @@ const CATEGORY_COLORS = {
     Default: { bg: 'rgba(99, 102, 241, 0.15)', text: '#818cf8', border: 'rgba(99,102,241,0.35)' },
 };
 
+const sanitizeUrl = (url) => {
+    if (!url) return '';
+    return url.replace(/\s+/g, '');
+};
+
 const getCategory = (cert) => {
     if (!cert.category) return 'Default';
     return CATEGORY_COLORS[cert.category] ? cert.category : 'Default';
@@ -132,9 +137,9 @@ const CertificationsSection = ({
                         )}
 
                         {/* View Credential button */}
-                        {cert.link ? (
+                        {cert.link && sanitizeUrl(cert.link) ? (
                             <a
-                                href={cert.link}
+                                href={sanitizeUrl(cert.link)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="cert-credential-btn"

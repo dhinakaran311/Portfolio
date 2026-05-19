@@ -8373,4 +8373,564 @@ body.light-mode .ach-cta__btn {
 
 body.light-mode .ach-cta__btn:hover {
   box-shadow: 0 0 36px rgba(79, 70, 229, 0.42), 0 8px 24px rgba(8, 145, 178, 0.2);
-}
+}
+
+/* ====================================================================
+   ACHIEVEMENTS SECTION — CRUD REDESIGN
+   Admin toolbar, inline card controls, modal form, delete confirm
+   ==================================================================== */
+
+/* ── Admin toolbar ──────────────────────────────────────────────────── */
+.ach-admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 14px 20px;
+  background: rgba(124, 92, 252, 0.08);
+  border: 1px solid rgba(124, 92, 252, 0.22);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+}
+
+.ach-admin-toolbar__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ach-purple-light, #cabeff);
+  letter-spacing: 0.3px;
+}
+
+/* ── Add Achievement button ─────────────────────────────────────────── */
+.ach-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #fff;
+  background: linear-gradient(135deg, #7c5cfc, #06b6d4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(124, 92, 252, 0.35);
+}
+
+.ach-add-btn:hover {
+  background: linear-gradient(135deg, #6941e0, #0891b2);
+  box-shadow: 0 0 32px rgba(124, 92, 252, 0.5);
+  transform: translateY(-1px);
+}
+
+/* ── Inline card admin action buttons ───────────────────────────────── */
+.ach-card__admin-actions {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ach-card:hover .ach-card__admin-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ach-card__admin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.ach-card__admin-btn--edit {
+  background: rgba(124, 92, 252, 0.2);
+  color: #cabeff;
+  border: 1px solid rgba(124, 92, 252, 0.4);
+}
+
+.ach-card__admin-btn--edit:hover {
+  background: rgba(124, 92, 252, 0.4);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(124, 92, 252, 0.5);
+}
+
+.ach-card__admin-btn--delete {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.ach-card__admin-btn--delete:hover {
+  background: rgba(239, 68, 68, 0.35);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* ── Modal overlay ──────────────────────────────────────────────────── */
+.ach-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(10, 12, 25, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ── Modal container ────────────────────────────────────────────────── */
+.ach-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #161927;
+  border: 1px solid rgba(124, 92, 252, 0.3);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(124, 92, 252, 0.15),
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(124, 92, 252, 0.12);
+  padding: 28px;
+  position: relative;
+}
+
+/* Scrollbar styling for modal */
+.ach-modal::-webkit-scrollbar { width: 4px; }
+.ach-modal::-webkit-scrollbar-track { background: transparent; }
+.ach-modal::-webkit-scrollbar-thumb { background: rgba(124, 92, 252, 0.4); border-radius: 4px; }
+
+/* ── Modal header ───────────────────────────────────────────────────── */
+.ach-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.ach-modal__title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ach-modal__icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c5cfc, #06b6d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 0 16px rgba(124, 92, 252, 0.45);
+  flex-shrink: 0;
+}
+
+.ach-modal__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #dee1f7;
+  margin: 0;
+}
+
+.ach-modal__close {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: #a0aec0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ach-modal__close:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+/* ── Form fields ────────────────────────────────────────────────────── */
+.ach-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ach-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ach-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.ach-field__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a0aec0;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.ach-field__label-icon {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+.ach-field__input,
+.ach-field__textarea,
+.ach-field__select {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #dee1f7;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ach-field__input::placeholder,
+.ach-field__textarea::placeholder {
+  color: rgba(160, 174, 192, 0.5);
+}
+
+.ach-field__input:focus,
+.ach-field__textarea:focus,
+.ach-field__select:focus {
+  border-color: rgba(124, 92, 252, 0.6);
+  box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.12);
+}
+
+.ach-field__textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.ach-field__select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a0aec0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.ach-field__select option {
+  background: #161927;
+  color: #dee1f7;
+}
+
+/* Error state */
+.ach-field--error .ach-field__input,
+.ach-field--error .ach-field__textarea,
+.ach-field--error .ach-field__select {
+  border-color: rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.ach-field__error {
+  font-size: 0.78rem;
+  color: #fca5a5;
+  font-weight: 500;
+}
+
+/* Image preview */
+.ach-field__img-preview {
+  margin-top: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 140px;
+  border: 1px solid rgba(124, 92, 252, 0.2);
+}
+
+.ach-field__img-preview img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Modal action buttons ───────────────────────────────────────────── */
+.ach-modal__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.ach-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.22s ease;
+}
+
+.ach-modal__btn--cancel {
+  background: rgba(255, 255, 255, 0.06);
+  color: #a0aec0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ach-modal__btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #dee1f7;
+}
+
+.ach-modal__btn--submit {
+  background: linear-gradient(135deg, #7c5cfc, #06b6d4);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(124, 92, 252, 0.35);
+}
+
+.ach-modal__btn--submit:hover {
+  background: linear-gradient(135deg, #6941e0, #0891b2);
+  box-shadow: 0 0 30px rgba(124, 92, 252, 0.5);
+  transform: translateY(-1px);
+}
+
+.ach-modal__btn--danger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.ach-modal__btn--danger:hover {
+  background: rgba(239, 68, 68, 0.35);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ── Delete confirm modal ───────────────────────────────────────────── */
+.ach-modal--confirm {
+  max-width: 400px;
+  text-align: center;
+  padding: 36px 28px;
+}
+
+.ach-confirm__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #fca5a5;
+  margin: 0 auto 16px;
+}
+
+.ach-confirm__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #dee1f7;
+  margin: 0 0 10px;
+}
+
+.ach-confirm__body {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  line-height: 1.6;
+  margin: 0 0 4px;
+}
+
+.ach-confirm__body strong {
+  color: #dee1f7;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+.ach-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.ach-empty__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(124, 92, 252, 0.12);
+  border: 1px solid rgba(124, 92, 252, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #7c5cfc;
+}
+
+.ach-empty__text {
+  font-size: 0.95rem;
+  color: #a0aec0;
+}
+
+/* ── Light-mode overrides for CRUD elements ─────────────────────────── */
+body.light-mode .ach-admin-toolbar {
+  background: rgba(79, 70, 229, 0.06);
+  border-color: rgba(79, 70, 229, 0.18);
+}
+
+body.light-mode .ach-admin-toolbar__label {
+  color: #4f46e5;
+}
+
+body.light-mode .ach-add-btn {
+  background: linear-gradient(135deg, #4f46e5, #0891b2);
+}
+
+body.light-mode .ach-add-btn:hover {
+  background: linear-gradient(135deg, #4338ca, #0e7490);
+}
+
+body.light-mode .ach-card__admin-btn--edit {
+  background: rgba(79, 70, 229, 0.12);
+  color: #4f46e5;
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+body.light-mode .ach-card__admin-btn--edit:hover {
+  background: rgba(79, 70, 229, 0.25);
+  color: #3730a3;
+}
+
+body.light-mode .ach-modal {
+  background: #ffffff;
+  border-color: rgba(79, 70, 229, 0.2);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15), 0 0 40px rgba(79, 70, 229, 0.08);
+}
+
+body.light-mode .ach-modal__title { color: #1e1b4b; }
+body.light-mode .ach-modal__close { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.04); color: #64748b; }
+body.light-mode .ach-modal__close:hover { background: rgba(239,68,68,0.08); color: #ef4444; }
+
+body.light-mode .ach-field__label { color: #64748b; }
+
+body.light-mode .ach-field__input,
+body.light-mode .ach-field__textarea,
+body.light-mode .ach-field__select {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #1e1b4b;
+}
+
+body.light-mode .ach-field__input::placeholder,
+body.light-mode .ach-field__textarea::placeholder { color: rgba(100, 116, 139, 0.6); }
+
+body.light-mode .ach-field__input:focus,
+body.light-mode .ach-field__textarea:focus,
+body.light-mode .ach-field__select:focus {
+  border-color: rgba(79, 70, 229, 0.5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+body.light-mode .ach-field__select { background-color: #f8fafc; }
+body.light-mode .ach-field__select option { background: #ffffff; color: #1e1b4b; }
+
+body.light-mode .ach-modal__actions { border-top-color: rgba(0,0,0,0.08); }
+
+body.light-mode .ach-modal__btn--cancel {
+  background: rgba(0,0,0,0.04);
+  color: #64748b;
+  border-color: rgba(0,0,0,0.1);
+}
+
+body.light-mode .ach-modal__btn--cancel:hover { background: rgba(0,0,0,0.08); color: #1e1b4b; }
+
+body.light-mode .ach-modal__btn--submit {
+  background: linear-gradient(135deg, #4f46e5, #0891b2);
+}
+
+body.light-mode .ach-confirm__title { color: #1e1b4b; }
+body.light-mode .ach-confirm__body { color: #64748b; }
+body.light-mode .ach-confirm__body strong { color: #1e1b4b; }
+
+body.light-mode .ach-empty__text { color: #64748b; }
+body.light-mode .ach-empty__icon { background: rgba(79,70,229,0.08); border-color: rgba(79,70,229,0.2); color: #4f46e5; }
+
+/* ── Responsive adjustments ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ach-admin-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ach-add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ach-field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ach-modal {
+    padding: 20px 16px;
+  }
+
+  .ach-modal__actions {
+    flex-direction: column-reverse;
+  }
+
+  .ach-modal__btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Always show admin buttons on mobile (no hover) */
+  .ach-card__admin-actions {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

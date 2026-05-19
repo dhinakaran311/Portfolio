@@ -22,6 +22,11 @@ const getCldPdfImage = (pdfUrl) => {
 };
 
 
+const sanitizeUrl = (url) => {
+    if (!url) return '';
+    return url.replace(/\s+/g, '');
+};
+
 const CertificateModal = ({ selectedCertificate, setSelectedCertificate }) => {
     const cert = selectedCertificate;
     const hasPdf = cert?.pdfUrl;
@@ -82,9 +87,9 @@ const CertificateModal = ({ selectedCertificate, setSelectedCertificate }) => {
                                 {cert.credential && <p><strong>ID:</strong> {cert.credential}</p>}
 
                                 {/* External credential link */}
-                                {cert.link && (
+                                {cert.link && sanitizeUrl(cert.link) && (
                                     <a
-                                        href={cert.link}
+                                        href={sanitizeUrl(cert.link)}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="cert-modal-ext-link"

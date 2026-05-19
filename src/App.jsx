@@ -15,8 +15,7 @@ import { useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
 import ResumePreviewModal from './components/ResumePreviewModal';
 import DKLoader from './components/DKLoader';
-import AchievementsSection from './components/AchievementsSection';
-import AchievementsEditor from './components/editors/AchievementsEditor';
+import AchievementsSection from './components/Achievements/AchievementsSection';
 
 // Import new extracted components
 import CursorFollower from './components/CursorFollower/CursorFollower';
@@ -753,31 +752,14 @@ const App = () => {
       />
 
       {/* Achievements Section */}
-      <section
-        id="achievements"
-        className="section section-bg"
-        ref={(el) => setRef('achievements', el)}
-      >
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">
-              My <span>Achievements</span>
-            </h2>
-            <div className="section-subtitle">Competitions & Awards</div>
-          </div>
-
-          {isAdmin && (
-            <AchievementsEditor
-              achievements={data.achievements}
-              onAdd={(newAch) => addItem('achievements', newAch)}
-              onUpdate={(id, updatedAch) => updateItem('achievements', id, updatedAch)}
-              onDelete={(id) => deleteItem('achievements', id)}
-            />
-          )}
-
-          <AchievementsSection achievements={data.achievements} />
-        </div>
-      </section>
+      <AchievementsSection
+        achievements={data.achievements}
+        isAdmin={isAdmin}
+        addItem={addItem}
+        updateItem={updateItem}
+        deleteItem={deleteItem}
+        setRef={setRef}
+      />
 
       <CertificationsSection
         certifications={data.certifications}
