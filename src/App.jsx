@@ -29,6 +29,7 @@ import ProjectsSection from './components/Projects/ProjectsSection';
 import ExperienceSection from './components/Experience/ExperienceSection';
 import CertificationsSection from './components/Certifications/CertificationsSection';
 import CertificateModal from './components/Certifications/CertificateModal';
+import CompetitiveProgrammingSection from './components/CompetitiveProgramming/CompetitiveProgrammingSection';
 import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Footer/Footer';
 
@@ -129,6 +130,47 @@ const initialData = {
       link: '',
       image: ''
     }
+  ],
+  competitiveProgramming: [
+    {
+      id: 1,
+      platform: 'leetcode',
+      username: 'dhinakaran311',
+      profileUrl: 'https://leetcode.com/dhinakaran311',
+      rating: '',
+      globalRank: 'Top 25%',
+      problemsSolved: 100,
+      streak: 10,
+      longestStreak: 30,
+      badges: ['100 Days', 'SQL-50'],
+      contestsParticipated: 5,
+    },
+    {
+      id: 2,
+      platform: 'codeforces',
+      username: 'dhinakaran311',
+      profileUrl: 'https://codeforces.com/profile/dhinakaran311',
+      rating: 800,
+      globalRank: 'Newbie',
+      problemsSolved: 30,
+      streak: '',
+      longestStreak: '',
+      badges: [],
+      contestsParticipated: 3,
+    },
+    {
+      id: 3,
+      platform: 'codechef',
+      username: 'dhinakaran311',
+      profileUrl: 'https://www.codechef.com/users/dhinakaran311',
+      rating: 1200,
+      globalRank: '2★',
+      problemsSolved: 20,
+      streak: '',
+      longestStreak: '',
+      badges: [],
+      contestsParticipated: 4,
+    },
   ]
 };
 
@@ -765,6 +807,16 @@ const App = () => {
         certifications={data.certifications}
         isAdmin={isAdmin}
         setSelectedCertificate={setSelectedCertificate}
+        addItem={addItem}
+        updateItem={updateItem}
+        deleteItem={deleteItem}
+        setRef={setRef}
+      />
+
+      {/* Competitive Programming Section */}
+      <CompetitiveProgrammingSection
+        competitiveProgramming={data.competitiveProgramming || []}
+        isAdmin={isAdmin}
         addItem={addItem}
         updateItem={updateItem}
         deleteItem={deleteItem}

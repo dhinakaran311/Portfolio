@@ -63,6 +63,7 @@ const Navbar = ({
                         "skills",
                         "projects",
                         "experience",
+                        "competitive",
                         "contact",
                     ].map((item) => (
                         <motion.a

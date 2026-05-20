@@ -54,6 +54,7 @@ const MobileMenu = ({
                             <a href="#skills" className="menu-item" onClick={closeMobileMenu}>Skills</a>
                             <a href="#projects" className="menu-item" onClick={closeMobileMenu}>Projects</a>
                             <a href="#internships" className="menu-item" onClick={closeMobileMenu}>Internships</a>
+                            <a href="#competitive" className="menu-item" onClick={closeMobileMenu}>CP</a>
                             <a href="#contact" className="menu-item" onClick={closeMobileMenu}>Contact</a>
                         </div>
 
