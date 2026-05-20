@@ -164,7 +164,7 @@ const HeroSection = ({ setRef, scrollToSection }) => {
                             <div className="profile-border-ring"></div>
                             <div className="profile-image-wrapper-modern">
                                 <img
-                                    src="/images/profile.jpeg"
+                                    src="/images/profile.png"
                                     alt="Dhinakaran"
                                     className="profile-image-modern"
                                     loading="eager"
