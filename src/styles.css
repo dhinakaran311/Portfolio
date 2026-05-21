@@ -3059,6 +3059,82 @@ body.light-mode .text-card-header {
   }
 }
 
+/* ── Light-mode overrides for Elegant Project Card ──────────────────────── */
+body.light-mode .project-card-elegant {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.08);
+}
+
+body.light-mode .project-card-elegant:hover {
+  border-color: rgba(220, 38, 38, 0.4);
+  box-shadow: 0 20px 60px rgba(220, 38, 38, 0.15),
+    0 0 0 1px rgba(220, 38, 38, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.light-mode .project-gradient-bg {
+  background: linear-gradient(135deg,
+      rgba(220, 38, 38, 0.08) 0%,
+      rgba(220, 38, 38, 0.04) 50%,
+      transparent 100%);
+}
+
+body.light-mode .project-image-elegant {
+  background: linear-gradient(135deg, #fff5f5 0%, #fee2e2 100%);
+}
+
+body.light-mode .project-image-img {
+  filter: brightness(0.95) contrast(1.05);
+}
+
+body.light-mode .project-card-elegant:hover .project-image-img {
+  filter: brightness(1) contrast(1.1);
+}
+
+body.light-mode .project-content-elegant {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+body.light-mode .project-card-elegant:hover .project-description-elegant {
+  color: var(--text-primary);
+}
+
+body.light-mode .project-tag-elegant {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.18);
+  color: #991b1b;
+}
+
+body.light-mode .project-tag-elegant:hover {
+  background: rgba(220, 38, 38, 0.14);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: var(--accent-1);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+body.light-mode .github-btn-elegant {
+  background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+body.light-mode .github-btn-elegant:hover {
+  background: linear-gradient(135deg, #444444 0%, #2b2b2b 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+body.light-mode .live-btn-elegant {
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+body.light-mode .live-btn-elegant:hover {
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
 /* Experience & Achievements Sections */
 .experience-list,
 .achievements-list {
