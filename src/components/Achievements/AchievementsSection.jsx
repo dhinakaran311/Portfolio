@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaTrophy, FaMedal, FaStar, FaLink, FaExternalLinkAlt,
-  FaPlus, FaEdit, FaTrash, FaTimes, FaCheck, FaCalendarAlt, FaImage
+  FaPlus, FaEdit, FaTrash, FaTimes, FaCheck, FaCalendarAlt,
+  FaUpload, FaTimesCircle, FaSpinner
 } from "react-icons/fa";
 
 /* ─── Constants ─────────────────────────────────────────────────────── */
@@ -12,9 +13,32 @@ const MONTHS = MONTH_ORDER;
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 20 }, (_, i) => CURRENT_YEAR - i);
 
+const CLOUD_NAME    = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
 const EMPTY_FORM = {
   title: "", description: "", month: "", year: "", issuer: "", link: "", image: ""
 };
+
+/* ─── Cloudinary upload helper ──────────────────────────────────────── */
+const uploadToCloudinary = (file, onProgress) =>
+  new Promise((resolve, reject) => {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", UPLOAD_PRESET);
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+    xhr.onload = () => {
+      if (xhr.status === 200) resolve(JSON.parse(xhr.responseText).secure_url);
+      else reject(new Error("Upload failed"));
+    };
+    xhr.onerror = () => reject(new Error("Network error"));
+    xhr.send(fd);
+  });
 
 /* ─── Animated background orbs ─────────────────────────────────────── */
 const Orbs = () => (
@@ -37,8 +61,15 @@ const cardVariants = {
 
 /* ─── Achievement Form (Add / Edit modal) ───────────────────────────── */
 const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }) => {
-  const [form, setForm] = useState(initial);
+  const [form, setForm]     = useState(initial);
   const [errors, setErrors] = useState({});
+
+  /* image upload state */
+  const [imgUploading, setImgUploading] = useState(false);
+  const [imgProgress,  setImgProgress]  = useState(0);
+  const [imgError,     setImgError]     = useState("");
+  const [dragOver,     setDragOver]     = useState(false);
+  const fileInputRef = useRef();
 
   const validate = () => {
     const e = {};
@@ -58,8 +89,34 @@ const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) onSubmit(form);
+    if (!imgUploading && validate()) onSubmit(form);
   };
+
+  /* ── Cloudinary upload ── */
+  const doUpload = async (file) => {
+    if (!file || !file.type.startsWith("image/")) {
+      setImgError("Please select a valid image file.");
+      return;
+    }
+    setImgError("");
+    setImgUploading(true);
+    setImgProgress(0);
+    try {
+      const url = await uploadToCloudinary(file, setImgProgress);
+      setForm(prev => ({ ...prev, image: url }));
+    } catch {
+      setImgError("Upload failed. Check Cloudinary settings.");
+    } finally {
+      setImgUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleFileInput  = (e) => doUpload(e.target.files[0]);
+  const handleDrop       = (e) => { e.preventDefault(); setDragOver(false); doUpload(e.dataTransfer.files[0]); };
+  const handleDragOver   = (e) => { e.preventDefault(); setDragOver(true);  };
+  const handleDragLeave  = ()  => setDragOver(false);
+  const removeImage      = ()  => { setForm(prev => ({ ...prev, image: "" })); setImgError(""); };
 
   return (
     <motion.div
@@ -79,9 +136,7 @@ const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }
         {/* Modal header */}
         <div className="ach-modal__header">
           <div className="ach-modal__title-row">
-            <div className="ach-modal__icon-wrap">
-              <FaTrophy />
-            </div>
+            <div className="ach-modal__icon-wrap"><FaTrophy /></div>
             <h3 className="ach-modal__title">
               {isEditing ? "Edit Achievement" : "Add Achievement"}
             </h3>
@@ -93,6 +148,89 @@ const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="ach-modal__form" noValidate>
+
+          {/* ── IMAGE UPLOAD — top of form ── */}
+          <div className="ach-field">
+            <label className="ach-field__label">
+              <FaUpload className="ach-field__label-icon" /> Achievement Image
+            </label>
+
+            {/* Show preview when image is set */}
+            {form.image && !imgUploading ? (
+              <div className="ach-upload__preview">
+                <img
+                  src={form.image}
+                  alt="Achievement preview"
+                  className="ach-upload__preview-img"
+                  onError={(e) => { e.target.style.display = "none"; }}
+                />
+                <div className="ach-upload__preview-overlay">
+                  <button
+                    type="button"
+                    className="ach-upload__remove-btn"
+                    onClick={removeImage}
+                    title="Remove image"
+                  >
+                    <FaTimesCircle /> Remove
+                  </button>
+                  <button
+                    type="button"
+                    className="ach-upload__change-btn"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Change image"
+                  >
+                    <FaUpload /> Change
+                  </button>
+                </div>
+              </div>
+            ) : imgUploading ? (
+              /* Upload progress */
+              <div className="ach-upload__progress">
+                <FaSpinner className="ach-upload__spinner" />
+                <span className="ach-upload__progress-text">Uploading… {imgProgress}%</span>
+                <div className="ach-upload__progress-bar">
+                  <div
+                    className="ach-upload__progress-fill"
+                    style={{ width: `${imgProgress}%` }}
+                  />
+                </div>
+              </div>
+            ) : (
+              /* Drop zone */
+              <div
+                className={`ach-upload__zone ${dragOver ? "ach-upload__zone--active" : ""}`}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onClick={() => fileInputRef.current?.click()}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && fileInputRef.current?.click()}
+                aria-label="Upload image"
+              >
+                <FaUpload className="ach-upload__zone-icon" />
+                <p className="ach-upload__zone-text">
+                  <span className="ach-upload__zone-cta">Click to upload</span> or drag &amp; drop
+                </p>
+                <p className="ach-upload__zone-hint">PNG, JPG, WEBP (max 10 MB)</p>
+              </div>
+            )}
+
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileInput}
+              style={{ display: "none" }}
+            />
+
+            {imgError && <span className="ach-field__error">⚠ {imgError}</span>}
+          </div>
+
+          {/* Divider */}
+          <div className="ach-form__divider" />
+
           {/* Title */}
           <div className={`ach-field ${errors.title ? "ach-field--error" : ""}`}>
             <label className="ach-field__label">Title *</label>
@@ -133,7 +271,6 @@ const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }
               </select>
               {errors.month && <span className="ach-field__error">{errors.month}</span>}
             </div>
-
             <div className={`ach-field ${errors.year ? "ach-field--error" : ""}`}>
               <label className="ach-field__label">Year *</label>
               <select name="year" value={form.year} onChange={handleChange} className="ach-field__select">
@@ -172,38 +309,18 @@ const AchievementForm = ({ initial = EMPTY_FORM, onSubmit, onCancel, isEditing }
             />
           </div>
 
-          {/* Image URL */}
-          <div className="ach-field">
-            <label className="ach-field__label">
-              <FaImage className="ach-field__label-icon" /> Image URL
-            </label>
-            <input
-              type="url"
-              name="image"
-              value={form.image}
-              onChange={handleChange}
-              placeholder="https://… (optional)"
-              className="ach-field__input"
-            />
-            {form.image && (
-              <div className="ach-field__img-preview">
-                <img
-                  src={form.image}
-                  alt="Preview"
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
-              </div>
-            )}
-          </div>
-
           {/* Actions */}
           <div className="ach-modal__actions">
             <button type="button" className="ach-modal__btn ach-modal__btn--cancel" onClick={onCancel}>
               Cancel
             </button>
-            <button type="submit" className="ach-modal__btn ach-modal__btn--submit">
-              <FaCheck />
-              {isEditing ? "Update Achievement" : "Add Achievement"}
+            <button
+              type="submit"
+              className="ach-modal__btn ach-modal__btn--submit"
+              disabled={imgUploading}
+            >
+              {imgUploading ? <FaSpinner className="ach-upload__spinner" /> : <FaCheck />}
+              {imgUploading ? "Uploading…" : isEditing ? "Update Achievement" : "Add Achievement"}
             </button>
           </div>
         </form>
@@ -288,20 +405,49 @@ const AchievementCard = ({ ach, index, isAdmin, onEdit, onDelete }) => {
         </div>
       )}
 
-      {/* Card header row */}
-      <div className="ach-card__header">
-        <div className="ach-card__icon-wrap">
-          <Icon className="ach-card__icon" />
+      {/* ── Image at the TOP of the card ── */}
+      {ach.image && (
+        <div className="ach-card__img-wrap">
+          <img src={ach.image} alt={ach.title} className="ach-card__img" loading="lazy" />
+          {/* date badge overlaid on the image */}
+          {(ach.month || ach.year) && (
+            <span className="ach-card__date ach-card__date--overlay">
+              {ach.month} {ach.year}
+            </span>
+          )}
         </div>
-        {(ach.month || ach.year) && (
-          <span className="ach-card__date">{ach.month} {ach.year}</span>
-        )}
-      </div>
+      )}
 
-      {/* Rank */}
-      <span className="ach-card__rank" aria-label={`Achievement number ${rankNum}`}>
-        #{rankNum}
-      </span>
+      {/* Card header row (shown when there is NO image, keeps icon + date visible) */}
+      {!ach.image && (
+        <div className="ach-card__header">
+          <div className="ach-card__icon-wrap">
+            <Icon className="ach-card__icon" />
+          </div>
+          {(ach.month || ach.year) && (
+            <span className="ach-card__date">{ach.month} {ach.year}</span>
+          )}
+        </div>
+      )}
+
+      {/* When image IS present, show icon inline with title row */}
+      {ach.image && (
+        <div className="ach-card__meta-row">
+          <div className="ach-card__icon-wrap ach-card__icon-wrap--sm">
+            <Icon className="ach-card__icon" />
+          </div>
+          <span className="ach-card__rank" aria-label={`Achievement number ${rankNum}`}>
+            #{rankNum}
+          </span>
+        </div>
+      )}
+
+      {/* Rank (no-image variant) */}
+      {!ach.image && (
+        <span className="ach-card__rank" aria-label={`Achievement number ${rankNum}`}>
+          #{rankNum}
+        </span>
+      )}
 
       {/* Title */}
       <h3 className="ach-card__title">{ach.title}</h3>
@@ -311,13 +457,6 @@ const AchievementCard = ({ ach, index, isAdmin, onEdit, onDelete }) => {
 
       {/* Description */}
       {ach.description && <p className="ach-card__desc">{ach.description}</p>}
-
-      {/* Optional image */}
-      {ach.image && (
-        <div className="ach-card__img-wrap">
-          <img src={ach.image} alt={ach.title} className="ach-card__img" loading="lazy" />
-        </div>
-      )}
 
       {/* View Proof link */}
       {ach.link && (

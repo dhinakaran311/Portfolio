@@ -9964,3 +9964,300 @@ body.light-mode .cp-admin-toolbar {
 }
 
 
+
+/* ====================================================================
+   ACHIEVEMENTS — IMAGE UPLOAD + TOP-OF-CARD IMAGE
+   ==================================================================== */
+
+/* ── Drop zone ──────────────────────────────────────────────────────── */
+.ach-upload__zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 20px;
+  border: 2px dashed rgba(124, 92, 252, 0.35);
+  border-radius: 14px;
+  background: rgba(124, 92, 252, 0.05);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-align: center;
+  user-select: none;
+}
+
+.ach-upload__zone:hover,
+.ach-upload__zone--active {
+  border-color: rgba(124, 92, 252, 0.7);
+  background: rgba(124, 92, 252, 0.1);
+  box-shadow: 0 0 20px rgba(124, 92, 252, 0.15);
+}
+
+.ach-upload__zone:focus-visible {
+  outline: 2px solid rgba(124, 92, 252, 0.7);
+  outline-offset: 2px;
+}
+
+.ach-upload__zone-icon {
+  font-size: 1.6rem;
+  color: #7c5cfc;
+  opacity: 0.7;
+}
+
+.ach-upload__zone-text {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  margin: 0;
+}
+
+.ach-upload__zone-cta {
+  color: #cabeff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ach-upload__zone-hint {
+  font-size: 0.75rem;
+  color: rgba(160, 174, 192, 0.5);
+  margin: 0;
+}
+
+/* ── Upload progress ────────────────────────────────────────────────── */
+.ach-upload__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 20px;
+  border: 1px solid rgba(124, 92, 252, 0.25);
+  border-radius: 14px;
+  background: rgba(124, 92, 252, 0.06);
+}
+
+.ach-upload__spinner {
+  animation: achSpin 0.8s linear infinite;
+  color: #7c5cfc;
+  font-size: 1.2rem;
+}
+
+@keyframes achSpin {
+  to { transform: rotate(360deg); }
+}
+
+.ach-upload__progress-text {
+  font-size: 0.85rem;
+  color: #cabeff;
+  font-weight: 600;
+}
+
+.ach-upload__progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(124, 92, 252, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ach-upload__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c5cfc, #06b6d4);
+  border-radius: 4px;
+  transition: width 0.15s ease;
+}
+
+/* ── Image preview (inside form) ────────────────────────────────────── */
+.ach-upload__preview {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(124, 92, 252, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ach-upload__preview-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.ach-upload__preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 12, 25, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.ach-upload__preview:hover .ach-upload__preview-overlay {
+  opacity: 1;
+}
+
+.ach-upload__remove-btn,
+.ach-upload__change-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s ease;
+}
+
+.ach-upload__remove-btn {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.ach-upload__remove-btn:hover {
+  background: rgba(239, 68, 68, 0.45);
+  color: #fff;
+}
+
+.ach-upload__change-btn {
+  background: rgba(124, 92, 252, 0.2);
+  color: #cabeff;
+  border: 1px solid rgba(124, 92, 252, 0.4);
+}
+
+.ach-upload__change-btn:hover {
+  background: rgba(124, 92, 252, 0.4);
+  color: #fff;
+}
+
+/* ── Form section divider ───────────────────────────────────────────── */
+.ach-form__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 4px 0;
+}
+
+/* ── Card image — NOW at the top ────────────────────────────────────── */
+.ach-card__img-wrap {
+  /* override previous styles — full-width flush at top */
+  position: relative;
+  border-radius: 14px 14px 0 0;    /* rounds only the top corners */
+  overflow: hidden;
+  height: 180px;
+  margin: -28px -26px 0 -26px;     /* break out of card padding to reach edges */
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+/* Featured card gets a taller image */
+.ach-card--featured .ach-card__img-wrap {
+  height: 220px;
+}
+
+.ach-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.ach-card:hover .ach-card__img {
+  transform: scale(1.06);
+}
+
+/* Date badge overlaid on the image (bottom-right) */
+.ach-card__date--overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(10, 12, 25, 0.72);
+  backdrop-filter: blur(6px);
+  border-color: rgba(124, 92, 252, 0.5);
+}
+
+/* ── Meta row: icon + rank on same line (image variant) ─────────────── */
+.ach-card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+}
+
+/* Smaller icon badge when shown inline with rank */
+.ach-card__icon-wrap--sm {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+.ach-card__icon-wrap--sm .ach-card__icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Rank in meta-row (inline, not absolute) */
+.ach-card__meta-row .ach-card__rank {
+  position: static;   /* override absolute positioning */
+  top: unset;
+  right: unset;
+  margin-left: auto;  /* push to the right */
+}
+
+/* ── Light-mode overrides for new upload elements ───────────────────── */
+body.light-mode .ach-upload__zone {
+  border-color: rgba(79, 70, 229, 0.3);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+body.light-mode .ach-upload__zone:hover,
+body.light-mode .ach-upload__zone--active {
+  border-color: rgba(79, 70, 229, 0.6);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+body.light-mode .ach-upload__zone-icon { color: #4f46e5; }
+body.light-mode .ach-upload__zone-cta  { color: #4f46e5; }
+
+body.light-mode .ach-upload__progress {
+  border-color: rgba(79, 70, 229, 0.2);
+  background: rgba(79, 70, 229, 0.04);
+}
+
+body.light-mode .ach-upload__spinner         { color: #4f46e5; }
+body.light-mode .ach-upload__progress-text   { color: #4f46e5; }
+body.light-mode .ach-upload__progress-bar    { background: rgba(79, 70, 229, 0.15); }
+body.light-mode .ach-upload__progress-fill   { background: linear-gradient(90deg, #4f46e5, #0891b2); }
+
+body.light-mode .ach-upload__preview  { border-color: rgba(79, 70, 229, 0.25); }
+
+body.light-mode .ach-form__divider    { background: rgba(0, 0, 0, 0.07); }
+
+body.light-mode .ach-card__date--overlay {
+  background: rgba(255, 255, 255, 0.82);
+  color: #4f46e5;
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .ach-card__img-wrap {
+    height: 160px;
+    margin: -22px -18px 0 -18px;  /* match the reduced card padding on mobile */
+  }
+
+  .ach-card--featured .ach-card__img-wrap {
+    height: 180px;
+  }
+
+  .ach-upload__preview-img {
+    height: 150px;
+  }
+}
