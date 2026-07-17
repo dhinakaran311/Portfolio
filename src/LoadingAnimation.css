@@ -9,7 +9,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #0f172a;
+  background: #0c0000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(12, 0, 0, 0.95);
   backdrop-filter: blur(10px);
 }
 
@@ -61,11 +61,11 @@
   font-weight: 900;
   font-family: 'Roboto Condensed', sans-serif;
   color: transparent;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #f97316 50%, #fbbf24 100%);
   -webkit-background-clip: text;
   background-clip: text;
   background-size: 200% 200%;
-  text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
   position: relative;
   will-change: transform, filter;
   animation: 
@@ -92,8 +92,8 @@
   position: absolute;
   width: 0;
   height: 0;
-  background: linear-gradient(to bottom, #6366f1, #8b5cf6, #ec4899);
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+  background: linear-gradient(to bottom, #dc2626, #f97316, #fbbf24);
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
   opacity: 0;
   animation: 
     energyBarGrow 1s ease-out 1.5s forwards,
@@ -223,12 +223,12 @@
 .loading-progress-bar {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  background: linear-gradient(90deg, #dc2626, #f97316, #fbbf24);
   background-size: 200% 100%;
   border-radius: 10px;
   will-change: width;
   animation: progress 2s ease-in-out forwards, shimmer 2s ease-in-out infinite;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
 @keyframes progress {
@@ -290,11 +290,11 @@
 @keyframes energyBarFlicker {
   0%, 100% {
     opacity: 0.8;
-    box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
   }
   50% {
     opacity: 1;
-    box-shadow: 0 0 30px rgba(99, 102, 241, 1);
+    box-shadow: 0 0 30px rgba(220, 38, 38, 1);
   }
 }
 
@@ -325,7 +325,7 @@
 /* Tablet Optimization */
 @media (max-width: 768px) and (min-width: 481px) {
   .letter {
-    text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    text-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
   }
   
   .orbit-particle {
@@ -347,7 +347,7 @@
   }
   
   .letter {
-    text-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    text-shadow: 0 0 15px rgba(220, 38, 38, 0.3);
   }
   
   .loading-text {
