@@ -65,7 +65,7 @@ A modern, feature-rich personal portfolio website built with React, showcasing p
 
 ### Development and Deployment
 - **Continuous Integration**: GitHub Actions
-- **Continuous Deployment**: Netlify , AWS
+- **Continuous Deployment**: Netlify
 - **Build System**: Create React App (React Scripts 5.0.1)
 - **Testing Framework**: Jest, React Testing Library
 
