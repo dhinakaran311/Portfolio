@@ -37,7 +37,7 @@ const ResumePreviewModal = ({ isOpen, onClose }) => {
         {/* Resume Content */}
         <div className="resume-modal-content">
           <iframe
-            src="/documents/Dhinakaran_MS_resume.pdf"
+            src="/documents/Dhinakaran_MS_resume.pdf?v=20261006"
             className="resume-preview-frame"
             title="Resume Preview"
             loading="lazy"
@@ -47,7 +47,7 @@ const ResumePreviewModal = ({ isOpen, onClose }) => {
         {/* Download Button */}
         <div className="resume-modal-footer">
           <a
-            href="/documents/Dhinakaran_MS_resume.pdf"
+            href="/documents/Dhinakaran_MS_resume.pdf?v=20261006"
             download
             className="resume-download-btn"
             whileHover={{ scale: 1.05 }}
