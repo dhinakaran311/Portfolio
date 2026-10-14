@@ -157,7 +157,7 @@ const AboutSection = ({ setRef }) => {
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: 0.5 }}
                                 >
-                                    I am a pre-final year Computer Science and Engineering student at KIT, specializing in <span className="text-highlight">AI and Machine Learning</span>. I'm a passionate software developer skilled in HTML, CSS, JavaScript, and Python with interests in ML and competitive programming.
+                                    I am a pre-final year Computer Science and Engineering student at <span className="text-highlight">Kalaignar Karunanidhi Institute of Technology (KIT)</span>, specializing in <span className="text-highlight">AI and Machine Learning</span>. I'm a passionate software developer skilled in HTML, CSS, JavaScript, and Python with interests in ML and competitive programming.
                                 </motion.p>
 
                                 <motion.p

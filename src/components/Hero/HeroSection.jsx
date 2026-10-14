@@ -165,7 +165,7 @@ const HeroSection = ({ setRef, scrollToSection }) => {
                             <div className="profile-image-wrapper-modern">
                                 <img
                                     src="/images/profile.png"
-                                    alt="Dhinakaran"
+                                    alt="Dhinakaran M S - AI/ML Engineer and Full Stack Developer"
                                     className="profile-image-modern"
                                     loading="eager"
                                 />
