@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.dhinakaranportfolio.world/sitemap.xml
+
+# Crawl-delay hint (optional, some bots respect it)
+Crawl-delay: 5
